@@ -17,12 +17,13 @@
 #include <linux/init.h>
 #include <linux/cpufreq.h>
 #include <linux/cpu.h>
-#include <linux/kthread.h>
 #include <linux/sched.h>
 #include <linux/moduleparam.h>
 #include <linux/slab.h>
 #include <linux/input.h>
 #include <linux/time.h>
+#include <linux/kthread.h>
+#include <linux/sched/rt.h>
 
 struct cpu_sync {
 	int cpu;
@@ -33,7 +34,6 @@ struct cpu_sync {
 static DEFINE_PER_CPU(struct cpu_sync, sync_info);
 
 static struct kthread_work input_boost_work;
-
 static unsigned int input_boost_enabled = 1;
 module_param(input_boost_enabled, uint, 0644);
 
@@ -48,7 +48,6 @@ static bool stune_boost_active;
 
 static struct delayed_work input_boost_rem;
 static u64 last_input_time;
-#define MIN_INPUT_INTERVAL (150 * USEC_PER_MSEC)
 
 static struct kthread_worker cpu_boost_worker;
 static struct task_struct *cpu_boost_worker_thread;
@@ -221,8 +220,7 @@ static void do_input_boost(struct kthread_work *work)
 		stune_boost_active = true;
 #endif /* CONFIG_DYNAMIC_STUNE_BOOST */
 
-	queue_delayed_work(system_power_efficient_wq,
-		&input_boost_rem, msecs_to_jiffies(input_boost_ms));
+	schedule_delayed_work(&input_boost_rem, msecs_to_jiffies(input_boost_ms));
 }
 
 static void cpuboost_input_event(struct input_handle *handle,
@@ -322,17 +320,33 @@ static struct input_handler cpuboost_input_handler = {
 
 static int cpu_boost_init(void)
 {
-	int cpu, ret;
+	int cpu, ret, i;
 	struct cpu_sync *s;
-	struct sched_param param = { .sched_priority = MAX_RT_PRIO - 2 };
+	struct sched_param param = { .sched_priority = 2 };
+	cpumask_t sys_bg_mask;
+
+	/* Hardcode the cpumask to bind the kthread to it */
+	for (i = 0; i <= 2; i++) {
+		cpumask_set_cpu(i, &sys_bg_mask);
+	}
 
 	init_kthread_worker(&cpu_boost_worker);
-	cpu_boost_worker_thread = kthread_run(kthread_worker_fn,
+	cpu_boost_worker_thread = kthread_create(kthread_worker_fn,
 		&cpu_boost_worker, "cpu_boost_worker_thread");
-	if (IS_ERR(cpu_boost_worker_thread))
+	if (IS_ERR(cpu_boost_worker_thread)) {
+		pr_err("cpu-boost: Failed to init kworker!\n");
 		return -EFAULT;
+	}
 
-	sched_setscheduler(cpu_boost_worker_thread, SCHED_FIFO, &param);
+	ret = sched_setscheduler(cpu_boost_worker_thread, SCHED_FIFO, &param);
+	if (ret)
+		pr_err("cpu-boost: Failed to set SCHED_FIFO!\n");
+
+	/* Now bind it to the cpumask */
+	kthread_bind_mask(cpu_boost_worker_thread, &sys_bg_mask);
+
+	/* Wake it up! */
+	wake_up_process(cpu_boost_worker_thread);
 
 	init_kthread_work(&input_boost_work, do_input_boost);
 	INIT_DELAYED_WORK(&input_boost_rem, do_input_boost_rem);
