@@ -1,0 +1,323 @@
+* ca92c8b31adc - (HEAD -> treble) Init: Welcoming New Memes (6 minutes ago) <Raphiel Rollerscaperers>
+* 47fc25109372 - (origin/treble) Raph: Squash Changes (in the future) <Raphiel Rollerscaperers>
+* 0fc6b8fa32f4 - Scripting: GCC 9 Bringups, Here we go (10 hours ago) <Raphiel Rollerscaperers>
+* b26cb99fd635 - Updating Licensing (11 hours ago) <Raphiel Rollerscaperers>
+*   62da679d2c77 - Merge remote-tracking branch 'als/kernel.lnx.3.18.r33-rel' into treble (12 hours ago) <Raphiel Rollerscaperers>
+|\  
+| *   4b00221e5c0f - (als/kernel.lnx.3.18.r33-rel) Merge 3.18.108 into kernel.lnx.3.18.r33-rel (16 hours ago) <Nathan Chancellor>
+| |\  
+| | * 6d05aadb6991 - Linux 3.18.108 (17 hours ago) <Greg Kroah-Hartman>
+| | * 36af635cc374 - Revert "perf tests: Decompress kernel module before objdump" (17 hours ago) <Greg Kroah-Hartman>
+| | * bdf3b718bb33 - libceph: validate con->state at the top of try_write() (17 hours ago) <Ilya Dryomov>
+| | * c829ba0e5810 - ASoC: fsl_esai: Fix divisor calculation failure at lower ratio (17 hours ago) <Nicolin Chen>
+| | * c55d64904486 - scsi: sd: Defer spinning up drive while SANITIZE is in progress (17 hours ago) <Mahesh Rajashekhara>
+| | * b2497363fa7b - kobject: don't use WARN for registration failures (17 hours ago) <Dmitry Vyukov>
+| | * 2365af7dba0e - mtd: cfi: cmdset_0002: Do not allow read/write to suspend erase block. (17 hours ago) <Joakim Tjernlund>
+| | * 6ad4bee75e23 - mtd: cfi: cmdset_0001: Workaround Micron Erase suspend bug. (17 hours ago) <Joakim Tjernlund>
+| | * 51f8a19af20b - mtd: cfi: cmdset_0001: Do not allow read/write to suspend erase block. (17 hours ago) <Joakim Tjernlund>
+| | * 2616aadf1c9a - ALSA: seq: oss: Fix unbalanced use lock for synth MIDI device (17 hours ago) <Takashi Iwai>
+| | * cd85ad112ecf - ALSA: core: Report audio_tstamp in snd_pcm_sync_ptr (17 hours ago) <David Henningsson>
+| | * 31473a9e8538 - tty: Use __GFP_NOFAIL for tty_ldisc_get() (17 hours ago) <Tetsuo Handa>
+| | * 3f44674dd08a - tty: n_gsm: Fix DLCI handling for ADM mode if debug & 2 is not set (17 hours ago) <Tony Lindgren>
+| | * ffebfe63ae5f - tty: n_gsm: Fix long delays with control frame timeouts in ADM mode (17 hours ago) <Tony Lindgren>
+| | * d2bbfac82b79 - virtio_console: free buffers after reset (17 hours ago) <Michael S. Tsirkin>
+| | * 86e4c0979206 - virtio: add ability to iterate over vqs (17 hours ago) <Michael S. Tsirkin>
+| | * f59e0c3c53e7 - ALSA: usb-audio: Skip broken EU on Dell dock USB-audio (17 hours ago) <Takashi Iwai>
+| | * 9dfbd45c4f91 - USB: Increment wakeup count on remote wakeup. (17 hours ago) <Ravi Chandra Sadineni>
+| | * 5815b85d42f0 - usb: core: Add quirk for HP v222w 16GB Mini (17 hours ago) <Kamil Lulko>
+| | * a67a3e7cd8e4 - USB: serial: cp210x: add ID for NI USB serial console (17 hours ago) <Kyle Roeschley>
+| | * 915224d50595 - USB: serial: ftdi_sio: use jtag quirk for Arrow USB Blaster (17 hours ago) <Vasyl Vavrychuk>
+| | * 6246535bd77a - usbip: vhci_hcd: Fix usb device and sockfd leaks (17 hours ago) <Shuah Khan>
+| | * 617d7a47bcf3 - usbip: usbip_host: fix to hold parent lock for device_attach() calls (17 hours ago) <Shuah Khan>
+| | * 2cb5c553e6d4 - ext4: fix bitmap position validation (17 hours ago) <Lukas Czerner>
+| | * 0643dbdb5c69 - ext4: add validity checks for bitmap block numbers (17 hours ago) <Theodore Ts'o>
+| | * d0800f61b957 - ext4: set h_journal if there is a failure starting a reserved handle (17 hours ago) <Theodore Ts'o>
+* | | e25255af9cf6 - Raph: Regular Inlining (24 hours ago) <Raphiel Rollerscaperers>
+* | | b8a136fb0ba0 - Makefile: Oof (25 hours ago) <Raphiel Rollerscaperers>
+* | | f48a2717bf65 - Spectrum: Noratan (25 hours ago) <Raphiel Rollerscaperers>
+* | | 98ed007dd28e - sched:fair : cyka blyat (26 hours ago) <Raphiel Rollerscaperers>
+* | | 154273355e21 - autosmp: oof (2 days ago) <Raphiel Rollerscaperers>
+* | | 68ebe67d45bf - cpu: silence logspam caused by cpu-hotplugging (2 days ago) <Raphiel Rollerscaperers>
+* | | 1332aeb8f685 - msm: vidc: Increase power collapse timeout value (2 days ago) <Maheshwar Ajja>
+* | | 293061727421 - drivers: media: msm: don't use nested functions (2 days ago) <Greg Hackmann>
+* | | 0fc4a8b229e5 - msm: vidc: Fix memory leak issue (2 days ago) <Maheshwar Ajja>
+* | | c7d2fc53c971 - Scripting: Inlining with Org Move (2 days ago) <Raphiel Rollerscaperers>
+* | | cc5afcd474d5 - Oof (2 days ago) <Raphiel Rollerscaperers>
+* | | 0a66a2ce7100 - SQUASH: Revert "msm: kgsl: latest CAF merges" (2 days ago) <Ryan Andri>
+* | | 40d7e11764e6 - tcp_output: set initial TCP window size to 64K (speed improvement) (2 days ago) <andip71>
+* | | 1cabb2a3f27b - drivers: Fix most qcom direct references to HZ (2 days ago) <Humberto Borba>
+* | | 1b7a9bf87c0a - block/cfq: cache rightmost rb_node (2 days ago) <Davidlohr Bueso>
+* | | a329a6c7c581 - block/cfq: replace cfq_rb_root leftmost caching (2 days ago) <Davidlohr Bueso>
+* | | d5557720f4c6 - arch: Enable context tracking by default (2 days ago) <Joe Maples>
+* | | 3a6593b076d6 - thermal-core: Fix invalid sensor data being accepted (2 days ago) <Alex Naidis>
+* | | 2f5ce3568a3e - jiffies.h: Declare jiffies and jiffies_64 with ____cacheline_aligned_in_smp (2 days ago) <Matthias Kaehlcke>
+* | | d99388037000 - drivers: staging/lmk: Falldrop LMK to kernel/common (2 days ago) <Raphiel Rollerscaperers>
+* | | 3b33738ae01f - improve measured us calculation on cpuidle (2 days ago) <Jairus John>
+* | | c68d9f8c03ab - use interactivity req on cpuidle to disable polling (2 days ago) <Jairus John>
+* | | 49f63bddb36e - restore policy min and max limits on cpu online (2 days ago) <Jairus John>
+* | | d4857a519286 - check cpufreq policy list instead of scanning policies for all cpus (2 days ago) <Jairus John>
+* | | 46112f32b22a - fix cpustats crash if the stats table is null (2 days ago) <Jairus John>
+* | | a2b658609c01 - remove output fence object after user request completed (2 days ago) <Jairus John>
+* | | d81dfd3d672d - rebalance headphone gain if imbalance detected (2 days ago) <Jairus John>
+* | | a2f70d2164f4 - fix qcom hw known issue (2 days ago) <Jairus John>
+* | | f9b0a73c429c - fix diag reference count mismatch (2 days ago) <Jairus John>
+* | | d7c32f8df248 - revert validation of cpu dev in cpuidle sysfs (2 days ago) <Jairus980>
+* | | 2788374c982c - fix simple ondemand crashing on startup (2 days ago) <Jairus980>
+* | | 21663d3f8e72 - fix inftrees potential buffer overflow (2 days ago) <Jairus John>
+* | | de6c8e5d7ef6 - allow genirq migration and naming of chained irqs (2 days ago) <Jairus John>
+* | | 4e4c9584338e - improve eventpoll logging to stop indicting timerfd (2 days ago) <Jairus John>
+* | | 792b613bea66 - fix sde unaligned memory read (2 days ago) <Jairus John>
+* | | e4b7ac1d7a65 - Raph: Oof (2 days ago) <Raphiel Rollerscaperers>
+* | | 6ad2523fc297 - add autosmp hotplug (2 days ago) <Jairus980>
+* | | cf89432e86f2 - skip arm64 randomization within stack (2 days ago) <Jairus John>
+* | | 9863b7745660 - msm: mdss: update mdss perf when changing refresh rate (2 days ago) <Ray Zhang>
+* | | a8c68d41bbec - drivers: block: Use interruptible wait in loop.c (2 days ago) <Harsh Shandilya>
+* | | e8d1056f7b83 - drivers: cpufreq: Use interruptible waits (2 days ago) <Harsh Shandilya>
+* | | 2f9e863052ee - state_notifier: Remove internal enablement switch (2 days ago) <Harsh Shandilya>
+* | | bccb6854e209 - state_notifier: Drop unneeded module_param_named entries (2 days ago) <Harsh Shandilya>
+* | | a92f89ebd75c - init: enable zram by default coz oof (4 days ago) <Raphiel Rollerscaperers>
+* | | 83ebf4c110cf - Raph: Oof (4 days ago) <Raphiel Rollerscaperers>
+* | | ba35228a0d35 - initramfs: add skip_override parameter (4 days ago) <flar2>
+* | | 769f1ab5be03 - ANDROID: initramfs: call free_initrd() when skipping init (4 days ago) <Nick Bray>
+* | | 8624e197bcc0 - UPSTREAM: arm64: module: avoid undefined shift behavior in reloc_data() (4 days ago) <Ard Biesheuvel>
+* | | fad519b6ff1a - UPSTREAM: arm64: module: fix relocation of movz instruction with negative immediate (4 days ago) <Ard Biesheuvel>
+* | | b766efc96236 - arm64: mmu: Fix alloc_init_pud section mismatches (4 days ago) <Sultanxda>
+* | | 1e30e7bbcebf - arm64: mm: move dma_overlap() out of init section (4 days ago) <Greg Hackmann>
+* | | 052247c7007f - serial: msm_serial_hs: optimize total tty port support (4 days ago) <Roopesh Rajashekharaiah Nataraja>
+* | | b5fb5e34afd2 - Makefile: Oof (4 days ago) <Raphiel Rollerscaperers>
+* | | 5170afe875d3 - Raph: Oof (4 days ago) <Raphiel Rollerscaperers>
+* | | f84c92a165eb - dtsi: fek thermal mitigation, kill this, nyeh (4 days ago) <Raphiel Rollerscaperers>
+* | | 2b57623c2f47 - Revert "sched: oh" (4 days ago) <Raphiel Rollerscaperers>
+* | | 4339f91da803 - cpufreq/sched: Use cpu max freq rather than policy max (4 days ago) <Chris Redpath>
+* | | 0c09d60b76d0 - staging: binder - Set binder_debug_mask=0 to suppress logging (4 days ago) <John Dias>
+* | |   0cee2e1af945 - Merge remote-tracking branch 'als/kernel.lnx.3.18.r33-rel' into treble (4 days ago) <Raphiel Rollerscaperers>
+|\ \ \  
+| |/ /  
+| * |   4c36e743de0c - Merge 3.18.107 into kernel.lnx.3.18.r33-rel (4 days ago) <Nathan Chancellor>
+| |\ \  
+| | |/  
+| | * 754ca08efd83 - Linux 3.18.107 (4 days ago) <Greg Kroah-Hartman>
+| | * 8e8a40578fac - cdrom: information leak in cdrom_ioctl_media_changed() (4 days ago) <Dan Carpenter>
+| | * 2127751e26b0 - scsi: mptsas: Disable WRITE SAME (4 days ago) <Martin K. Petersen>
+| | * f4dd54821e63 - ipv6: add RTA_TABLE and RTA_PREFSRC to rtm_ipv6_policy (4 days ago) <Eric Dumazet>
+| | * e2917cf238a2 - llc: delete timers synchronously in llc_sk_free() (4 days ago) <Cong Wang>
+| | * 14670e490ff9 - net: af_packet: fix race in PACKET_{R|T}X_RING (4 days ago) <Eric Dumazet>
+| | * c4ded09147f0 - tcp: md5: reject TCP_MD5SIG or TCP_MD5SIG_EXT on established sockets (4 days ago) <Eric Dumazet>
+| | * 617b89aabca2 - packet: fix bitfield update race (4 days ago) <Willem de Bruijn>
+| | * bae70a5f916f - llc: fix NULL pointer deref for SOCK_ZAPPED (4 days ago) <Cong Wang>
+| | * a5db62f6225e - llc: hold llc_sap before release_sock() (4 days ago) <Cong Wang>
+| | * 8b467810a29f - pppoe: check sockaddr length in pppoe_connect() (4 days ago) <Guillaume Nault>
+| | * a0475be870ab - team: fix netconsole setup over team (4 days ago) <Xin Long>
+| | * 5ac746d5032c - team: avoid adding twice the same option to the event list (4 days ago) <Paolo Abeni>
+| | * 7e04fc83dcf2 - tcp: don't read out-of-bounds opsize (4 days ago) <Jann Horn>
+| | * 115af4416bfd - l2tp: check sockaddr length in pppol2tp_connect() (4 days ago) <Guillaume Nault>
+| | * 1f6945bbbfb3 - KEYS: DNS: limit the length of option strings (4 days ago) <Eric Biggers>
+| | * a7c083702a6b - bonding: do not set slave_dev npinfo before slave_enable_netpoll in bond_enslave (4 days ago) <Xin Long>
+| | * f47bd1b5605e - jbd2: fix use after free in kjournald2() (4 days ago) <Sahitya Tummala>
+| | * 3e8f97bf940d - mm/filemap.c: fix NULL pointer in page_cache_tree_insert() (4 days ago) <Matthew Wilcox>
+| | * 19f50d844c5f - perf: Return proper values for user stack errors (4 days ago) <Jiri Olsa>
+| | * ab3fc66b3dc8 - ext4: don't update checksum of new initialized bitmaps (4 days ago) <Theodore Ts'o>
+| | * 802ec698e07b - ext4: bugfix for mmaped pages in mpage_release_unused_pages() (4 days ago) <wangguang>
+| | * 5781ac24bbd9 - ext4: fix deadlock between inline_data and ext4_expand_extra_isize_ea() (4 days ago) <Theodore Ts'o>
+| | * 48bb699237a4 - x86/tsc: Prevent 32bit truncation in calc_hpet_ref() (4 days ago) <Xiaoming Gao>
+| | * a1a9d95d371e - cifs: do not allow creating sockets except with SMB1 posix exensions (4 days ago) <Steve French>
+* | | e0b1fd202940 - sched: oh (4 days ago) <Raphiel Rollerscaperers>
+* | | be94b96a945e - Makefile: Use -pipe my dudes (4 days ago) <Raphiel Rollerscaperers>
+* | | 8c0944d3400d - SCHEDULER: Autogroup patch group by current user android UID instead of task ID (4 days ago) <Ярик Звезда>
+* | | 26bf5b769c19 - dtsi: let it throttle on 2016 instead (5 days ago) <Raphiel Rollerscaperers>
+* | | 3bdb20d4e6ad - Inlining: Lolwut (5 days ago) <Raphiel Rollerscaperers>
+* | | 51e05c56e231 - writeback: Increase cache coz why not (5 days ago) <Raphiel Rollerscaperers>
+* | | df8533c522fc - ANDROID: sdcardfs: Set s_root to NULL after putting (5 days ago) <Daniel Rosenberg>
+* | | 675b0f6c81ec - ANDROID: sdcardfs: d_make_root calls iput (5 days ago) <Daniel Rosenberg>
+* | | 160c5f98af36 - ANDROID: sdcardfs: Check for private data earlier (5 days ago) <Daniel Rosenberg>
+* | |   a71eaacffac9 - Merge remote-tracking branch 'als/kernel.lnx.3.18.r33-rel' into treble (5 days ago) <Raphiel Rollerscaperers>
+|\ \ \  
+| |/ /  
+| * | 363cc619328b - arm64: Remove duplicate Image-dtb rule (5 days ago) <Nathan Chancellor>
+| * | 0275e4974280 - arm64: Remove duplicate vdso_prepare rule (5 days ago) <Nathan Chancellor>
+* | |   8ef30b83aded - Merge remote-tracking branch 'als/kernel.lnx.3.18.r33-rel' into treble (5 days ago) <Raphiel Rollerscaperers>
+|\ \ \  
+| |/ /  
+| * |   106308b8f932 - Merge remote-tracking branch 'upstream/kernel.lnx.3.18.r33-rel' into kernel.lnx.3.18.r33-rel (6 days ago) <Nathan Chancellor>
+| |\ \  
+| | * | 8bcf6392c1af - ALSA: usb-audio: Kill stray URB at exiting (10 days ago) <Takashi Iwai>
+| | * | f23cf04f728a - fix compilation issue. (13 days ago) <Shreyas Narayan>
+| | * | eb2b38d25ce3 - USB: serial: console: fix use-after-free after failed setup (2 weeks ago) <Johan Hovold>
+| | * |   95728504c497 - Merge commit '55799d5db81fd8f799ce7237557b4b60fecbf61b' into HEAD (2 weeks ago) <Shreyas Narayan>
+| | |\ \  
+| | | * \   55799d5db81f - Merge "mmc: card: Fix NULL pointer dereference in mmc_blk_ioctl_rpmb_cmd()" (2 weeks ago) <Linux Build Service Account>
+| | | |\ \  
+| | | | * | b36b2ef82dd0 - mmc: card: Fix NULL pointer dereference in mmc_blk_ioctl_rpmb_cmd() (3 weeks ago) <Siba Prasad>
+| | | * | |   5ef91a4b33ff - Merge "msm: ais: isp: Handling buffer use after getting it freed" (3 weeks ago) <Linux Build Service Account>
+| | | |\ \ \  
+| | | | * | | d273037a2654 - msm: ais: isp: Handling buffer use after getting it freed (4 weeks ago) <Suprith Malligere Shankaregowda>
+| | | * | | |   44d0b5af7d26 - Merge "diag: Fix possible use-after-free issue for mdlog session info" (3 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \  
+| | | | * | | | d4cc5a446658 - diag: Fix possible use-after-free issue for mdlog session info (3 weeks ago) <Hardik Arya>
+| | | | | |/ /  
+| | | | |/| |   
+| | | * | | |   a3a054ace702 - Merge "msm: mdss: use vmalloc for sglist allocation" (3 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \  
+| | | | * | | | bba4672d87b5 - msm: mdss: use vmalloc for sglist allocation (3 weeks ago) <Nirmal Abraham>
+| | | | | |/ /  
+| | | | |/| |   
+| | | * | | |   2588736cd7c9 - Merge "USB: fix out-of-bounds in usb_set_configuration" (3 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \  
+| | | | * | | | 115800aaa327 - USB: fix out-of-bounds in usb_set_configuration (3 weeks ago) <Greg Kroah-Hartman>
+| | | | | |/ /  
+| | | | |/| |   
+| | | * | | |   b26721cb8d2b - Merge "HID: usbhid: fix out-of-bounds bug" (3 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \  
+| | | | * | | | 6dfc672c9f4d - HID: usbhid: fix out-of-bounds bug (3 weeks ago) <Jaejoong Kim>
+| | | | * | | | 38b935b1ac1f - USB: core: fix out-of-bounds access bug in usb_get_bos_descriptor() (3 weeks ago) <Alan Stern>
+| | | | |/ / /  
+| | | * | | |   9630d081a675 - Merge "USB: uas: fix bug in handling of alternate settings" (3 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \  
+| | | | * | | | bc686fa8892b - USB: uas: fix bug in handling of alternate settings (3 weeks ago) <Alan Stern>
+| | | | |/ / /  
+| | | * | | |   a088f1135c0c - Merge "msm: Allocate fd with O_CLOEXEC flag" (3 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \  
+| | | | * | | | 8a945424f96e - msm: Allocate fd with O_CLOEXEC flag (3 weeks ago) <Nirmal Abraham>
+| | | | | |/ /  
+| | | | |/| |   
+| | | * | | |   087c4171f140 - Merge "f2fs: do not preallocate blocks which has wrong buffer" (3 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \  
+| | | | * | | | 877f4c432b9e - f2fs: do not preallocate blocks which has wrong buffer (3 weeks ago) <Jaegeuk Kim>
+| | | * | | | |   1d4ad14d4311 - Merge "usb: gadget: f_gps: Fix no responses on suspend/resume" (3 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \  
+| | | | * | | | | 25a6bb5d4dbb - usb: gadget: f_gps: Fix no responses on suspend/resume (3 weeks ago) <Sriharsha Allenki>
+| | | * | | | | |   1f9d3eeb8fed - Merge "clk: msm: gcc: Add support for 12MHz for mclk for 8953" (3 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \  
+| | | | |_|_|_|/ /  
+| | | |/| | | | |   
+| | | | * | | | | 1fddb85311ca - clk: msm: gcc: Add support for 12MHz for mclk for 8953 (4 weeks ago) <Taniya Das>
+| | | | | |/ / /  
+| | | | |/| | |   
+| | | * | | | |   91dc07c0c84a - Merge "msm: mhi_dev: Send uevents during device reset" (3 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \  
+| | | | * | | | | ae4cc04332ff - msm: mhi_dev: Send uevents during device reset (3 weeks ago) <Siddartha Mohanadoss>
+| | | | | |/ / /  
+| | | | |/| | |   
+| | | * | | | |   a0086b6e56f9 - Merge "ANDROID: sdcardfs: Use lower getattr times/size" (3 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \  
+| | | | * | | | | b6726e744f2d - ANDROID: sdcardfs: Use lower getattr times/size (4 weeks ago) <Daniel Rosenberg>
+| | | | | |_|/ /  
+| | | | |/| | |   
+| | | * | | | |   8a7863f9d094 - Merge "mdss: Fix solid fill unpack pattern" (3 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \  
+| | | | * | | | | 504131c42d7f - mdss: Fix solid fill unpack pattern (4 weeks ago) <Naseer Ahmed>
+| | | | | |_|/ /  
+| | | | |/| | |   
+| | | * | | | |   8dda9fce5f14 - Merge "msm: mdss: increase mdp hw recovery timeout" (3 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \  
+| | | | |_|_|/ /  
+| | | |/| | | |   
+| | | | * | | | bf1c0f5ab921 - msm: mdss: increase mdp hw recovery timeout (4 weeks ago) <Ingrid Gallardo>
+| | | | |/ / /  
+| | | * | | |   eb041c059448 - Merge "ARM: dts: msm: Add DT support for APQ8053 Lite dragonboard" (4 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \  
+| | | | |/ / /  
+| | | |/| | |   
+| | | | * | | 230f148e3038 - ARM: dts: msm: Add DT support for APQ8053 Lite dragonboard (5 weeks ago) <Shadab Naseem>
+| | | * | | |   897f20c48431 - Merge "msm: mdss: Fix for wrong length in copy_to_user" (4 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \  
+| | | | * | | | 7dec6423676d - msm: mdss: Fix for wrong length in copy_to_user (4 weeks ago) <Rashi Bindra>
+| | | * | | | |   4749c934f366 - Merge "msm: kgsl: Enhance reading lm_sequence in _execute_reg_sequence()" (4 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \  
+| | | | * | | | | 186a6ff61aa5 - msm: kgsl: Enhance reading lm_sequence in _execute_reg_sequence() (5 weeks ago) <Archana Sriram>
+| | | * | | | | |   940acdbcf66c - Merge "ARM: dts: msm: Use PM8916 LBC primary charger for apq8009 Dragon Board" (4 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \  
+| | | | * | | | | | 68268a3f2766 - ARM: dts: msm: Use PM8916 LBC primary charger for apq8009 Dragon Board (5 weeks ago) <Madhukar Sandi>
+| | | | * | | | | | 284ceb10f83c - init: Update CMDLINE buffer length (6 weeks ago) <AnilKumar Chimata>
+| | | | * | | | | | ff33ffedb08d - ARM: dts: msm: Add device tree support for apq8009 Dragon Board (6 weeks ago) <Shadab Naseem>
+| | | | | |_|/ / /  
+| | | | |/| | | |   
+| | | * | | | | |   48bc87a5228a - Merge "msm: mdss: check buffer size before writing to user buffer" (4 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \  
+| | | | | |_|/ / /  
+| | | | |/| | | |   
+| | | | * | | | | a7570eb63a0f - msm: mdss: check buffer size before writing to user buffer (4 weeks ago) <Harsh Sahu>
+| | | | | |/ / /  
+| | | | |/| | |   
+| | | * | | | |   8169bf732cc8 - Merge "xfrm: Fix stack-out-of-bounds read on socket policy lookup." (4 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \  
+| | | | * | | | | 76088af49435 - xfrm: Fix stack-out-of-bounds read on socket policy lookup. (4 weeks ago) <Steffen Klassert>
+| | | * | | | | |   e6b72171ece3 - Merge "drivers: soc: qcom: mpm: Do not resend GPIO interrupts" (4 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \  
+| | | | * | | | | | 6f99986d3089 - drivers: soc: qcom: mpm: Do not resend GPIO interrupts (5 weeks ago) <Maulik Shah>
+| | | | | |/ / / /  
+| | | | |/| | | |   
+| | | * | | | | |   0af78ae33322 - Merge "diag: Prevent NULL pointer dereference while closing logging process" (4 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \  
+| | | | * | | | | | 401fc3a6ac0f - diag: Prevent NULL pointer dereference while closing logging process (5 weeks ago) <Sreelakshmi Gownipalli>
+| | | * | | | | | |   2df1fc929310 - Merge "mm-camera2:isp2: Avoid use after free buffer" (4 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \ \  
+| | | | |_|_|_|_|/ /  
+| | | |/| | | | | |   
+| | | | * | | | | | 1214306b07de - mm-camera2:isp2: Avoid use after free buffer (5 weeks ago) <Meera Gande>
+| | | | | |_|/ / /  
+| | | | |/| | | |   
+| | | * | | | | |   a0ba71ea043e - Merge "msm: ais: jpegdma: Fix for ASAN issues in jpegdma module" (5 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \  
+| | | | * | | | | | 703833669146 - msm: ais: jpegdma: Fix for ASAN issues in jpegdma module (5 weeks ago) <Suprith Malligere Shankaregowda>
+| | | * | | | | | | 4d7dbd20df79 - msm: ep_pcie: Unregister to bus driver in error path (5 weeks ago) <Rama Krishna Phani A>
+| | | |/ / / / / /  
+| | | * | | | | |   5c57ee1481e0 - Merge "msm: mhi_dev: Check return value" (5 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \  
+| | | | * | | | | | e9103786ae4b - msm: mhi_dev: Check return value (5 weeks ago) <Rama Krishna Phani A>
+| | | * | | | | | |   524936d9fec0 - Merge "msm: ipa: Set ep delay on USB_PROD ep" (5 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \ \  
+| | | | |/ / / / / /  
+| | | |/| | | | | |   
+| | | | * | | | | | d65da0209364 - msm: ipa: Set ep delay on USB_PROD ep (5 weeks ago) <Mohammed Javid>
+| | | | | |_|_|/ /  
+| | | | |/| | | |   
+| | | * | | | | |   8dbc2050fb3c - Merge "msm: mhi_dev: Add uevent support" (5 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \  
+| | | | * | | | | | 68934264d0be - msm: mhi_dev: Add uevent support (5 weeks ago) <Siddartha Mohanadoss>
+| | | | | |_|/ / /  
+| | | | |/| | | |   
+| | | * | | | | |   853f2c913169 - Merge "msm: jpegdma: Fix for ASAN issues in jpegdma module" (5 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \  
+| | | | * | | | | | 75ae12ccb34d - msm: jpegdma: Fix for ASAN issues in jpegdma module (5 weeks ago) <annamraj>
+| | | | | |_|/ / /  
+| | | | |/| | | |   
+| | | * | | | | |   b0d5753b93bb - Merge "msm: ipa: rmnet: Update wan IOCTL function in SSR scenario" (5 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \  
+| | | | * | | | | | 3d490dfd0a03 - msm: ipa: rmnet: Update wan IOCTL function in SSR scenario (5 weeks ago) <Mohammed Javid>
+| | | | | |_|_|/ /  
+| | | | |/| | | |   
+| | | * | | | | |   41e7fd09bc50 - Merge "msm: qdsp6v2: update CVD version" (5 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \  
+| | | | * | | | | | fe30834d0cc3 - msm: qdsp6v2: update CVD version (6 weeks ago) <Siena Richard>
+| | | | | |_|_|/ /  
+| | | | |/| | | |   
+| | | * | | | | |   efeeb42131e7 - Merge "xfrm: Fix stack-out-of-bounds with misconfigured transport mode policies." (5 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \  
+| | | | * | | | | | d86f0872d068 - xfrm: Fix stack-out-of-bounds with misconfigured transport mode policies. (5 weeks ago) <Steffen Klassert>
+| | | | | |_|/ / /  
+| | | | |/| | | |   
+| | | * | | | | |   00c72c2da5bc - Merge "ipv6: release rt6->rt6i_idev properly during ifdown" (5 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \  
+| | | | * | | | | | c16b97fb54a3 - ipv6: release rt6->rt6i_idev properly during ifdown (6 weeks ago) <Wei Wang>
+| | | | | |/ / / /  
+| | | | |/| | | |   
+| | | * | | | | |   b17335ec549e - Merge "PM / devfreq: memlat: Remove kfree() on probe fails" (5 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \ \ \  
+| | | | |_|_|_|/ /  
+| | | |/| | | | |   
+| | | | * | | | | 066859074377 - PM / devfreq: memlat: Remove kfree() on probe fails (7 weeks ago) <Rohit Gupta>
+| | | | |/ / / /  
+| | | * | | | | 4bc7311e9ea9 - msm: ipa: Fix to handle NULL pointer dereference (5 weeks ago) <Mohammed Javid>
+| | | | |/ / /  
+| | | |/| | |   
+| | | * | | |   b180e5d873a7 - Merge "ARM: dts: msm: Disable IPA in SDA450" (6 weeks ago) <Linux Build Service Account>
+| | | |\ \ \ \  
+| | | | * | | | e0c08ca69311 - ARM: dts: msm: Disable IPA in SDA450 (6 weeks ago) <Mohammed Javid>
+| | | | | |/ /  
+| | | | |/| |   
+| | | * | | | 4433576cc847 - phy-msm-qusb-v2: Add change_dpdm callback for USB2 PHY (6 weeks ago) <Vijayavardhan Vennapusa>
+| | | |/ / /  
+| * | | | |   25e2bfccb2dd - Merge 3.18.106 into kernel.lnx.3.18.r33-rel (9 days ago) <Nathan Chancellor>
+| |\ \ \ \ \  
+| | | |_|_|/ 
