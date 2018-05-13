@@ -23,7 +23,7 @@ export CLANG_TRIPLE="aarch64-linux-gnu-";
 export KBUILD_COMPILER_STRING="$(${CLANG_TCHAIN} --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g')";
 
 export CROSS_COMPILE="${CCACHE} ${TCHAIN_PATH}";
-export DEFCONFIG="mido_defconfig";
+export DEFCONFIG="raph_defconfig";
 export ZIP_DIR="${KERNELDIR}/chewy/files/";
 export IMAGE="${OUTDIR}/arch/${ARCH}/boot/Image.gz-dtb";
 

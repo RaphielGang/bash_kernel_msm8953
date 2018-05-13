@@ -8,5 +8,3 @@ curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="$m
 curl -F chat_id="-1001153251064" -F document=@"${ZIP_DIR}/$ZIPNAME" https://api.telegram.org/bot$BOT_API_KEY/sendDocument
 
 #curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="================================" -d chat_id=$CHAT_ID
-
-rm -rf ${ZIP_DIR}/${ZIPNAME}
