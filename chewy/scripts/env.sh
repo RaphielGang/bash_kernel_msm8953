@@ -3,9 +3,6 @@
 alias setperf='echo "performance" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 alias setsave='echo "powersave" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 
-# Set timezone
-export TZ="Asia/Singapore";
-
 # Colors
 black='\e[0;30m'
 blue='\e[0;34m'

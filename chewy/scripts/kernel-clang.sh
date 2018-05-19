@@ -11,8 +11,8 @@ fi
 
 export SRCDIR="${KERNELDIR}";
 export OUTDIR="${KERNELDIR}/out";
-export ANYKERNEL="${KERNELDIR}/chewy/aroma/anykernel/";
-export AROMA="${KERNELDIR}/chewy/aroma/";
+export ANYKERNEL="${KERNELDIR}/chewy/aroma/anykernel";
+export AROMA="${KERNELDIR}/chewy/aroma";
 export ARCH="arm64";
 export SUBARCH="arm64";
 export KBUILD_BUILD_USER="raphielscape";
@@ -24,7 +24,7 @@ export KBUILD_COMPILER_STRING="$(${CLANG_TCHAIN} --version | head -n 1 | perl -p
 
 export CROSS_COMPILE="${CCACHE} ${TCHAIN_PATH}";
 export DEFCONFIG="raph_defconfig";
-export ZIP_DIR="${KERNELDIR}/chewy/files/";
+export ZIP_DIR="${KERNELDIR}/chewy/files";
 export IMAGE="${OUTDIR}/arch/${ARCH}/boot/Image.gz-dtb";
 
 if [[ -z "${JOBS}" ]]; then
@@ -89,11 +89,11 @@ cd -;
 if [ -f "$FINAL_ZIP" ];
 then
 echo -e "$ZIPNAME zip can be found at $FINAL_ZIP";
-if [[ ${success} == true ]]; then
-    echo -e "Uploading ${ZIPNAME} to https://transfer.sh/";
-    transfer "${FINAL_ZIP}";
-    ./chewy/scripts/deploy-tg.sh
-fi
+# if [[ ${success} == true ]]; then
+#     echo -e "Uploading ${ZIPNAME} to https://transfer.sh/";
+#     transfer "${FINAL_ZIP}";
+#     ./chewy/scripts/deploy-tg.sh
+# fi
 else
 echo -e "Zip Creation Failed =(";
 fi
