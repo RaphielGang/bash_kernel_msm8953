@@ -15,8 +15,6 @@ export ANYKERNEL="${KERNELDIR}/chewy/aroma/anykernel";
 export AROMA="${KERNELDIR}/chewy/aroma";
 export ARCH="arm64";
 export SUBARCH="arm64";
-export KBUILD_BUILD_USER="raphielscape";
-export KBUILD_BUILD_HOST="hentaihavenbox";
 
 export PATH="${CLANG_PATH}:${PATH}";
 export CLANG_TRIPLE="aarch64-linux-gnu-";
