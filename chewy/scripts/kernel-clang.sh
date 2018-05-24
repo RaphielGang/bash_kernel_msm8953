@@ -55,7 +55,7 @@ if [[ "$@" =~ "clean" ]]; then
 fi
 
 curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendSticker -d sticker="CAADBAADNwADp8uuGBHV2tl40w7WAg"  -d chat_id=@raphiel_ci;
-curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="Semaphore CI build for Weeb Kernel Clang from Raphiel started, except SIGSEGV ;_;" -d chat_id=@raphiel_ci;
+curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="Raphielscaper build for Weeb Kernel Clang from Raphiel started, except SIGSEGV ;_;" -d chat_id=@raphiel_ci;
 
 ${MAKE} $DEFCONFIG;
 START=$(date +"%s");
@@ -69,7 +69,7 @@ echo -e "Build took $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds.";
 
 if [[ ! -f "${IMAGE}" ]]; then
     echo -e "Build failed :P";
-    curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="Semaphore CI build for Weeb Kernel Clang from Raphiel stopped unexpectedly as expected, @raphielscape headsup re ;_;" -d chat_id=@raphiel_ci;
+    curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="Raphielscaper build for Weeb Kernel Clang from Raphiel stopped unexpectedly as expected" -d chat_id=@raphiel_ci;
     success=false;
     exit 1;
 else
@@ -87,11 +87,9 @@ cd -;
 if [ -f "$FINAL_ZIP" ];
 then
 echo -e "$ZIPNAME zip can be found at $FINAL_ZIP";
-# if [[ ${success} == true ]]; then
-#     echo -e "Uploading ${ZIPNAME} to https://transfer.sh/";
-#     transfer "${FINAL_ZIP}";
-#     ./chewy/scripts/deploy-tg.sh
-# fi
+if [[ ${success} == true ]]; then
+     ./chewy/scripts/announce-tg.sh
+fi
 else
 echo -e "Zip Creation Failed =(";
 fi
