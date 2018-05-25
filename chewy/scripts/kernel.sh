@@ -1,108 +1,122 @@
 #!/usr/bin/env bash
+# Copyright (C) 2018 Raphiel Rollerscaperers (raphielscape)
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-source "chewy/scripts/env.sh";
+source "chewy/scripts/env.sh"
 
 # Kernel compiling script
 
+# Toolchain Checkups
 function check_toolchain() {
-
     export TC="$(find ${TOOLCHAIN}/bin -type f -name *-gcc)";
 
 	if [[ -f "${TC}" ]]; then
-		export CROSS_COMPILE="${TOOLCHAIN}/bin/$(echo ${TC} | awk -F '/' '{print $NF'} |\
-sed -e 's/gcc//')";
+		export CROSS_COMPILE="${TOOLCHAIN}/bin/$(echo ${TC} | \
+		awk -F '/' '{print $NF'} | \
+        sed -e 's/gcc//')";
+        
 		echo -e "Using toolchain: $(${CROSS_COMPILE}gcc --version | head -1)";
+		
 	else
 		echo -e "No suitable toolchain found in ${TOOLCHAIN}";
 		exit 1;
 	fi
 }
 
+# When the worker is Semaphore
+if [[ ${WORKER} == semaphore ]]; then
+    check_toolchain;
+fi
+
+# Set Kerneldir Plox
 if [[ -z ${KERNELDIR} ]]; then
     echo -e "Please set KERNELDIR";
     exit 1;
 fi
 
-export SRCDIR="${KERNELDIR}";
-export OUTDIR="${KERNELDIR}/out";
-export ANYKERNEL="${KERNELDIR}/chewy/aroma/anykernel/";
-export AROMA="${KERNELDIR}/chewy/aroma/";
-export ARCH="arm64";
-export SUBARCH="arm64";
-export KBUILD_BUILD_USER="raphielscape"
-export KBUILD_BUILD_HOST="SemaphoreBox"
-export TOOLCHAIN="${HOME}/GNU/GCC9/";
-export DEFCONFIG="raph_defconfig";
-export ZIP_DIR="${KERNELDIR}/chewy/files/";
-export IMAGE="${OUTDIR}/arch/${ARCH}/boot/Image.gz-dtb";
-
+# How much jobs we need?
 if [[ -z "${JOBS}" ]]; then
-#    export JOBS="$(grep -c '^processor' /proc/cpuinfo)";
-    export JOBS=64;
+    export JOBS="$(grep -c '^processor' /proc/cpuinfo)";
 fi
 
-export MAKE="make O=${OUTDIR}";
-check_toolchain;
-
+# Toolchain Thrower
 export TCVERSION1="$(${CROSS_COMPILE}gcc --version | head -1 |\
 awk -F '(' '{print $2}' | awk '{print tolower($1)}')"
+
 export TCVERSION2="$(${CROSS_COMPILE}gcc --version | head -1 |\
 awk -F ')' '{print $2}' | awk '{print tolower($1)}')"
-export ZIPNAME="weeb-treble-oreo-${DEVICE}-$(date +%Y%m%d-%H%M).zip"
+
+# Zipname
+export ZIPNAME="weeb-treble-oreo-$(date +%Y%m%d-%H%M).zip"
+
+# Final Zip 
 export FINAL_ZIP="${ZIP_DIR}/${ZIPNAME}"
 
+# Prepping
 [ ! -d "${ZIP_DIR}" ] && mkdir -pv ${ZIP_DIR}
 [ ! -d "${OUTDIR}" ] && mkdir -pv ${OUTDIR}
 
+# Here we go
 cd "${SRCDIR}";
+
+# Delett old image
 rm -fv ${IMAGE};
 
+# How 2 be Mr.Proper 101
 if [[ "$@" =~ "mrproper" ]]; then
     ${MAKE} mrproper
 fi
 
+# How 2 cleanups things 101
 if [[ "$@" =~ "clean" ]]; then
     ${MAKE} clean
 fi
 
-curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendSticker -d sticker="CAADBAADNwADp8uuGBHV2tl40w7WAg"  -d chat_id=@raphiel_ci;
-curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="Semaphore CI build for Weeb Kernel Treble from Raphiel started ;_;" -d chat_id=@raphiel_ci;
-
+# Relatable
 ${MAKE} $DEFCONFIG;
 START=$(date +"%s");
-echo -e "Using ${JOBS} threads to compile"
+    echo -e "Using ${JOBS} threads to compile"
 ${MAKE} -j${JOBS};
-exitCode="$?";
-END=$(date +"%s")
+    exitCode="$?";
+    END=$(date +"%s")
 DIFF=$(($END - $START))
+
+# Timerolls plz
 echo -e "Build took $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds.";
 
-
+# Finalize things
 if [[ ! -f "${IMAGE}" ]]; then
     echo -e "Build failed :P";
-    curl -s -X POST https://api.telegram.org/bot$BOT_API_KEY/sendMessage -d text="Semaphore CI build for Weeb Kernel Treble from Raphiel stopped unexpectedly, @raphielscape headsup re ;_;" -d chat_id=@raphiel_ci;
+    tg_senderror
     success=false;
     exit 1;
 else
     echo -e "Build Succesful!";
+    tg_yay
     success=true;
 fi
 
+# Copy the image to AnyKernel 
 echo -e "Copying kernel image";
-cp -v "${IMAGE}" "${ANYKERNEL}/";
+    cp -v "${IMAGE}" "${ANYKERNEL}/";
 cd -;
+
+# Zip the wae
 cd ${AROMA};
 zip -r9 ${FINAL_ZIP} *;
 cd -;
 
+# Finalize the zip down
 if [ -f "$FINAL_ZIP" ];
 then
 echo -e "$ZIPNAME zip can be found at $FINAL_ZIP";
-if [[ ${success} == true ]]; then
+if [[ ${success} == true && ${WORKER} == semaphore ]]; then
     echo -e "Uploading ${ZIPNAME} to Dropbox";
     transfer "${FINAL_ZIP}";
-    ./chewy/scripts/deploy-tg.sh
+    push;
 fi
+
+# Oh no
 else
-echo -e "Zip Creation Failed =(";
+    echo -e "Zip Creation Failed =(";
 fi
