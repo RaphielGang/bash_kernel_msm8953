@@ -54,7 +54,6 @@
 #include <linux/writeback.h>
 #include <linux/shm.h>
 #include <linux/kcov.h>
-#include <linux/cpufreq.h>
 
 #include <asm/uaccess.h>
 #include <asm/unistd.h>
