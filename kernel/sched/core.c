@@ -328,7 +328,7 @@ late_initcall(sched_init_debug);
  * Number of tasks to iterate in a single balance run.
  * Limited because this is done with IRQs disabled.
  */
-const_debug unsigned int sysctl_sched_nr_migrate = 32;
+const_debug unsigned int sysctl_sched_nr_migrate = 8;
 
 /*
  * period over which we average the RT time consumption, measured
@@ -348,9 +348,9 @@ __read_mostly int scheduler_running;
 
 /*
  * part of the period that we allow rt tasks to run in us.
- * default: 0.95s
+ * default: 0.97s
  */
-int sysctl_sched_rt_runtime = 950000;
+int sysctl_sched_rt_runtime = 970000;
 
 /*
  * __task_rq_lock - lock the rq @p resides on.
@@ -5408,7 +5408,7 @@ int sched_fork(unsigned long clone_flags, struct task_struct *p)
 {
 	unsigned long flags;
 	int cpu = get_cpu();
-    
+
 #ifdef CONFIG_CPU_FREQ_STAT
 	cpufreq_task_stats_init(p);
 #endif
