@@ -632,6 +632,7 @@ else
 KBUILD_CFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC) $(GCC_OPTS)
 KBUILD_AFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC) $(GCC_OPTS)
 endif
+KBUILD_CPPFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC)
 KBUILD_CPPFLAGS += $(call cc-option,-Qunused-arguments,)
 KBUILD_CFLAGS += $(call cc-disable-warning, format-invalid-specifier)
 KBUILD_CFLAGS += $(call cc-disable-warning, gnu)
