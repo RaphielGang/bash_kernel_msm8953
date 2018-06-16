@@ -361,6 +361,22 @@ PERL		= perl
 PYTHON		= python
 CHECK		= sparse
 
+CLANG_OPT_FLAGS	= -g0 -mcpu=cortex-a53+crc+crypto+sve -march=armv8-a+crc+crypto+sve \
+									-mtune=cortex-a53 -funsafe-math-optimizations -funroll-loops -ffast-math \
+									-fvectorize -fslp-vectorize -fmodulo-sched -fmodulo-sched-allow-regmoves \
+									-ftree-vectorize -ftree-slp-vectorize -fvect-cost-model -fgcse-after-reload \
+									-fgcse-sm -ffast-math -fsingle-precision-constant -Wno-ignored-optimization-argument -meabi gnu
+
+GCC_OPTS				= -g0 -mtune=cortex-a53 -mcpu=cortex-a53+crc+crypto+sve -march=armv8-a+crc+crypto+sve \
+ 									-fno-tree-loop-if-convert -fno-split-wide-types \
+ 									-fno-tree-cselim -fno-ipa-pure-const -fno-tree-slp-vectorize -fno-tree-dse \
+									-fno-tree-loop-im -fno-merge-constants -fno-common -fconserve-stack \
+									-fno-caller-saves -fno-tree-tail-merge -fno-inline-functions-called-once \
+									-funroll-loops -fgcse-las -fno-cse-follow-jumps -fno-sched-dep-count-heuristic \
+									-fno-tree-phiprop -fno-tree-slsr -funroll-all-loops -fno-tree-loop-distribute-patterns \
+									-fno-tree-coalesce-vars -fno-reorder-functions -fno-peephole2 \
+									-fno-sched-last-insn-heuristic -fno-ipa-sra -fsched-spec-load
+
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
 CFLAGS_MODULE   =
@@ -609,8 +625,13 @@ endif
 ifneq ($(GCC_TOOLCHAIN),)
 CLANG_GCC_TC	:= -gcc-toolchain $(GCC_TOOLCHAIN)
 endif
-KBUILD_CFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC)
-KBUILD_AFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC)
+ifeq ($(cc-name),clang)
+KBUILD_CFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC) $(CLANG_OPT_FLAGS)
+KBUILD_AFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC) $(CLANG_OPT_FLAGS)
+else
+KBUILD_CFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC) $(GCC_OPTS)
+KBUILD_AFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC) $(GCC_OPTS)
+endif
 KBUILD_CPPFLAGS += $(call cc-option,-Qunused-arguments,)
 KBUILD_CFLAGS += $(call cc-disable-warning, format-invalid-specifier)
 KBUILD_CFLAGS += $(call cc-disable-warning, gnu)
