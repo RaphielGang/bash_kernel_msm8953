@@ -551,13 +551,13 @@
 
 		qcom,vdd-gfx-rstr {
 			qcom,vdd-rstr-reg = "vdd-gfx";
-			qcom,levels = <5 7 7>; /* Nominal, Turbo, Turbo */
+			qcom,levels = <5 7 8>; /* Nominal, Turbo, Turbo */
 			qcom,min-level = <1>; /* No Request */
 		};
 
 		msm_thermal_freq: qcom,vdd-apps-rstr {
 			qcom,vdd-rstr-reg = "vdd-apps";
-			qcom,levels = <2208000>;
+			qcom,levels = <400457 2016000 2208000>;
 			qcom,freq-req;
 		};
 	};
@@ -1085,11 +1085,13 @@
 		qcom,src-dst-ports = <1 512>;
 		qcom,active-only;
 		qcom,bw-tbl =
-			<   769 /*  100.8 MHz */ >,
-			<  1611 /*  211.2 MHz */ >,     /*Low SVS*/
+			<   381 /*  49.9  MHz */ >,
+			<   572 /*  75    MHz */ >,
+			<   769 /*  100.8 MHz */ >,     /*Low SVS*/
+			<  1611 /*  211.2 MHz */ >,
 			<  2124 /*  278.4 MHz */ >,
 			<  2929 /*  384   MHz */ >,
-			<  3221 /*  422.4 MHz */ >,	/* SVS */
+			<  3221 /*  422.4 MHz */ >,	    /* SVS   */
 			<  4248 /*  556.8 MHz */ >,
 			<  5126 /*  672   MHz */ >,
 			<  5859 /*  768   MHz */ >,     /* SVS+  */
@@ -1104,11 +1106,13 @@
 		qcom,src-dst-ports = <1 512>;
 		qcom,active-only;
 		qcom,bw-tbl =
-			<   769 /*  100.8 MHz */ >,
-			<  1611 /*  211.2 MHz */ >,     /*Low SVS*/
+			<   381 /*  49.9  MHz */ >,
+			<   572 /*  75    MHz */ >,
+			<   769 /*  100.8 MHz */ >,     /*Low SVS*/
+			<  1611 /*  211.2 MHz */ >,
 			<  2124 /*  278.4 MHz */ >,
 			<  2929 /*  384   MHz */ >,
-			<  3221 /*  422.4 MHz */ >,	/* SVS */
+			<  3221 /*  422.4 MHz */ >,	    /* SVS   */
 			<  4248 /*  556.8 MHz */ >,
 			<  5126 /*  672   MHz */ >,
 			<  5859 /*  768   MHz */ >,     /* SVS+  */
@@ -1129,22 +1133,24 @@
 	devfreq-cpufreq {
 		cpubw-cpufreq {
 		target-dev = <&cpubw>;
-		cpu-to-dev-map = <400457 769>,
-										 <652800 1611>,
-										 <806400 2124>,
-										 <1036800 3221>,
-										 <1209600 5126>,
-										 <1401600 5859>,
-										 <1689600 6445>,
-										 <1804800 7104>,
-										 <1958400 7104>,
-										 <2016000 7104>,
+		cpu-to-dev-map = <400457  572>,
+										 <652800  769>,
+										 <806400  1611>,
+										 <1036800 2124>,
+										 <1209600 2929>,
+										 <1401600 4248>,
+										 <1689600 5126>,
+										 <1804800 6152>,
+										 <1958400 6152>,
+										 <2016000 6445>,
 										 <2208000 7104>;
 		};
 
 		mincpubw-cpufreq {
 			target-dev = <&mincpubw>;
-			cpu-to-dev-map = <400457 769>,
+			cpu-to-dev-map = <400457  381>,
+											 <652800  572>,
+											 <806400  769>,
 											 <1401600 3221>,
 											 <2208000 5859>;
 		};
