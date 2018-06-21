@@ -37,11 +37,11 @@ static struct kthread_work input_boost_work;
 static unsigned int input_boost_enabled = 1;
 module_param(input_boost_enabled, uint, 0644);
 
-static unsigned int input_boost_ms = 1500;
+static unsigned int input_boost_ms = 65; // This value will be fine for interactivity
 module_param(input_boost_ms, uint, 0644);
 
 #ifdef CONFIG_DYNAMIC_STUNE_BOOST
-static int dynamic_stune_boost = 1;
+static unsigned int dynamic_stune_boost = 1;
 module_param(dynamic_stune_boost, uint, 0644);
 #endif /* CONFIG_DYNAMIC_STUNE_BOOST */
 
