@@ -69,7 +69,10 @@
 
 		qcom,initial-pwrlevel = <6>;
 
-		qcom,idle-timeout = <80>; //msecs
+		/* Enable gpu cooling device */
+		#cooling-cells = <2>;
+
+		qcom,idle-timeout = <34>; //msecs, and use a better value
 		qcom,deep-nap-timeout = <100>; //msecs
 		qcom,strtstp-sleepwake;
 
