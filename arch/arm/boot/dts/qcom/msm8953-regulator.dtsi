@@ -411,8 +411,7 @@
 			apc_vreg: regulator {
 				regulator-name = "apc_corner";
 				regulator-min-microvolt = <1>;
-				/* NOTE : Make sure this same as how much microvolt we have */
-				regulator-max-microvolt = <16>;
+				regulator-max-microvolt = <24>; // Make sure this same as max freq tuple
 
 				/* NOTE : DON'T TOUCH THIS, #BlameQCOM */
 				qcom,cpr-fuse-corners = <4>;
@@ -422,24 +421,32 @@
 				qcom,cpr-speed-bin-corners =
 					/* Global speed bin */
 					/* NOTE : Align this two same values like our max freq tuple */
-					<16 16 16 16 16 16 16 16>;
+					<24 24 24 24 24 24 24 24>;
 				qcom,cpr-corners =
 					/* Global speed bin */
-					<16 16 16 16 16 16 16 16>;
+					<24 24 24 24 24 24 24 24>;
 				qcom,cpr-corner-fmax-map =
 					/* Global speed bin */
 					/* NOTE : Change the last value according to max freq tuple */
-					<1 2 4 16>;
+					<1 2 4 24>;
 
 				qcom,cpr-voltage-ceiling =
 				/* Global speed bin */
 				<575000>,
+				<580000>,
+				<590000>,
 				<640000>,
+				<650000>,
+				<670000>,
 				<690000>,
 				<740000>,
+				<750000>,
+				<760000>,
+				<770000>,
 				<780000>,
 				<785000>,
 				<790000>,
+				<820000>,
 				<845000>,
 				<915000>,
 				<980000>,
@@ -467,12 +474,28 @@
 				<250000>,
 				<250000>,
 				<250000>,
+				<250000>,
+				<250000>,
+				<250000>,
+				<250000>,
+				<250000>,
+				<250000>,
+				<250000>,
+				<250000>,
 				<250000>;
 
 				qcom,cpr-floor-to-ceiling-max-range =
 					/* Global speed bin; CPR rev 0..7 */
 					/* NOTE : CPR Floor ceiling alignment is up to down and the first one is left to right */
-					<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
+					<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
+					<50000 50000 50000 50000 50000 50000 50000>,
+					<50000 50000 50000 50000 50000 50000 50000>,
+					<50000 50000 50000 50000 50000 50000 50000>,
+					<50000 50000 50000 50000 50000 50000 50000>,
+					<50000 50000 50000 50000 50000 50000 50000>,
+					<50000 50000 50000 50000 50000 50000 50000>,
+					<50000 50000 50000 50000 50000 50000 50000>,
+					<50000 50000 50000 50000 50000 50000 50000>,
 					<50000 50000 50000 50000 50000 50000 50000>,
 					<50000 50000 50000 50000 50000 50000 50000>,
 					<50000 50000 50000 50000 50000 50000 50000>,
@@ -493,23 +516,31 @@
 				qcom,cpr-misc-fuse-voltage-adjustment =
 					/* Global speed bin */
 					/* FIXME: Pls help me counting to 12, I've derped here multiple times */
-					<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-					<0 0 30000 0 0 0 0 0 0 0 0 0 0 0 0 0>;
+					<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
+					<0 0 30000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>;
 
 				qcom,mem-acc-voltage =
 					/* Global speed bin */
-					<1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2>;
+					<1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2>;
 
 				qcom,corner-frequencies =
 					/* Global speed bin */
 					<400457>,
+					<480000>,
+					<576000>,
 					<652800>,
+					<729600>,
+					<806400>,
 					<883200>,
+					<960000>,
 					<1036800>,
+					<1113600>,
 					<1248000>,
+					<1305600>,
 					<1401600>,
 					<1536000>,
 					<1689600>,
+					<1758400>,
 					<1804800>,
 					<1843200>,
 					<1958400>,
@@ -698,14 +729,14 @@
 				qcom,corner-allow-temp-adjustment =
 					/* Global speed bin; CPR rev 0..7 */
 					/* NOTE : Temp adjustment alignment is left to right */
-					<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-					<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-					<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-					<1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0>,
-					<1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0>,
-					<1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0>,
-					<1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0>,
-					<1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0>;
+					<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
+					<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
+					<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
+					<1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
+					<1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
+					<1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
+					<1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
+					<1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>;
 
 				qcom,cpr-corner1-temp-core-voltage-adjustment =
 					<(0) (-5000) (-15000) (-20000)>;
@@ -751,8 +782,9 @@
 		regulator-min-microvolt = <1>;
 		regulator-max-microvolt = <7>;
 
-		qcom,ldo-voltage-ceiling = <620000 680000 750000>;
-		qcom,ldo-voltage-floor =   <510000 510000 600000>;
+		/* Downvoltaged by -75mV */
+		qcom,ldo-voltage-ceiling = <595000 655000 725000>;
+		qcom,ldo-voltage-floor =   <485000 485000 575000>;
 
 		qcom,num-corners = <7>;
 		qcom,num-ldo-corners = <3>;

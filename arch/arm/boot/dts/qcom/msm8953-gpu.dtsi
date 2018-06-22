@@ -137,6 +137,10 @@
 		/* Enable context aware freq. scaling */
 		qcom,enable-ca-jump;
 
+
+		/* Enable Per Object Post Processing*/
+		qcom,popp-enable;
+
 		/* Context aware jump busy penalty in us */
 		qcom,ca-busy-penalty = <12000>;
 
