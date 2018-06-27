@@ -303,8 +303,8 @@ CCACHE	:= $(shell which ccache)
 
 HOSTCC       = $(CCACHE) gcc
 HOSTCXX      = $(CCACHE) g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89
-HOSTCXXFLAGS = -O2
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -std=gnu89
+HOSTCXXFLAGS = -O3
 
 # Decide whether to build built-in, modular, or both.
 # Normally, just do built-in.
@@ -363,9 +363,8 @@ CHECK		= sparse
 
 CLANG_OPT_FLAGS	= -g0 -mcpu=cortex-a53+crc+crypto+sve -march=armv8-a+crc+crypto+sve \
 									-mtune=cortex-a53 -funsafe-math-optimizations -funroll-loops -ffast-math \
-									-fvectorize -fslp-vectorize -fmodulo-sched -fmodulo-sched-allow-regmoves \
-									-ftree-vectorize -ftree-slp-vectorize -fvect-cost-model -fgcse-after-reload \
-									-fgcse-sm -ffast-math -fsingle-precision-constant -Wno-ignored-optimization-argument -meabi gnu
+									-fvectorize -fslp-vectorize -ftree-vectorize -ftree-slp-vectorize  \
+									-meabi gnu
 
 GCC_OPTS				= -g0 -mtune=cortex-a53 -mcpu=cortex-a53+crc+crypto+sve -march=armv8-a+crc+crypto+sve \
  									-fno-tree-loop-if-convert -fno-split-wide-types \
@@ -670,7 +669,7 @@ else
 ifeq ($(cc-name),clang)
 KBUILD_CFLAGS	+= -O3
 else
-KBUILD_CFLAGS	+= -O2 -finline-functions -Wno-maybe-uninitialized
+KBUILD_CFLAGS	+= -O3 -finline-functions -Wno-maybe-uninitialized
 endif
 endif
 
