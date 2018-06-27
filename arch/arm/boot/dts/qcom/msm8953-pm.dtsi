@@ -43,9 +43,15 @@
 				"cpu6_clk", "cpu7_clk", "cpu8_clk",
 				"cpu9_clk", "cpu10_clk", "cpu11_clk",
 				"cpu12_clk", "cpu13_clk", "cpu14_clk",
-				"cpu15_clk", "cpu16_clk", "cpu17_clk", "cpu18_clk",
-				"cpu19_clk", "cpu20_clk";
+				"cpu15_clk", "cpu16_clk", "cpu17_clk",
+				"cpu18_clk", "cpu19_clk", "cpu20_clk",
+				"cpu21_clk", "cpu22_clk", "cpu23_clk",
+				"cpu24_clk";
 		clocks = <&clock_cpu clk_cci_clk>,
+			 <&clock_cpu clk_a53_pwr_clk>,
+			 <&clock_cpu clk_a53_pwr_clk>,
+			 <&clock_cpu clk_a53_pwr_clk>,
+			 <&clock_cpu clk_a53_pwr_clk>,
 			 <&clock_cpu clk_a53_pwr_clk>,
 			 <&clock_cpu clk_a53_pwr_clk>,
 			 <&clock_cpu clk_a53_pwr_clk>,
@@ -305,7 +311,7 @@
 	qcom,mpm@601d4 {
 		compatible = "qcom,mpm-v2";
 		reg = <0x601d4 0x1000>, /* MSM_RPM_MPM_BASE 4K */
-		    <0xb011008 0x4>;
+				<0xb011008 0x4>;
 		reg-names = "vmpm", "ipc";
 		interrupts = <0 171 1>;
 		clocks = <&clock_gcc clk_xo_lpm_clk>;
@@ -517,8 +523,8 @@
 	qcom,rpm-stats@200000 {
 		compatible = "qcom,rpm-stats";
 		reg = <0x200000 0x1000>,
-		      <0x290014 0x4>,
-		      <0x29001c 0x4>;
+					<0x290014 0x4>,
+					<0x29001c 0x4>;
 		reg-names = "phys_addr_base", "offset_addr",
 						"heap_phys_addrbase";
 		qcom,sleep-stats-version = <2>;
