@@ -658,7 +658,7 @@ static void get_speed_bin(struct platform_device *pdev, int *bin,
 	*bin = 0;
 	*version = 0;
 
-	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "efuse1");
+	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "efuse");
 	if (!res) {
 		dev_info(&pdev->dev, "Speed bin: %d PVS Version: %d\n", *bin,
 									*version);
