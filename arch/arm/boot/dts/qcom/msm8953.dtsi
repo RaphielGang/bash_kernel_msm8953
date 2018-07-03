@@ -521,11 +521,11 @@
 	qcom,msm-thermal {
 		compatible = "qcom,msm-thermal";
 		qcom,sensor-id = <9>;
-		qcom,poll-ms = <1200>;
-		qcom,limit-temp = <90>;
+		qcom,poll-ms = <500>;
+		qcom,limit-temp = <60>;
 		qcom,temp-hysteresis = <10>;
 		qcom,freq-step = <2>;
-		qcom,core-limit-temp = <100>;
+		qcom,core-limit-temp = <80>;
 		qcom,core-temp-hysteresis = <10>;
 		qcom,hotplug-temp = <105>;
 		qcom,hotplug-temp-hysteresis = <15>;
@@ -537,26 +537,11 @@
 		qcom,synchronous-cluster-id = <0 1>;
 		qcom,synchronous-cluster-map = <0 4 &CPU0 &CPU1 &CPU2 &CPU3>,
 						<1 4 &CPU4 &CPU5 &CPU6 &CPU7>;
-		qcom,rpm-phase-resource-type = "misc";
-		qcom,rpm-phase-resource-id = <0>;
-		qcom,cx-phase-resource-key = "tmpc";
-		qcom,cx-phase-hot-crit-temp = <80>;
-		qcom,cx-phase-hot-crit-temp-hyst = <15>;
-		qcom,pmic-sw-mode-temp = <70>;
-		qcom,pmic-sw-mode-temp-hysteresis = <65>;
-		qcom,pmic-sw-mode-regs = "vdd-dig";
-		qcom,gfx-phase-warm-temp = <70>;
-		qcom,gfx-phase-warm-temp-hyst = <10>;
-		qcom,gfx-phase-hot-crit-temp = <75>;
-		qcom,gfx-phase-hot-crit-temp-hyst = <60>;
-		qcom,gfx-sensor-id = <10>;
-		qcom,gfx-phase-resource-key = "tmpg";
+		qcom,disable-cx-phase-ctrl;
+		qcom,disable-gfx-phase-ctrl;
+		qcom,disable-vdd-mx;
 		qcom,disable-psm;
 		qcom,disable-ocr;
-		qcom,mx-restriction-temp = <5>;
-		qcom,mx-restriction-temp-hysteresis = <10>;
-		qcom,mx-retention-min = <RPM_SMD_REGULATOR_LEVEL_RETENTION>;
-		vdd-mx-supply = <&pm8953_s7_level_ao>;
 		qcom,vdd-restriction-temp = <5>;
 		qcom,vdd-restriction-temp-hysteresis = <10>;
 		vdd-dig-supply = <&pm8953_s2_floor_level>;
