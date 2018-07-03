@@ -83,6 +83,9 @@ GRTAGS
 GSYMS
 GTAGS
 
+# out directory
+out/
+
 *.orig
 *~
 \#*#
