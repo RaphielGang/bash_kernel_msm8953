@@ -23,7 +23,7 @@
 	interrupt-parent = <&intc>;
 
 	chosen {
-		bootargs = "readahead=2m boot_cpus=0,1,2,3,4,5,6,7";
+		bootargs = "readahead=2m boot_cpus=0,1,2,3,4,5,6,7 threadirqs";
 	};
 
 	firmware: firmware {
