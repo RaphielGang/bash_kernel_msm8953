@@ -95,6 +95,7 @@ ifeq ($(CONFIG_MACH_XIAOMI_MIDO),y)
 obj-$(CONFIG_TOUCHSCREEN_GT9XX)		+= gt9xx_mido/
 else
 obj-$(CONFIG_TOUCHSCREEN_GT9XX)		+= gt9xx/
+obj-$(CONFIG_TOUCHSCREEN_HIMAX_CHIPSET)	+= hxchipset/
 endif
 obj-$(CONFIG_TOUCHSCREEN_FTS)		+= ft8716/
 obj-$(CONFIG_TOUCHSCREEN_TD4310)    += td4310/
