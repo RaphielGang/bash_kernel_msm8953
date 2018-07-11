@@ -73,7 +73,11 @@
 		#cooling-cells = <2>;
 
 		qcom,idle-timeout = <34>; //msecs, and use a better value
-		qcom,deep-nap-timeout = <100>; //msecs
+		/*
+		 * Timeout to enter deeper power saving state
+		 * from NAP.
+		 */
+		qcom,deep-nap-timeout = <20>; //msecs
 		qcom,strtstp-sleepwake;
 
 		qcom,highest-bank-bit = <14>;
@@ -94,7 +98,7 @@
 		/* Bus Scale Settings */
 		qcom,gpubw-dev = <&gpubw>;
 		qcom,bus-control;
-		qcom,bus-width = <16>;
+		qcom,bus-width = <32>;
 		qcom,msm-bus,name = "grp3d";
 		qcom,msm-bus,num-cases = <11>;
 		qcom,msm-bus,num-paths = <1>;

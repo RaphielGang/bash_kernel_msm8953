@@ -327,6 +327,9 @@
 		pm8953_s5: spm-regulator@2000 {
 			compatible = "qcom,spm-regulator";
 			reg = <0x2000 0x100>;
+			qcom,ocp-enable = <0>;
+			qcom,auto-mode-enable = <0>;
+			qcom,hpm-enable = <1>;
 			qcom,init-quiet-mode = <2>; //Regulator EMI noise reduction
 			regulator-name = "pm8953_s5";
 			regulator-min-microvolt = <400000>;
@@ -387,13 +390,6 @@
 
 		qcom,cpr-enable;
 		qcom,cpr-hw-closed-loop;
-
-		qcom,cpr-panic-reg-addr-list =
-			<0xb1d2c18 0xb1d2900 0x0b1112b0 0xb018798>;
-		qcom,cpr-panic-reg-name-list =
-			"CCI_SAW4_PMIC_STS", "CCI_SAW4_VCTL",
-			"APCS_ALIAS0_APM_CTLER_STATUS",
-			"APCS0_CPR_CORE_ADJ_MODE_REG";
 
 		qcom,cpr-temp-point-map = <250 650 850>;
 		qcom,cpr-initial-temp-band = <0>;
@@ -625,7 +621,7 @@
 		reg-names = "acc-sel-l1";
 		regulator-name = "gfx_mem_acc_corner";
 		regulator-min-microvolt = <1>;
-		regulator-max-microvolt = <2>;
+		regulator-max-microvolt = <10>;
 
 		qcom,acc-sel-l1-bit-pos = <0>;
 		qcom,acc-sel-l1-bit-size = <1>;
