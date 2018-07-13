@@ -1,6 +1,6 @@
 /*
  *  linux/mm/oom_kill.c
- * 
+ *
  *  Copyright (C)  1998,2000  Rik van Riel
  *	Thanks go out to Claus Fischer for some serious inspiration and
  *	for goading me into coding this file...
@@ -41,7 +41,7 @@
 #include <trace/events/memkill.h>
 
 int sysctl_panic_on_oom;
-int sysctl_oom_kill_allocating_task;
+int sysctl_oom_kill_allocating_task = 1;
 int sysctl_oom_dump_tasks = 1;
 int sysctl_oom_count;
 static DEFINE_SPINLOCK(zone_scan_lock);
