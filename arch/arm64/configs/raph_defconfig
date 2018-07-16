@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/arm64 3.18.114 Kernel Configuration
+# Linux/arm64 3.18.115 Kernel Configuration
 #
 CONFIG_ARM64=y
 CONFIG_64BIT=y
@@ -1370,6 +1370,7 @@ CONFIG_DM_VERITY_FEC=y
 # CONFIG_FIREWIRE_NOSY is not set
 # CONFIG_I2O is not set
 CONFIG_NETDEVICES=y
+CONFIG_MII=y
 CONFIG_NET_CORE=y
 # CONFIG_BONDING is not set
 CONFIG_DUMMY=y
@@ -3659,6 +3660,7 @@ CONFIG_STAGING=y
 # CONFIG_R8712U is not set
 # CONFIG_R8188EU is not set
 # CONFIG_R8723AU is not set
+# CONFIG_RTS5208 is not set
 # CONFIG_LINE6_USB is not set
 # CONFIG_FB_XGI is not set
 # CONFIG_FT1000 is not set
