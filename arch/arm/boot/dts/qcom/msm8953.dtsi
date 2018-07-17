@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -17,7 +17,7 @@
 #include <dt-bindings/gpio/gpio.h>
 
 / {
-	model = "Qualcomm Technologies, Inc. MSM 8953";
+	model = "Qualcomm Technologies, Inc. MSM8953";
 	compatible = "qcom,msm8953";
 	qcom,msm-id = <293 0x0>;
 	interrupt-parent = <&intc>;
@@ -103,13 +103,6 @@
 			size = <0 0x1000000>;
 		};
 
-		qseecom_ta_mem: qseecom_ta_region {
-			compatible = "shared-dma-pool";
-			alloc-ranges = <0 0x00000000 0 0xffffffff>;
-			reusable;
-			alignment = <0 0x400000>;
-		};
-
 		adsp_mem: adsp_region@0 {
 			compatible = "shared-dma-pool";
 			reusable;
@@ -117,8 +110,9 @@
 		};
 
 		dfps_data_mem: dfps_data_mem@90000000 {
-					 reg = <0 0x90000000 0 0x1000>;
-					 label = "dfps_data_mem";
+			reg = <0 0x90000000 0 0x1000>;
+			label = "dfps_data_mem";
+			status = "disabled";
 		};
 
 		cont_splash_mem: splash_region@0x90001000 {
@@ -777,28 +771,7 @@
 		dmas = <&dma_blsp1 6 64 0x20000020 0x20>,
 			<&dma_blsp1 7 32 0x20000020 0x20>;
 		dma-names = "tx", "rx";
-
-		/* DSI_TO_HDMI I2C configuration */
-		adv7533@39 {
-			compatible = "adv7533";
-			reg = <0x39>;
-			instance_id = <0>;
-			adi,video-mode = <3>; /* 3 = 1080p */
-			adi,main-addr = <0x39>;
-			adi,cec-dsi-addr = <0x3C>;
-			adi,enable-audio;
-			pinctrl-names = "pmx_adv7533_active",
-						"pmx_adv7533_suspend";
-			pinctrl-0 = <&adv7533_int_active>;
-			pinctrl-1 = <&adv7533_int_suspend>;
-			adi,irq-gpio = <&tlmm 90 0x2002>;
-			hpd-5v-en-supply = <&adv_vreg>;
-			qcom,supply-names = "hpd-5v-en";
-			qcom,min-voltage-level = <0>;
-			qcom,max-voltage-level = <0>;
-			qcom,enable-load = <0>;
-			qcom,disable-load = <0>;
-		};
+		status = "disabled";
 	};
 
 	i2c_3: i2c@78b7000 { /* BLSP1 QUP3 */
@@ -850,6 +823,7 @@
 		dmas = <&dma_blsp2 4 64 0x20000020 0x20>,
 			<&dma_blsp2 5 32 0x20000020 0x20>;
 		dma-names = "tx", "rx";
+		status = "disabled";
 	};
 
 	slim_msm: slim@c140000{
@@ -913,6 +887,9 @@
 		reg = <0x1800000 0x80000>;
 		reg-names = "cc_base";
 		vdd_gfx-supply = <&gfx_vreg_corner>;
+		clocks = <&clock_gcc clk_xo_clk_src>;
+		clock-names = "xo";
+		qcom,gcc_oxili_gfx3d_clk-opp-handle = <&msm_gpu>;
 		qcom,gfxfreq-corner =
 			<         0   0 >,
 			< 133330000   1 >,  /* Min SVS               */
@@ -1381,9 +1358,8 @@
 
 	jtag_mm0: jtagmm@619c000 {
 		compatible = "qcom,jtagv8-mm";
-		reg = <0x619c000 0x1000>,
-					<0x6190000 0x1000>;
-		reg-names = "etm-base", "debug-base";
+		reg = <0x619c000 0x1000>;
+		reg-names = "etm-base";
 
 		qcom,coresight-jtagmm-cpu = <&CPU0>;
 
@@ -1394,9 +1370,8 @@
 
 	jtag_mm1: jtagmm@619d000 {
 		compatible = "qcom,jtagv8-mm";
-		reg = <0x619d000 0x1000>,
-					<0x6192000 0x1000>;
-		reg-names = "etm-base", "debug-base";
+		reg = <0x619d000 0x1000>;
+		reg-names = "etm-base";
 
 		qcom,coresight-jtagmm-cpu = <&CPU1>;
 
@@ -1407,9 +1382,8 @@
 
 	jtag_mm2: jtagmm@619e000 {
 		compatible = "qcom,jtagv8-mm";
-		reg = <0x619e000 0x1000>,
-					<0x6194000 0x1000>;
-		reg-names = "etm-base", "debug-base";
+		reg = <0x619e000 0x1000>;
+		reg-names = "etm-base";
 
 		qcom,coresight-jtagmm-cpu = <&CPU2>;
 
@@ -1420,9 +1394,8 @@
 
 	jtag_mm3: jtagmm@619f000 {
 		compatible = "qcom,jtagv8-mm";
-		reg = <0x619f000 0x1000>,
-					<0x6196000 0x1000>;
-		reg-names = "etm-base", "debug-base";
+		reg = <0x619f000 0x1000>;
+		reg-names = "etm-base";
 
 		qcom,coresight-jtagmm-cpu = <&CPU3>;
 
@@ -1433,9 +1406,8 @@
 
 	jtag_mm4: jtagmm@61bc000 {
 		compatible = "qcom,jtagv8-mm";
-		reg = <0x61bc000 0x1000>,
-					<0x61b0000 0x1000>;
-		reg-names = "etm-base", "debug-base";
+		reg = <0x61bc000 0x1000>;
+		reg-names = "etm-base";
 
 		qcom,coresight-jtagmm-cpu = <&CPU4>;
 
@@ -1446,9 +1418,8 @@
 
 	jtag_mm5: jtagmm@61bd000 {
 		compatible = "qcom,jtagv8-mm";
-		reg = <0x61bd000 0x1000>,
-					<0x61b2000 0x1000>;
-		reg-names = "etm-base", "debug-base";
+		reg = <0x61bd000 0x1000>;
+		reg-names = "etm-base";
 
 		qcom,coresight-jtagmm-cpu = <&CPU5>;
 
@@ -1459,9 +1430,8 @@
 
 	jtag_mm6: jtagmm@61be000 {
 		compatible = "qcom,jtagv8-mm";
-		reg = <0x61be000 0x1000>,
-					<0x61b4000 0x1000>;
-		reg-names = "etm-base", "debug-base";
+		reg = <0x61be000 0x1000>;
+		reg-names = "etm-base";
 
 		qcom,coresight-jtagmm-cpu = <&CPU6>;
 
@@ -1472,9 +1442,8 @@
 
 	jtag_mm7: jtagmm@61bf000 {
 		compatible = "qcom,jtagv8-mm";
-		reg = <0x61bf000 0x1000>,
-					<0x61b6000 0x1000>;
-		reg-names = "etm-base", "debug-base";
+		reg = <0x61bf000 0x1000>;
+		reg-names = "etm-base";
 
 		qcom,coresight-jtagmm-cpu = <&CPU7>;
 
@@ -2190,11 +2159,12 @@
 		vbus_dwc3-supply = <&smbcharger_charger_otg>;
 		qcom,usb-dbm = <&dbm_1p5>;
 		qcom,msm-bus,name = "usb3";
-		qcom,msm-bus,num-cases = <2>;
+		qcom,msm-bus,num-cases = <3>;
 		qcom,msm-bus,num-paths = <1>;
 		qcom,detect-dpdm-floating;
 		qcom,msm-bus,vectors-KBps =
 					<61 512 0 0>,
+					<61 512 240000 800000>,
 					<61 512 240000 800000>;
 
 		qcom,dwc-usb3-msm-tx-fifo-size = <21288>;
@@ -2469,7 +2439,7 @@
 &gdsc_venus {
 	clock-names = "bus_clk", "core_clk";
 	clocks = <&clock_gcc clk_gcc_venus0_axi_clk>,
-		 <&clock_gcc clk_gcc_venus0_vcodec0_clk>;
+		<&clock_gcc clk_gcc_venus0_vcodec0_clk>;
 	status = "okay";
 };
 
@@ -2483,7 +2453,7 @@
 &gdsc_mdss {
 	clock-names = "core_clk", "bus_clk";
 	clocks = <&clock_gcc clk_gcc_mdss_mdp_clk>,
-		 <&clock_gcc clk_gcc_mdss_axi_clk>;
+		<&clock_gcc clk_gcc_mdss_axi_clk>;
 	proxy-supply = <&gdsc_mdss>;
 	qcom,proxy-consumer-enable;
 	status = "okay";
@@ -2500,17 +2470,17 @@
 &gdsc_jpeg {
 	clock-names = "core_clk", "bus_clk";
 	clocks = <&clock_gcc clk_gcc_camss_jpeg0_clk>,
-		 <&clock_gcc clk_gcc_camss_jpeg_axi_clk>;
+		<&clock_gcc clk_gcc_camss_jpeg_axi_clk>;
 	status = "okay";
 };
 
 &gdsc_vfe {
 	clock-names = "core_clk", "bus_clk", "micro_clk",
-			"csi_clk";
+				"csi_clk";
 	clocks = <&clock_gcc clk_gcc_camss_vfe0_clk>,
-		 <&clock_gcc clk_gcc_camss_vfe_axi_clk>,
-		 <&clock_gcc clk_gcc_camss_micro_ahb_clk>,
-		 <&clock_gcc clk_gcc_camss_csi_vfe0_clk>;
+		<&clock_gcc clk_gcc_camss_vfe_axi_clk>,
+		<&clock_gcc clk_gcc_camss_micro_ahb_clk>,
+		<&clock_gcc clk_gcc_camss_csi_vfe0_clk>;
 	status = "okay";
 };
 
@@ -2518,16 +2488,16 @@
 	clock-names = "core_clk", "bus_clk", "micro_clk",
 			"csi_clk";
 	clocks = <&clock_gcc clk_gcc_camss_vfe1_clk>,
-		 <&clock_gcc clk_gcc_camss_vfe1_axi_clk>,
-		 <&clock_gcc clk_gcc_camss_micro_ahb_clk>,
-		 <&clock_gcc clk_gcc_camss_csi_vfe1_clk>;
+		<&clock_gcc clk_gcc_camss_vfe1_axi_clk>,
+		<&clock_gcc clk_gcc_camss_micro_ahb_clk>,
+		<&clock_gcc clk_gcc_camss_csi_vfe1_clk>;
 	status = "okay";
 };
 
 &gdsc_cpp {
 	clock-names = "core_clk", "bus_clk";
 	clocks = <&clock_gcc clk_gcc_camss_cpp_clk>,
-		 <&clock_gcc clk_gcc_camss_cpp_axi_clk>;
+		<&clock_gcc clk_gcc_camss_cpp_axi_clk>;
 	status = "okay";
 };
 
