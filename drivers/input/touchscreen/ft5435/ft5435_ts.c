@@ -1524,9 +1524,12 @@ static int ft5435_ts_resume(struct device *dev)
 
 
 	ft5x0x_write_reg(data->client, 0x8c, 0x01);
-	enable_irq(data->client->irq);
+#if defined(FOCALTECH_TP_GESTURE)
+    if (!gesture_func_on)
+#endif
+		enable_irq(data->client->irq);
 	data->suspended = false;
-
+    
 #if defined(USB_CHARGE_DETECT)
 	queue_work(ft5435_wq, &data->work);
 #endif
@@ -4371,18 +4374,18 @@ static struct i2c_driver ft5435_ts_driver = {
 static int __init ft5435_ts_init(void)
 {
 	printk("tony_test:[%s]\n", __FUNCTION__);
-	ft5435_wq = create_singlethread_workqueue("ft5435_wq");
+	ft5435_wq = alloc_workqueue("ft5435_wq", WQ_HIGHPRI, 1);
 	if (!ft5435_wq) {
 		printk("Creat ft5435 workqueue failed. \n");
 		return -ENOMEM;
 	}
-	ft5435_wq_cover = create_singlethread_workqueue("ft5435_wq_cover");
+	ft5435_wq_cover = alloc_workqueue("ft5435_wq_cover", WQ_HIGHPRI, 1);
 	if (!ft5435_wq_cover) {
 		printk("Creat ft5435_wq_cover workqueue failed. \n");
 		return -ENOMEM;
 	}
 #if defined(VR_GLASS)
-	ft5435_wq_vr = create_singlethread_workqueue("ft5435_wq_vr");
+	ft5435_wq_vr = alloc_workqueue("ft5435_wq_vr", WQ_HIGHPRI, 1);
 	if (!ft5435_wq_vr) {
 		printk("Creat ft5435_wq_vr workqueue failed. \n");
 		return -ENOMEM;

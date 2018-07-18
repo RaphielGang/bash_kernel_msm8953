@@ -18,7 +18,7 @@
 		status = "okay";
 		pm8953_s1: regulator-s1 {
 			regulator-min-microvolt = <870000>;
-			regulator-max-microvolt = <1081000>; // UV by -75mV
+			regulator-max-microvolt = <1156000>;
 			qcom,init-voltage = <1000000>;
 			status = "okay";
 		};
@@ -26,12 +26,12 @@
 
 	/* PM8953 S2 - VDD_CX supply */
 	rpm-regulator-smpa2 {
-		qcom,gx-retention; //Enable regulator retention level for IDLE modes
-		qcom,soft-start-enable = <0x1>; //enable soft start to start without current peaks that can damage device
-		qcom,hpm-enable = <0x1>; //enable high power mode
-		qcom,boost-current-limit = <14>; //3200mA maximum
-		qcom,ocp-enable = <1>; //enables over current protection
-		qcom,init-quiet-mode = <2>; //Regulator EMI noise reduction
+		qcom,gx-retention; /* Enable regulator retention level for IDLE modes */
+		qcom,soft-start-enable = <1>; /* Enable soft start to start without current peaks that can damage device */
+		qcom,hpm-enable = <1>; /* Enable high power mode */
+		qcom,boost-current-limit = <14>; /* 3200mA maximum */
+		qcom,ocp-enable = <1>; /* Enable over current protection */
+		qcom,init-quiet-mode = <2>; /* Regulator EMI noise reduction */
 		status = "okay";
 		pm8953_s2_level: regulator-s2-level {
 			compatible = "qcom,rpm-smd-regulator";
@@ -92,7 +92,7 @@
 		pm8953_s4: regulator-s4 {
 			regulator-min-microvolt = <1900000>;
 			regulator-max-microvolt = <2050000>;
-			qcom,init-quiet-mode = <2>; //Regulator EMI noise reduction
+			qcom,init-quiet-mode = <2>; /* Regulator EMI noise reduction */
 			qcom,init-voltage = <1900000>;
 			status = "okay";
 		};
@@ -327,15 +327,18 @@
 		pm8953_s5: spm-regulator@2000 {
 			compatible = "qcom,spm-regulator";
 			reg = <0x2000 0x100>;
-			qcom,init-quiet-mode = <2>; //Regulator EMI noise reduction
+			qcom,ocp-enable = <0>;
+			qcom,auto-mode-enable = <0>;
+			qcom,hpm-enable = <1>;
+			qcom,init-quiet-mode = <2>; /* Regulator EMI noise reduction */
 			regulator-name = "pm8953_s5";
 			regulator-min-microvolt = <400000>;
-			regulator-max-microvolt = <1140000>;
+			regulator-max-microvolt = <1015000>; /* Use same max microvolt for our regulator */
 
 			pm8953_s5_limit: avs-limit-regulator {
 				regulator-name = "pm8953_s5_avs_limit";
 				regulator-min-microvolt = <400000>;
-				regulator-max-microvolt = <1140000>;
+				regulator-max-microvolt = <1015000>; /* Use same max microvolt for our regulator */
 			};
 		};
 	};
@@ -388,13 +391,6 @@
 		qcom,cpr-enable;
 		qcom,cpr-hw-closed-loop;
 
-		qcom,cpr-panic-reg-addr-list =
-			<0xb1d2c18 0xb1d2900 0x0b1112b0 0xb018798>;
-		qcom,cpr-panic-reg-name-list =
-			"CCI_SAW4_PMIC_STS", "CCI_SAW4_VCTL",
-			"APCS_ALIAS0_APM_CTLER_STATUS",
-			"APCS0_CPR_CORE_ADJ_MODE_REG";
-
 		qcom,cpr-temp-point-map = <250 650 850>;
 		qcom,cpr-initial-temp-band = <0>;
 
@@ -411,7 +407,7 @@
 			apc_vreg: regulator {
 				regulator-name = "apc_corner";
 				regulator-min-microvolt = <1>;
-				regulator-max-microvolt = <24>; // Make sure this same as max freq tuple
+				regulator-max-microvolt = <24>; /* Make sure this same as max freq tuple */
 
 				/* NOTE : DON'T TOUCH THIS, #BlameQCOM */
 				qcom,cpr-fuse-corners = <4>;
@@ -432,92 +428,65 @@
 
 				qcom,cpr-voltage-ceiling =
 				/* Global speed bin */
-				<625000>,
-				<640000>,
-				<655000>,
-				<670000>,
-				<675000>,
-				<690000>,
+				<680000>,
 				<695000>,
-				<715000>,
+				<710000>,
 				<725000>,
-				<735000>,
-				<745000>,
+				<740000>,
 				<755000>,
-				<760000>,
-				<765000>,
-				<795000>,
-				<820000>,
+				<770000>,
+				<785000>,
+				<800000>,
+				<815000>,
+				<830000>,
+				<845000>,
+				<860000>,
+				<875000>,
 				<890000>,
-				<955000>,
-				<960000>,
-				<965000>,
-				<990000>,
-				<995000>,
-				<1000000>,
-				<1015000>;
+				<905000>,
+				<920000>,
+				<935000>,
+				<950000>,
+				<970000>,
+				<985000>,
+				<1040000>,
+				<1050000>,
+				<1055000>;
 
 				qcom,cpr-voltage-floor =
 				/* Global speed bin */
-				<615000>,
-				<630000>,
-				<645000>,
-				<660000>,
-				<665000>,
-				<680000>,
-				<685000>,
-				<705000>,
-				<715000>,
-				<725000>,
-				<735000>,
-				<745000>,
-				<750000>,
-				<755000>,
-				<785000>,
-				<810000>,
-				<880000>,
-				<945000>,
-				<950000>,
-				<955000>,
-				<980000>,
-				<985000>,
-				<990000>,
-				<1005000>;
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>,
+				<625000>;
 
 				qcom,cpr-floor-to-ceiling-max-range =
 				/* Global speed bin; CPR rev 0..7 */
 				/* NOTE : CPR Floor ceiling alignment is up to down and the first one is left to right */
-				<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>,
-				<50000 50000 50000 50000 50000 50000 50000>;
-
-				qcom,cpr-misc-fuse-voltage-adjustment =
-				/* Global speed bin */
-				/* FIXME: Pls help me counting to 12, I've derped here multiple times */
-				<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-				<0 0 30000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>;
+				<50000 50000 50000 50000 50000 50000 50000
+				 50000 80000 80000 80000 80000 80000 80000
+				 80000 80000 80000 80000 80000 80000 80000
+				 80000 80000 80000>;
 
 				qcom,mem-acc-voltage =
 				/* Global speed bin */
@@ -639,37 +608,38 @@
 
 		regulator-name = "msm_gfx_ldo";
 		regulator-min-microvolt = <1>;
-		regulator-max-microvolt = <10>;
+		regulator-max-microvolt = <9>;
 
 		/* Wednesday */
 		qcom,ldo-voltage-ceiling =
-		<615000>,
-		<675000>,
-		<720000>;
+		<620000>,
+		<680000>,
+		<750000>;
 		qcom,ldo-voltage-floor =
-		<485000>,
-		<485000>,
-		<575000>;
+		<510000>,
+		<510000>,
+		<600000>;
 
-		qcom,num-corners = <10>;
+		qcom,num-corners = <9>;
 		qcom,num-ldo-corners = <3>;
 		qcom,ldo-enable-corner-map =
 		/* NOTE : Same as CPU, Right to left */
-		<1 1 1 1 1 0 0 0 0 0>;
+		<1 1 1 1 1 0 0 0 0>;
 		qcom,init-corner = <4>;
-
-		/* FIXME : This part can't be parsed, why this exists? */
-		/* vdd-cx-supply = <&pm8953_s2_level>;
+        
+		vdd-cx-supply = <&pm8953_s2_level>;
 		qcom,vdd-cx-corner-map = <RPM_SMD_REGULATOR_LEVEL_LOW_SVS>,
 					<RPM_SMD_REGULATOR_LEVEL_LOW_SVS>,
 					<RPM_SMD_REGULATOR_LEVEL_SVS>,
 					<RPM_SMD_REGULATOR_LEVEL_SVS_PLUS>,
 					<RPM_SMD_REGULATOR_LEVEL_NOM>,
 					<RPM_SMD_REGULATOR_LEVEL_NOM_PLUS>,
+					<RPM_SMD_REGULATOR_LEVEL_TURBO>,
+					<RPM_SMD_REGULATOR_LEVEL_TURBO>,
 					<RPM_SMD_REGULATOR_LEVEL_TURBO>;
 
 		mem-acc-supply = <&gfx_mem_acc>;
-		qcom,mem-acc-corner-map = <1 1 1 2 2 2 2>; */
+		qcom,mem-acc-corner-map = <1 1 1 2 2 2 2 2 2>;
 
 		qcom,ldo-init-voltage-adjustment = <35000 25000 0>;
 	};

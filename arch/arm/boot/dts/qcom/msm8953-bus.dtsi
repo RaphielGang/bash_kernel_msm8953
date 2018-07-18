@@ -109,7 +109,7 @@
 		mas_apps_proc: mas-apps-proc {
 			cell-id = <MSM_BUS_MASTER_AMPSS_M0>;
 			label = "mas-apps-proc";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <0>;
@@ -125,7 +125,7 @@
 		mas_oxili: mas-oxili {
 			cell-id = <MSM_BUS_MASTER_GRAPHICS_3D>;
 			label = "mas-oxili";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <2>;
@@ -141,7 +141,7 @@
 		mas_snoc_bimc_0: mas-snoc-bimc-0 {
 			cell-id = <MSM_BUS_SNOC_BIMC_0_MAS>;
 			label = "mas-snoc-bimc-0";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <3>;
@@ -154,7 +154,7 @@
 		mas_snoc_bimc_2: mas-snoc-bimc-2 {
 			cell-id = <MSM_BUS_SNOC_BIMC_2_MAS>;
 			label = "mas-snoc-bimc-2";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <4>;
@@ -167,7 +167,7 @@
 		mas_snoc_bimc_1: mas-snoc-bimc-1 {
 			cell-id = <MSM_BUS_SNOC_BIMC_1_MAS>;
 			label = "mas-snoc-bimc-1";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,qport = <5>;
 			qcom,qos-mode = "bypass";
@@ -179,7 +179,7 @@
 		mas_tcu_0: mas-tcu-0 {
 			cell-id = <MSM_BUS_MASTER_TCU_0>;
 			label = "mas-tcu-0";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <6>;
@@ -225,7 +225,7 @@
 		mas_usb3: mas-usb3 {
 			cell-id = <MSM_BUS_MASTER_USB3>;
 			label = "mas-usb3";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <11>;
@@ -240,7 +240,7 @@
 		mas_crypto: mas-crypto {
 			cell-id = <MSM_BUS_MASTER_CRYPTO_CORE0>;
 			label = "mas-crypto";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <0>;
@@ -255,7 +255,7 @@
 		mas_sdcc_1: mas-sdcc-1 {
 			cell-id = <MSM_BUS_MASTER_SDCC_1>;
 			label = "mas-sdcc-1";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,qport = <7>;
 			qcom,qos-mode = "fixed";
@@ -267,7 +267,7 @@
 		mas_sdcc_2: mas-sdcc-2 {
 			cell-id = <MSM_BUS_MASTER_SDCC_2>;
 			label = "mas-sdcc-2";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,qport = <8>;
 			qcom,qos-mode = "fixed";
@@ -279,7 +279,7 @@
 		mas_snoc_pcnoc: mas-snoc-pcnoc {
 			cell-id = <MSM_BUS_SNOC_PNOC_MAS>;
 			label = "mas-snoc-pcnoc";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,qport = <9>;
 			qcom,qos-mode = "fixed";
@@ -307,7 +307,7 @@
 		mas_bimc_snoc: mas-bimc-snoc {
 			cell-id = <MSM_BUS_BIMC_SNOC_MAS>;
 			label = "mas-bimc-snoc";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,connections = <&snoc_int_0
 				&snoc_int_1 &snoc_int_2>;
@@ -318,7 +318,7 @@
 		mas_jpeg: mas-jpeg {
 			cell-id = <MSM_BUS_MASTER_JPEG>;
 			label = "mas-jpeg";
-			qcom,buswidth = <16>;
+			qcom,buswidth = <32>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <6>;
@@ -331,7 +331,7 @@
 		mas_mdp: mas-mdp {
 			cell-id = <MSM_BUS_MASTER_MDP_PORT0>;
 			label = "mas-mdp";
-			qcom,buswidth = <16>;
+			qcom,buswidth = <32>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <7>;
@@ -344,7 +344,7 @@
 		mas_pcnoc_snoc: mas-pcnoc-snoc {
 			cell-id = <MSM_BUS_PNOC_SNOC_MAS>;
 			label = "mas-pcnoc-snoc";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,qport = <5>;
 			qcom,qos-mode = "fixed";
@@ -358,7 +358,7 @@
 		mas_venus: mas-venus {
 			cell-id = <MSM_BUS_MASTER_VIDEO_P0>;
 			label = "mas-venus";
-			qcom,buswidth = <16>;
+			qcom,buswidth = <32>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <8>;
@@ -371,7 +371,7 @@
 		mas_vfe0: mas-vfe0 {
 			cell-id = <MSM_BUS_MASTER_VFE>;
 			label = "mas-vfe0";
-			qcom,buswidth = <16>;
+			qcom,buswidth = <32>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <9>;
@@ -384,7 +384,7 @@
 		mas_vfe1: mas-vfe1 {
 			cell-id = <MSM_BUS_MASTER_VFE1>;
 			label = "mas-vfe1";
-			qcom,buswidth = <16>;
+			qcom,buswidth = <32>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <13>;
@@ -397,7 +397,7 @@
 		mas_cpp: mas-cpp {
 			cell-id = <MSM_BUS_MASTER_CPP>;
 			label = "mas-cpp";
-			qcom,buswidth = <16>;
+			qcom,buswidth = <32>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <12>;
@@ -410,7 +410,7 @@
 		mas_ipa: mas-ipa {
 			cell-id = <MSM_BUS_MASTER_IPA>;
 			label = "mas-ipa";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <14>;
@@ -426,7 +426,7 @@
 		mas_qdss_etr: mas-qdss-etr {
 			cell-id = <MSM_BUS_MASTER_QDSS_ETR>;
 			label = "mas-qdss-etr";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,qport = <10>;
@@ -471,7 +471,7 @@
 		pcnoc_int_1: pcnoc-int-1 {
 			cell-id = <MSM_BUS_PNOC_INT_1>;
 			label = "pcnoc-int-1";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,connections = <&pcnoc_int_2 &slv_pcnoc_snoc>;
 			qcom,bus-dev = <&fab_pcnoc>;
@@ -482,7 +482,7 @@
 		pcnoc_int_2: pcnoc-int-2 {
 			cell-id = <MSM_BUS_PNOC_INT_2>;
 			label = "pcnoc-int-2";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,connections = <&pcnoc_s_1 &pcnoc_s_2
 				&pcnoc_s_0 &pcnoc_s_4 &pcnoc_s_6
@@ -601,7 +601,7 @@
 		qdss_int: qdss-int {
 			cell-id = <MSM_BUS_SNOC_QDSS_INT>;
 			label = "qdss-int";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,connections = <&snoc_int_1 &slv_snoc_bimc_1>;
@@ -613,7 +613,7 @@
 		snoc_int_0: snoc-int-0 {
 			cell-id = <MSM_BUS_SNOC_INT_0>;
 			label = "snoc-int-0";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,connections = <&slv_lpass
@@ -626,7 +626,7 @@
 		snoc_int_1: snoc-int-1 {
 			cell-id = <MSM_BUS_SNOC_INT_1>;
 			label = "snoc-int-1";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,connections = <&slv_qdss_stm &slv_imem
 					&slv_snoc_pcnoc>;
@@ -638,7 +638,7 @@
 		snoc_int_2: snoc-int-2 {
 			cell-id = <MSM_BUS_SNOC_INT_2>;
 			label = "snoc-int-2";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,connections = <&slv_cats_0 &slv_cats_1>;
@@ -652,7 +652,7 @@
 		slv_ebi:slv-ebi {
 			cell-id = <MSM_BUS_SLAVE_EBI_CH0>;
 			label = "slv-ebi";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,bus-dev = <&fab_bimc>;
 			qcom,slv-rpm-id = <ICBID_SLAVE_EBI1>;
@@ -661,7 +661,7 @@
 		slv_bimc_snoc:slv-bimc-snoc {
 			cell-id = <MSM_BUS_BIMC_SNOC_SLV>;
 			label = "slv-bimc-snoc";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,bus-dev = <&fab_bimc>;
 			qcom,connections = <&mas_bimc_snoc>;
@@ -783,7 +783,7 @@
 		slv_gpu_cfg:slv-gpu-cfg {
 			cell-id = <MSM_BUS_SLAVE_GRAPHICS_3D_CFG>;
 			label = "slv-gpu-cfg";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,bus-dev = <&fab_pcnoc>;
@@ -850,7 +850,7 @@
 		slv_tcu:slv-tcu {
 			cell-id = <MSM_BUS_SLAVE_TCU>;
 			label = "slv-tcu";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,bus-dev = <&fab_pcnoc>;
@@ -860,7 +860,7 @@
 		slv_pcnoc_snoc:slv-pcnoc-snoc {
 			cell-id = <MSM_BUS_PNOC_SNOC_SLV>;
 			label = "slv-pcnoc-snoc";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,bus-dev = <&fab_pcnoc>;
 			qcom,connections = <&mas_pcnoc_snoc>;
@@ -890,7 +890,7 @@
 		slv_snoc_bimc_0:slv-snoc-bimc-0 {
 			cell-id = <MSM_BUS_SNOC_BIMC_0_SLV>;
 			label = "slv-snoc-bimc-0";
-			qcom,buswidth = <16>;
+			qcom,buswidth = <32>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,bus-dev = <&fab_snoc_mm>;
@@ -901,7 +901,7 @@
 		slv_snoc_bimc_1:slv-snoc-bimc-1 {
 			cell-id = <MSM_BUS_SNOC_BIMC_1_SLV>;
 			label = "slv-snoc-bimc-1";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,bus-dev = <&fab_snoc>;
 			qcom,connections = <&mas_snoc_bimc_1>;
@@ -911,7 +911,7 @@
 		slv_snoc_bimc_2:slv-snoc-bimc-2 {
 			cell-id = <MSM_BUS_SNOC_BIMC_2_SLV>;
 			label = "slv-snoc-bimc-2";
-			qcom,buswidth = <16>;
+			qcom,buswidth = <32>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,bus-dev = <&fab_snoc_mm>;
@@ -922,7 +922,7 @@
 		slv_imem:slv-imem {
 			cell-id = <MSM_BUS_SLAVE_OCIMEM>;
 			label = "slv-imem";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,bus-dev = <&fab_snoc>;
 			qcom,slv-rpm-id = <ICBID_SLAVE_IMEM>;
@@ -931,7 +931,7 @@
 		slv_snoc_pcnoc:slv-snoc-pcnoc {
 			cell-id = <MSM_BUS_SNOC_PNOC_SLV>;
 			label = "slv-snoc-pcnoc";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,bus-dev = <&fab_snoc>;
 			qcom,connections = <&mas_snoc_pcnoc>;
@@ -950,7 +950,7 @@
 		slv_cats_0:slv-cats-0 {
 			cell-id = <MSM_BUS_SLAVE_CATS_128>;
 			label = "slv-cats-0";
-			qcom,buswidth = <16>;
+			qcom,buswidth = <32>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,bus-dev = <&fab_snoc_mm>;
@@ -960,7 +960,7 @@
 		slv_cats_1:slv-cats-1 {
 			cell-id = <MSM_BUS_SLAVE_OCMEM_64>;
 			label = "slv-cats-1";
-			qcom,buswidth = <8>;
+			qcom,buswidth = <16>;
 			qcom,agg-ports = <1>;
 			qcom,ap-owned;
 			qcom,bus-dev = <&fab_snoc>;
