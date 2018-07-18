@@ -18,7 +18,6 @@ qcom,2508175_bn41hdesay_4100mah_averaged_masterslave_jun27th2016 {
 	qcom,battery-beta = <3435>;
 	qcom,battery-type = "qrd_msm8953_desay_4100mah";
 	qcom,fastchg-current-ma = <3000>;
-	qcom,fg-cc-cv-threshold-mv = <4390>;
 	qcom,chg-rslow-comp-c1 = <2760396>;
 	qcom,chg-rslow-comp-c2 = <3348384>;
 	qcom,chg-rs-to-rslow = <870409>;
