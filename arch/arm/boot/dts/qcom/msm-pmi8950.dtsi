@@ -422,7 +422,7 @@
 		#size-cells = <1>;
 
 		pmi8950_pwm: pwm@b000 {
-			status = "okay";
+			status = "disabled";
 			compatible = "qcom,qpnp-pwm";
 			reg = <0xb000 0x100>;
 			reg-names = "qpnp-lpg-channel-base";
