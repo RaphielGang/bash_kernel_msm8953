@@ -4360,7 +4360,8 @@ static struct i2c_driver ft5435_ts_driver = {
 	.driver = {
 		   .name = "ft5435_ts",
 		   .owner = THIS_MODULE,
-		.of_match_table = ft5435_match_table,
+		   .of_match_table = ft5435_match_table,
+		   .probe_type = PROBE_PREFER_ASYNCHRONOUS,
 #ifdef CONFIG_PM
 		   .pm = &ft5435_ts_pm_ops,
 #endif
