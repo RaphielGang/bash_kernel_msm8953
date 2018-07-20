@@ -23,6 +23,7 @@
 #include <linux/regulator/consumer.h>
 #include <uapi/linux/hbtp_input.h>
 #include "../input-compat.h"
+#include <linux/cpu_input_boost.h>
 #if defined(CONFIG_HBTP_INPUT_SECURE_TOUCH)
 #include <linux/gpio.h>
 #include <linux/interrupt.h>
@@ -446,7 +447,7 @@ err_input_reg_dev:
 	return error;
 }
 
-static int hbtp_input_report_events(struct hbtp_data *hbtp_data,
+static inline int hbtp_input_report_events(struct hbtp_data *hbtp_data,
 				struct hbtp_input_mt *mt_data)
 {
 	int i;
@@ -463,6 +464,28 @@ static int hbtp_input_report_events(struct hbtp_data *hbtp_data,
 				input_report_abs(hbtp_data->input_dev,
 						ABS_MT_TOOL_TYPE,
 						tch->tool);
+				if (hbtp_data->use_scaling) {
+				/*
+				 * Scale up/down the X-coordinate as per
+				 * DT property
+				 */
+				if (hbtp_data->def_maxx && hbtp_data->des_maxx)
+					tch->x = (tch->x * hbtp_data->des_maxx)
+							/ hbtp_data->def_maxx;
+				/*
+				 * Scale up/down the Y-coordinate as per
+				 * DT property
+				 */
+				 if (hbtp_data->def_maxy && hbtp_data->des_maxy)
+					tch->y = (tch->y * hbtp_data->des_maxy)
+							/ hbtp_data->def_maxy;
+						}
+				input_report_abs(hbtp_data->input_dev,
+						ABS_MT_POSITION_X,
+						tch->x);
+				input_report_abs(hbtp_data->input_dev,
+						ABS_MT_POSITION_Y,
+						tch->y);
 				input_report_abs(hbtp_data->input_dev,
 						ABS_MT_TOUCH_MAJOR,
 						tch->major);
@@ -475,32 +498,6 @@ static int hbtp_input_report_events(struct hbtp_data *hbtp_data,
 				input_report_abs(hbtp_data->input_dev,
 						ABS_MT_PRESSURE,
 						tch->pressure);
-				/*
-				 * Scale up/down the X-coordinate as per
-				 * DT property
-				 */
-				if (hbtp_data->use_scaling &&
-						hbtp_data->def_maxx > 0 &&
-						hbtp_data->des_maxx > 0)
-					tch->x = (tch->x * hbtp_data->des_maxx)
-							/ hbtp_data->def_maxx;
-
-				input_report_abs(hbtp_data->input_dev,
-						ABS_MT_POSITION_X,
-						tch->x);
-				/*
-				 * Scale up/down the Y-coordinate as per
-				 * DT property
-				 */
-				if (hbtp_data->use_scaling &&
-						hbtp_data->def_maxy > 0 &&
-						hbtp_data->des_maxy > 0)
-					tch->y = (tch->y * hbtp_data->des_maxy)
-							/ hbtp_data->def_maxy;
-
-				input_report_abs(hbtp_data->input_dev,
-						ABS_MT_POSITION_Y,
-						tch->y);
 			}
 			hbtp_data->touch_status[i] = tch->active;
 		}
@@ -585,7 +582,7 @@ reg_off:
 	return 0;
 }
 
-static long hbtp_input_ioctl_handler(struct file *file, unsigned int cmd,
+static inline long hbtp_input_ioctl_handler(struct file *file, unsigned int cmd,
 				 unsigned long arg, void __user *p)
 {
 	int error = 0;
@@ -593,6 +590,25 @@ static long hbtp_input_ioctl_handler(struct file *file, unsigned int cmd,
 	struct hbtp_input_absinfo absinfo[ABS_MT_LAST - ABS_MT_FIRST + 1];
 	struct hbtp_input_key key_data;
 	enum hbtp_afe_power_cmd power_cmd;
+
+	if (cmd == HBTP_SET_TOUCHDATA) {
+		if (!hbtp || !hbtp->input_dev) {
+			pr_err("%s: The input device hasn't been created\n",
+				__func__);
+			return -EFAULT;
+		}
+
+		if (copy_from_user(&mt_data, (void *)arg,
+					sizeof(struct hbtp_input_mt))) {
+			pr_err("%s: Error copying data\n", __func__);
+			return -EFAULT;
+		}
+
+		cpu_input_boost_kick();
+		hbtp_input_report_events(hbtp, &mt_data);
+		/* We need to return here to avoid ugly code */
+		return 0;
+	}
 
 	switch (cmd) {
 	case HBTP_SET_ABSPARAM:
@@ -614,23 +630,6 @@ static long hbtp_input_ioctl_handler(struct file *file, unsigned int cmd,
 		if (error)
 			pr_err("%s, hbtp_input_create_input_dev failed (%d)\n",
 				__func__, error);
-		break;
-
-	case HBTP_SET_TOUCHDATA:
-		if (!hbtp || !hbtp->input_dev) {
-			pr_err("%s: The input device hasn't been created\n",
-				__func__);
-			return -EFAULT;
-		}
-
-		if (copy_from_user(&mt_data, (void *)arg,
-					sizeof(struct hbtp_input_mt))) {
-			pr_err("%s: Error copying data\n", __func__);
-			return -EFAULT;
-		}
-
-		hbtp_input_report_events(hbtp, &mt_data);
-		error = 0;
 		break;
 
 	case HBTP_SET_POWERSTATE:
@@ -692,14 +691,14 @@ static long hbtp_input_ioctl_handler(struct file *file, unsigned int cmd,
 	return error;
 }
 
-static long hbtp_input_ioctl(struct file *file, unsigned int cmd,
+static inline long hbtp_input_ioctl(struct file *file, unsigned int cmd,
 				unsigned long arg)
 {
 	return hbtp_input_ioctl_handler(file, cmd, arg, (void __user *)arg);
 }
 
 #ifdef CONFIG_COMPAT
-static long hbtp_input_compat_ioctl(struct file *file, unsigned int cmd,
+static inline long hbtp_input_compat_ioctl(struct file *file, unsigned int cmd,
 					unsigned long arg)
 {
 	return hbtp_input_ioctl_handler(file, cmd, arg, compat_ptr(arg));
