@@ -1,4 +1,4 @@
-/* Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -14,6 +14,7 @@
 #include <linux/of_gpio.h>
 #include <linux/platform_device.h>
 #include <linux/suspend.h>
+#include <linux/delay.h>
 #include "smp2p_private.h"
 
 #define PROC_AWAKE_ID 12 /* 12th bit */
@@ -38,6 +39,7 @@ static int sleepstate_pm_notifier(struct notifier_block *nb,
 
 	case PM_POST_SUSPEND:
 		gpio_set_value(slst_gpio_base_id + PROC_AWAKE_ID, 1);
+		usleep_range(10000, 10500); /* Tuned based on SMP2P latencies */
 		break;
 	}
 	return NOTIFY_DONE;
@@ -45,6 +47,7 @@ static int sleepstate_pm_notifier(struct notifier_block *nb,
 
 static struct notifier_block sleepstate_pm_nb = {
 	.notifier_call = sleepstate_pm_notifier,
+	.priority = INT_MAX,
 };
 
 static int smp2p_sleepstate_probe(struct platform_device *pdev)

@@ -3365,6 +3365,7 @@ static struct i2c_driver goodix_ts_driver = {
 	.driver = {
 		.name     = GTP_I2C_NAME,
 		.owner    = THIS_MODULE,
+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
 #if 1
 		.of_match_table = goodix_match_table,
 #endif
