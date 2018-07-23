@@ -72,7 +72,7 @@ __read_mostly unsigned int sysctl_sched_walt_cpu_high_irqload =
  * SCHED_TUNABLESCALING_LINEAR - scaled linear, *ncpus
  */
 enum sched_tunable_scaling sysctl_sched_tunable_scaling
-	= SCHED_TUNABLESCALING_LOG;
+	= SCHED_TUNABLESCALING_LINEAR;
 
 /*
  * Minimal preemption granularity for CPU-bound tasks:
@@ -90,7 +90,7 @@ static unsigned int sched_nr_latency = 2;
  * After fork, child runs first. If set to 0 (default) then
  * parent will (try to) run first.
  */
-unsigned int __read_mostly sysctl_sched_child_runs_first = 1;
+unsigned int __read_mostly sysctl_sched_child_runs_first = 0;
 
 /*
  * SCHED_OTHER wake-up granularity.
@@ -103,7 +103,7 @@ unsigned int __read_mostly sysctl_sched_child_runs_first = 1;
 unsigned int sysctl_sched_wakeup_granularity = 1000000UL;
 unsigned int normalized_sysctl_sched_wakeup_granularity = 1000000UL;
 
-const_debug unsigned int sysctl_sched_migration_cost;
+const_debug unsigned int sysctl_sched_migration_cost = 500000;
 
 /*
  * The exponential sliding  window over which load is averaged for shares
