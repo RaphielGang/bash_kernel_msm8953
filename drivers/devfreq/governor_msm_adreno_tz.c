@@ -60,7 +60,8 @@ static DEFINE_SPINLOCK(suspend_lock);
 #define TAG "msm_adreno_tz: "
 
 #if 1
-static unsigned int adrenoboost = 0;
+/* Enable adrenoboost in Medium */
+static unsigned int adrenoboost = 2;
 #endif
 
 static u64 suspend_time;
