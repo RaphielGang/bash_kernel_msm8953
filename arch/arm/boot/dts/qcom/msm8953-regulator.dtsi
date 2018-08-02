@@ -409,7 +409,7 @@
 			apc_vreg: regulator {
 				regulator-name = "apc_corner";
 				regulator-min-microvolt = <1>;
-				regulator-max-microvolt = <24>; /* Make sure this same as max freq tuple */
+				regulator-max-microvolt = <14>; /* Make sure this same as max freq tuple */
 
 				/* NOTE : DON'T TOUCH THIS, #BlameQCOM */
 				qcom,cpr-fuse-corners = <4>;
@@ -419,37 +419,27 @@
 				qcom,cpr-speed-bin-corners =
 				/* Global speed bin */
 				/* NOTE : Align this two same values like our max freq tuple */
-				<24 24 24 24 24 24 24 24>;
+				<14 14 14 14 14 14 14 14>;
 				qcom,cpr-corners =
 				/* Global speed bin */
-				<24 24 24 24 24 24 24 24>;
+				<14 14 14 14 14 14 14 14>;
 				qcom,cpr-corner-fmax-map =
 				/* Global speed bin */
 				/* NOTE : Change the last value according to max freq tuple */
-				<1 2 4 24>;
+				<1 2 4 14>;
 
 				qcom,cpr-voltage-ceiling =
 				/* Global speed bin */
 				<680000>,
 				<695000>,
 				<710000>,
-				<725000>,
-				<740000>,
-				<755000>,
-				<770000>,
-				<785000>,
 				<800000>,
 				<815000>,
-				<830000>,
-				<845000>,
-				<860000>,
-				<875000>,
 				<890000>,
 				<905000>,
 				<920000>,
 				<935000>,
 				<950000>,
-				<970000>,
 				<985000>,
 				<1040000>,
 				<1050000>,
@@ -470,57 +460,35 @@
 				<625000>,
 				<625000>,
 				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
 				<625000>;
 
 				qcom,cpr-floor-to-ceiling-max-range =
 				/* Global speed bin; CPR rev 0..7 */
 				/* NOTE : CPR Floor ceiling alignment is up to down and the first one is left to right */
 				<50000 50000 50000 50000 50000 50000 50000
-				 50000 80000 80000 80000 80000 80000 80000
-				 80000 80000 80000 80000 80000 80000 80000
-				 80000 80000 80000>;
+				 50000 80000 80000 80000 80000 80000 80000>;
 
 				qcom,mem-acc-voltage =
 				/* Global speed bin */
-				<1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2>;
+				<1 1 1 1 1 1 1 1 1 2 2 2 2 2>;
 				 /*default is 4 "1"*/
 
 				qcom,corner-frequencies =
 				/* Global speed bin */
-				<400457>,
-				<480000>,
-				<576000>,
-				<652800>,
-				<729600>,
-				<806400>,
-				<883200>,
-				<960000>,
-				<1036800>,
-				<1113600>,
-				<1248000>,
-				<1305600>,
-				<1401600>,
-				<1536000>,
-				<1689600>,
-				<1758400>,
-				<1804800>,
-				<1843200>,
-				<1958400>,
-				<2016000>,
-				<2150400>,
-				<2208000>,
-				<2304000>,
-				<2400000>;
+				<  307200 >,
+				<  403200 >,
+				<  556800 >,
+				<  652800 >,
+				< 1036800 >,
+				< 1401600 >,
+				< 1689600 >,
+				< 1843200 >,
+				< 1958400 >,
+				< 2016000 >,
+				< 2150400 >,
+				< 2208000 >,
+				< 2304000 >,
+				< 2400000 >;
 
 				qcom,cpr-open-loop-voltage-fuse-adjustment =
 				/* Speed bin 0; CPR rev 0..7 */
@@ -559,14 +527,14 @@
 				qcom,corner-allow-temp-adjustment =
 				/* Global speed bin; CPR rev 0..7 */
 				/* NOTE : Temp adjustment alignment is left to right */
-				<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-				<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-				<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-				<1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-				<1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-				<1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-				<1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-				<1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>;
+				<0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
+				<0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
+				<0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
+				<1 1 1 1 1 0 0 0 0 0 0 0 0 0>,
+				<1 1 1 1 1 0 0 0 0 0 0 0 0 0>,
+				<1 1 1 1 1 0 0 0 0 0 0 0 0 0>,
+				<1 1 1 1 1 0 0 0 0 0 0 0 0 0>,
+				<1 1 1 1 1 0 0 0 0 0 0 0 0 0>;
 
 				qcom,cpr-corner1-temp-core-voltage-adjustment =
 				<(0) (-5000) (-15000) (-20000)>;
