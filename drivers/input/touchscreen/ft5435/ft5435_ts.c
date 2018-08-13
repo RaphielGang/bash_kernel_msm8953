@@ -1453,27 +1453,25 @@ static int ft5435_ts_suspend(struct device *dev)
 		return 0;
 	}
 
+	disable_irq(data->client->irq);
+
 	/* release all touches */
 	for (i = 0; i < data->pdata->num_max_touches; i++) {
 		input_mt_slot(data->input_dev, i);
 		input_mt_report_slot_state(data->input_dev, MT_TOOL_FINGER, 0);
 	}
 	input_mt_report_pointer_emulation(data->input_dev, false);
-	__clear_bit(BTN_TOUCH, data->input_dev->keybit);
 	input_sync(data->input_dev);
 
 #if defined(FOCALTECH_TP_GESTURE)
 	{
 		if (gesture_func_on) {
-			enable_irq_wake(data->client->irq);
+			enable_irq(data->client->irq);
 			ft_tp_suspend(data);
 			return 0;
 		}
 	}
 #endif
-
-	disable_irq(data->client->irq);
-
 	if (gpio_is_valid(data->pdata->reset_gpio)) {
 		gpio_set_value_cansleep(data->pdata->reset_gpio, 1);
 		msleep(300);
@@ -1505,13 +1503,14 @@ static int ft5435_ts_resume(struct device *dev)
 		return 0;
 	}
 
+#if defined(FOCALTECH_TP_GESTURE)
+	if (gesture_func_on)
+		disable_irq(data->client->irq);
+#endif
+
 	/* release all touches */
 	input_mt_report_slot_state(data->input_dev, MT_TOOL_FINGER, 0);
-	__set_bit(BTN_TOUCH, data->input_dev->keybit);
 	input_sync(data->input_dev);
-
-	if (gesture_func_on)
-                disable_irq_wake(data->client->irq);
 
 /*hw rst*/
 	if (gpio_is_valid(data->pdata->reset_gpio)) {
@@ -1524,8 +1523,8 @@ static int ft5435_ts_resume(struct device *dev)
 
 
 	ft5x0x_write_reg(data->client, 0x8c, 0x01);
-	data->suspended = false;
 	enable_irq(data->client->irq);
+	data->suspended = false;
 
 #if defined(USB_CHARGE_DETECT)
 	queue_work(ft5435_wq, &data->work);
@@ -1607,7 +1606,6 @@ static void fb_notify_resume_work(struct work_struct *work)
 		container_of(work, struct ft5435_ts_data, fb_notify_work);
 	ft5435_ts_resume(&ft5435_data->client->dev);
 }
-
 static int fb_notifier_callback(struct notifier_block *self,
 				 unsigned long event, void *data)
 {
@@ -1615,7 +1613,6 @@ static int fb_notifier_callback(struct notifier_block *self,
 	int *blank;
 	struct ft5435_ts_data *ft5435_data =
 		container_of(self, struct ft5435_ts_data, fb_notif);
-
 	if (evdata && evdata->data && ft5435_data && ft5435_data->client) {
 		blank = evdata->data;
 		if (ft5435_data->pdata->resume_in_workqueue) {
@@ -1638,7 +1635,6 @@ static int fb_notifier_callback(struct notifier_block *self,
 			}
 		}
 	}
-
 	return 0;
 }
 #elif defined(CONFIG_HAS_EARLYSUSPEND)
@@ -1647,7 +1643,6 @@ static void ftft5346_ts_early_suspend(struct early_suspend *handler)
 	struct ftft5346_ts_data *data = container_of(handler,
 						   struct ft5435_ts_data,
 						   early_suspend);
-
 	/*
 	 * During early suspend/late resume, the driver doesn't access xPU/SMMU
 	 * protected HW resources. So, there is no compelling need to block,
@@ -1657,18 +1652,15 @@ static void ftft5346_ts_early_suspend(struct early_suspend *handler)
 	ft5435_secure_touch_stop(data, false);
 	ft5435_ts_suspend(&data->client->dev);
 }
-
 static void ft5435_ts_late_resume(struct early_suspend *handler)
 {
 	struct ft5435_ts_data *data = container_of(handler,
 						   struct ft5435_ts_data,
 						   early_suspend);
-
 	ft5435_secure_touch_stop(data, false);
 	ft5435_ts_resume(&data->client->dev);
 }
 #endif
-
 #endif
 
 static int ft5435_auto_cal(struct i2c_client *client)
