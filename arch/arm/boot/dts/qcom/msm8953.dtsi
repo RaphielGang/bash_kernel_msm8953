@@ -514,7 +514,7 @@
 	qcom,msm-thermal {
 		compatible = "qcom,msm-thermal";
 		qcom,sensor-id = <9>;
-		qcom,poll-ms = <500>;
+		qcom,poll-ms = <1500>;
 		qcom,limit-temp = <60>;
 		qcom,temp-hysteresis = <10>;
 		qcom,freq-step = <2>;
@@ -526,7 +526,6 @@
 		qcom,freq-mitigation-temp-hysteresis = <15>;
 		qcom,freq-mitigation-value = <1689600>;
 		qcom,therm-reset-temp = <115>;
-		qcom,online-hotplug-core;
 		qcom,synchronous-cluster-id = <0 1>;
 		qcom,synchronous-cluster-map = <0 4 &CPU0 &CPU1 &CPU2 &CPU3>,
 						<1 4 &CPU4 &CPU5 &CPU6 &CPU7>;

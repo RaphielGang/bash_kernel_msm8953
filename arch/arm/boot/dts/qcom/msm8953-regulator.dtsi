@@ -333,12 +333,12 @@
 			qcom,init-quiet-mode = <2>; /* Regulator EMI noise reduction */
 			regulator-name = "pm8953_s5";
 			regulator-min-microvolt = <490000>;
-			regulator-max-microvolt = <1015000>; /* Use same max microvolt for our regulator */
+			regulator-max-microvolt = <980000>; /* Use same max microvolt for our regulator */
 
 			pm8953_s5_limit: avs-limit-regulator {
 				regulator-name = "pm8953_s5_avs_limit";
 				regulator-min-microvolt = <490000>;
-				regulator-max-microvolt = <1015000>; /* Use same max microvolt for our regulator */
+				regulator-max-microvolt = <980000>; /* Use same max microvolt for our regulator */
 			};
 		};
 	};
@@ -430,21 +430,21 @@
 
 				qcom,cpr-voltage-ceiling =
 				/* Global speed bin */
-				<675000>,
+				<665000>, /* FOR TESTING PURPOSES ONLY */
 				<680000>,
 				<695000>,
 				<710000>,
-				<800000>,
-				<815000>,
+				<735000>,
+				<785000>,
+				<836000>,
+				<854000>,
+				<872000>,
 				<890000>,
-				<905000>,
-				<920000>,
-				<935000>,
-				<950000>,
-				<985000>,
-				<1040000>,
-				<1050000>,
-				<1055000>;
+				<908000>,
+				<926000>,
+				<944000>,
+				<962000>,
+				<980000>;
 
 				qcom,cpr-voltage-floor =
 				/* Global speed bin */
