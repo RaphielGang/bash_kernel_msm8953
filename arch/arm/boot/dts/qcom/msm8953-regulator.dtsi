@@ -18,8 +18,8 @@
 	rpm-regulator-smpa1 {
 		status = "okay";
 		pm8953_s1: regulator-s1 {
-			regulator-min-microvolt = <870000>;
-			regulator-max-microvolt = <1156000>;
+			regulator-min-microvolt = <720000>;
+			regulator-max-microvolt = <1056000>;
 			qcom,init-voltage = <1000000>;
 			status = "okay";
 		};
@@ -154,9 +154,9 @@
 	rpm-regulator-ldoa2 {
 		status = "okay";
 		pm8953_l2: regulator-l2 {
-			regulator-min-microvolt = <975000>;
+			regulator-min-microvolt = <1200000>;
 			regulator-max-microvolt = <1225000>;
-			qcom,init-voltage = <975000>;
+			qcom,init-voltage = <1200000>;
 			status = "okay";
 		};
 	};
@@ -332,12 +332,12 @@
 			qcom,hpm-enable = <1>;
 			qcom,init-quiet-mode = <2>; /* Regulator EMI noise reduction */
 			regulator-name = "pm8953_s5";
-			regulator-min-microvolt = <490000>;
+			regulator-min-microvolt = <400000>;
 			regulator-max-microvolt = <980000>; /* Use same max microvolt for our regulator */
 
 			pm8953_s5_limit: avs-limit-regulator {
 				regulator-name = "pm8953_s5_avs_limit";
-				regulator-min-microvolt = <490000>;
+				regulator-min-microvolt = <400000>;
 				regulator-max-microvolt = <980000>; /* Use same max microvolt for our regulator */
 			};
 		};
@@ -430,9 +430,9 @@
 
 				qcom,cpr-voltage-ceiling =
 				/* Global speed bin */
-				<665000>, /* FOR TESTING PURPOSES ONLY */
-				<680000>,
-				<695000>,
+				<565000>, /* FOR TESTING PURPOSES ONLY */
+				<640000>,
+				<685000>,
 				<710000>,
 				<735000>,
 				<785000>,
@@ -448,27 +448,27 @@
 
 				qcom,cpr-voltage-floor =
 				/* Global speed bin */
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>,
-				<625000>;
+				<500000>,
+				<500000>,
+				<500000>,
+				<500000>,
+				<500000>,
+				<500000>,
+				<500000>,
+				<500000>,
+				<500000>,
+				<500000>,
+				<500000>,
+				<500000>,
+				<500000>,
+				<500000>,
+				<500000>;
 
 				qcom,cpr-floor-to-ceiling-max-range =
 				/* Global speed bin; CPR rev 0..7 */
 				/* NOTE : CPR Floor ceiling alignment is up to down and the first one is left to right */
 				<50000 50000 50000 50000 50000 50000 50000 50000
-				 50000 80000 80000 80000 80000 80000 80000>;
+				 50000 50000 50000 50000 50000 50000 50000>;
 
 				qcom,mem-acc-voltage =
 				/* Global speed bin */
