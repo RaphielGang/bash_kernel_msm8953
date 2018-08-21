@@ -27,12 +27,12 @@
 
 	/* PM8953 S2 - VDD_CX supply */
 	rpm-regulator-smpa2 {
-		qcom,gx-retention; /* Enable regulator retention level for IDLE modes */
-		qcom,soft-start-enable = <1>; /* Enable soft start to start without current peaks that can damage device */
-		qcom,hpm-enable = <1>; /* Enable high power mode */
-		qcom,boost-current-limit = <14>; /* 3200mA maximum */
-		qcom,ocp-enable = <1>; /* Enable over current protection */
-		qcom,init-quiet-mode = <2>; /* Regulator EMI noise reduction */
+		qcom,gx-retention; 					/* Enable regulator retention level for IDLE modes */
+		qcom,soft-start-enable = <1>; 		/* Enable soft start to start without current peaks that can damage device */
+		qcom,hpm-enable = <1>; 				/* Enable high power mode */
+		qcom,boost-current-limit = <14>; 	/* 3200mA maximum */
+		qcom,ocp-enable = <1>; 				/* Enable over current protection */
+		qcom,init-quiet-mode = <2>; 		/* Regulator EMI noise reduction */
 		status = "okay";
 		pm8953_s2_level: regulator-s2-level {
 			compatible = "qcom,rpm-smd-regulator";
@@ -92,7 +92,7 @@
 		pm8953_s4: regulator-s4 {
 			regulator-min-microvolt = <1900000>;
 			regulator-max-microvolt = <2050000>;
-			qcom,init-quiet-mode = <2>; /* Regulator EMI noise reduction */
+			qcom,init-quiet-mode = <2>; 		/* Regulator EMI noise reduction */
 			qcom,init-voltage = <1900000>;
 			status = "okay";
 		};
@@ -409,24 +409,24 @@
 			apc_vreg: regulator {
 				regulator-name = "apc_corner";
 				regulator-min-microvolt = <1>;
-				regulator-max-microvolt = <15>; /* Make sure this same as max freq tuple */
+				regulator-max-microvolt = <11>; /* Make sure this same as max freq tuple */
 
 				/* NOTE : DON'T TOUCH THIS, #BlameQCOM */
-				qcom,cpr-fuse-corners = <4>;
-				qcom,cpr-fuse-combos = <64>;
-				qcom,cpr-speed-bins = <8>;
+				qcom,cpr-fuse-corners = <0x4>;
+				qcom,cpr-fuse-combos = <0x40>;
+				qcom,cpr-speed-bins = <0x8>;
 
 				qcom,cpr-speed-bin-corners =
 				/* Global speed bin */
 				/* NOTE : Align this two same values like our max freq tuple */
-				<15 15 15 15 15 15 15 15>;
+				<11 11 11 11 11 11 11 11>;
 				qcom,cpr-corners =
 				/* Global speed bin */
-				<15 15 15 15 15 15 15 15>;
+				<11 11 11 11 11 11 11 11>;
 				qcom,cpr-corner-fmax-map =
 				/* Global speed bin */
 				/* NOTE : Change the last value according to max freq tuple */
-				<1 2 4 15>;
+				<1 2 4 11>;
 
 				qcom,cpr-voltage-ceiling =
 				/* Global speed bin */
@@ -439,19 +439,11 @@
 				<836000>,
 				<854000>,
 				<872000>,
-				<890000>,
-				<908000>,
 				<926000>,
-				<944000>,
-				<962000>,
-				<980000>;
+				<944000>;
 
 				qcom,cpr-voltage-floor =
 				/* Global speed bin */
-				<500000>,
-				<500000>,
-				<500000>,
-				<500000>,
 				<500000>,
 				<500000>,
 				<500000>,
@@ -467,61 +459,58 @@
 				qcom,cpr-floor-to-ceiling-max-range =
 				/* Global speed bin; CPR rev 0..7 */
 				/* NOTE : CPR Floor ceiling alignment is up to down and the first one is left to right */
-				<50000 50000 50000 50000 50000 50000 50000 50000
-				 50000 50000 50000 50000 50000 50000 50000>;
+				<50000 50000 50000 50000 50000 50000 50000 50000 50000 50000 50000>;
 
 				qcom,mem-acc-voltage =
 				/* Global speed bin */
-				<1 1 1 1 1 2 2 2 2 2 2 2 2 2 2>;
+				<1 1 1 1 1 2 2 2 2 2 2>;
 				 /*default is 4 "1"*/
 
 				qcom,corner-frequencies =
 				/* Global speed bin */
-				<  115200 >,
-				<  307200 >,
-				<  403200 >,
-				<  556800 >,
-				<  652800 >,
-				< 1036800 >,
-				< 1401600 >,
-				< 1689600 >,
-				< 1843200 >,
-				< 1958400 >,
-				< 2016000 >,
-				< 2150400 >,
-				< 2208000 >,
-				< 2304000 >,
-				< 2400000 >;
+				<195000>,
+				<292500>,
+				<585000>,
+				<780000>,
+				<975000>,
+				<1170000>,
+				<1365000>,
+				<1560000>,
+				<1755000>,
+				<1950000>,
+				<2145000>;
 
 				qcom,cpr-open-loop-voltage-fuse-adjustment =
 				/* Speed bin 0; CPR rev 0..7 */
-				<     0      0      0     0>,
-				< 25000      0   5000 40000>,
-				< 25000      0   5000 40000>,
-				< 25000      0   5000 40000>,
-				<     0      0      0     0>,
-				<     0      0      0     0>,
-				<     0      0      0     0>,
-				<     0      0      0     0>;
+				<     0x0      0x0      0x0     0x0>,
+				<  0x61A8      0x0   0x1388  0x9C40>,
+				<  0x61A8      0x0   0x1388  0x9C40>,
+				<  0x61A8      0x0   0x1388  0x9C40>,
+				<     0x0      0x0      0x0     0x0>,
+				<     0x0      0x0      0x0     0x0>,
+				<     0x0      0x0      0x0     0x0>,
+				<     0x0      0x0      0x0     0x0>;
+
 				qcom,cpr-closed-loop-voltage-fuse-adjustment =
-				/* Speed bin 0; CPR rev 0..7 */
-				<      0        0        0      0>,
-				<  10000 (-15000)        0  25000>,
-				<  10000 (-15000)        0  25000>,
-				<(-5000) (-30000) (-15000)  10000>,
-				<      0        0        0      0>,
-				<      0        0        0      0>,
-				<      0        0        0      0>,
-				<      0        0        0      0>;
+				/* Speed bin 0x0; CPR rev 0x0..0x7 */
+				<      0x0        0x0        0x0      0x0>,
+				<   0x2710  (-0x3A98)        0x0   0x61A8>,
+				<   0x2710  (-0x3A98)        0x0   0x61A8>,
+				<(-0x1388)  (-0x7530)  (-0x3A98)   0x2710>,
+				<      0x0        0x0        0x0      0x0>,
+				<      0x0        0x0        0x0      0x0>,
+				<      0x0        0x0        0x0      0x0>,
+				<      0x0        0x0        0x0      0x0>;
+
 				qcom,cpr-ro-scaling-factor =
-				<3610 3790    0 2200 2450 2310 2170 2210
-				2330 2210 2470 2340  780 2700 2450 2090>,
-				<3610 3790    0 2200 2450 2310 2170 2210
-				2330 2210 2470 2340  780 2700 2450 2090>,
-				<3610 3790    0 2200 2450 2310 2170 2210
-				2330 2210 2470 2340  780 2700 2450 2090>,
-				<3610 3790    0 2200 2450 2310 2170 2210
-				2330 2210 2470 2340  780 2700 2450 2090>;
+				<0xE1A 0xECE    0x0 0x898  0x992 0x906 0x87A 0x8A2
+				 0x91A 0x8A2  0x9A6 0x924  0x30C 0xA8C 0x992 0x82A>,
+				<0xE1A 0xECE    0x0 0x898  0x992 0x906 0x87A 0x8A2
+				 0x91A 0x8A2  0x9A6 0x924  0x30C 0xA8C 0x992 0x82A>,
+				<0xE1A 0xECE    0x0 0x898  0x992 0x906 0x87A 0x8A2
+				 0x91A 0x8A2  0x9A6 0x924  0x30C 0xA8C 0x992 0x82A>,
+				<0xE1A 0xECE    0x0 0x898  0x992 0x906 0x87A 0x8A2
+				 0x91A 0x8A2  0x9A6 0x924  0x30C 0xA8C 0x992 0x82A>;
 
 				qcom,allow-voltage-interpolation;
 				qcom,allow-quotient-interpolation;
@@ -530,33 +519,33 @@
 				qcom,corner-allow-temp-adjustment =
 				/* Global speed bin; CPR rev 0..7 */
 				/* NOTE : Temp adjustment alignment is left to right */
-				<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-				<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-				<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>,
-				<1 1 1 1 1 0 0 0 0 0 0 0 0 0 0>,
-				<1 1 1 1 1 0 0 0 0 0 0 0 0 0 0>,
-				<1 1 1 1 1 0 0 0 0 0 0 0 0 0 0>,
-				<1 1 1 1 1 0 0 0 0 0 0 0 0 0 0>,
-				<1 1 1 1 1 0 0 0 0 0 0 0 0 0 0>;
+				<0 0 0 0 0 0 0 0 0 0 0>,
+				<0 0 0 0 0 0 0 0 0 0 0>,
+				<0 0 0 0 0 0 0 0 0 0 0>,
+				<1 1 1 1 1 0 0 0 0 0 0>,
+				<1 1 1 1 1 0 0 0 0 0 0>,
+				<1 1 1 1 1 0 0 0 0 0 0>,
+				<1 1 1 1 1 0 0 0 0 0 0>,
+				<1 1 1 1 1 0 0 0 0 0 0>;
 
-				qcom,cpr-corner1-temp-core-voltage-adjustment =
-				<(0) (-5000) (-15000) (-20000)>;
+				qcom,cpr-corner0x1-temp-core-voltage-adjustment =
+				<(0x0) (-0x1388) (-0x3A98) (-0x4E20)>;
 
-				qcom,cpr-corner2-temp-core-voltage-adjustment =
-				<(0) (-5000) (-15000) (-15000)>;
+				qcom,cpr-corner0x2-temp-core-voltage-adjustment =
+				<(0x0) (-0x1388) (-0x3A98) (-0x3A98)>;
 
-				qcom,cpr-corner3-temp-core-voltage-adjustment =
-				<(0) (-5000) (-15000)      (0)>;
+				qcom,cpr-corner0x3-temp-core-voltage-adjustment =
+				<(0x0) (-0x1388) (-0x3A98)     (0x0)>;
 
-				qcom,cpr-corner4-temp-core-voltage-adjustment =
-				<(0) (-5000) (-15000)      (0)>;
+				qcom,cpr-corner0x4-temp-core-voltage-adjustment =
+				<(0x0) (-0x1388) (-0x3A98)     (0x0)>;
 
-				qcom,cpr-aging-max-voltage-adjustment = <15000>;
-				qcom,cpr-aging-ref-corner = <6>; /* Turbo */
-				qcom,cpr-aging-ro-scaling-factor = <2800>;
+				qcom,cpr-aging-max-voltage-adjustment = <0x3A98>;
+				qcom,cpr-aging-ref-corner = <0x6>; /* Turbo */
+				qcom,cpr-aging-ro-scaling-factor = <0xAF0>;
 				qcom,allow-aging-voltage-adjustment =
 				/* Global speed bin */
-				<0 0 0 1 1 1 1 1>;
+				<0x0 0x0 0x0 0x1 0x1 0x1 0x1 0x1>;
 			};
 		};
 	};
@@ -585,13 +574,13 @@
 
 		/* Wednesday */
 		qcom,ldo-voltage-ceiling =
-		<620000>,
-		<680000>,
-		<750000>;
+		<0x975E0>,
+		<0xA6040>,
+		<0xB71B0>;
 		qcom,ldo-voltage-floor =
-		<510000>,
-		<510000>,
-		<600000>;
+		<0x7C830>,
+		<0x7C830>,
+		<0x927C0>;
 
 		qcom,num-corners = <7>;
 		qcom,num-ldo-corners = <3>;
