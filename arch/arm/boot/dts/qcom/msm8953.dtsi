@@ -23,7 +23,7 @@
 	interrupt-parent = <&intc>;
 
 	chosen {
-		bootargs = "readahead=2m threadirqs";
+		bootargs = "quiet readahead=2m threadirqs";
 	};
 
 	firmware: firmware {
