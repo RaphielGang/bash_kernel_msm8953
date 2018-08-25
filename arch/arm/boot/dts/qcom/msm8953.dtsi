@@ -907,27 +907,27 @@
 		qcom,gcc_oxili_gfx3d_clk-opp-handle = <&msm_gpu>;
 		qcom,gfxfreq-corner =
 			< 0x0         0x0 >,
-			< 0x7F27450   0x1 >,  /* Min SVS   */
+			< 0xBEBC200   0x1 >,  /* Min SVS   */
 			< 0xCDFE600   0x2 >,  /* Low SVS   */
 			< 0x1312D000  0x3 >,  /* SVS       */
 			< 0x17D78400  0x4 >,  /* SVS Plus  */
 			< 0x1E65FB80  0x5 >,  /* NOM       */
 			< 0x2160EC00  0x6 >,  /* Nom Plus  */
-			< 0x26BE3680  0x7 >,  /* Turbo     */
-			< 0x29B92700  0x7 >,  /* Turbo     */
-			< 0x2B369F40  0x7 >;  /* Turbo     */
+			< 0x26BE3680  0x7 >,  /* Tur0xBo     */
+			< 0x29B92700  0x7 >,  /* Tur0xBo     */
+			< 0x2B369F40  0x7 >;  /* Tur0xBo     */
 		#clock-cells = <1>;
 	};
 
 	clock_cpu: qcom,cpu-clock-8953@b116000 {
 		compatible = "qcom,cpu-clock-8953";
 		reg =   <0xB114000  0x68>,
-						<0xB114000  0x68>,
-						<0xB116000  0x400>,
-						<0xB111050  0xC>,
-						<0xB011050  0xC>,
-						<0xB1D1050  0xC>,
-						<0xA4124    0xC>;
+				<0xB114000  0x68>,
+				<0xB116000  0x400>,
+				<0xB111050  0xC>,
+				<0xB011050  0xC>,
+				<0xB1D1050  0xC>,
+				<0xA4124    0xC>;
 
 		reg-names = "rcgwr-c0-base", "rcgwr-c1-base",
 					"c0-pll", "c0-mux", "c1-mux",
