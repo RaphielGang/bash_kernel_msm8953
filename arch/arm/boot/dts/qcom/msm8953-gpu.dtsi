@@ -141,6 +141,9 @@
 		/* Enable context aware freq. scaling */
 		qcom,enable-ca-jump;
 
+		/* Enables the use of midframe sampling timer */
+		qcom,enable-midframe-timer;
+
 		/* Context aware jump busy penalty in us */
 		qcom,ca-busy-penalty = <0x2EE0>;
 
