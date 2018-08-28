@@ -1,6 +1,6 @@
 VERSION = 3
 PATCHLEVEL = 18
-SUBLEVEL = 114
+SUBLEVEL = 120
 EXTRAVERSION =
 NAME = Diseased Newt
 
@@ -367,7 +367,6 @@ CFLAGS_KERNEL	=
 AFLAGS_KERNEL	=
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage -fno-tree-loop-im
 CFLAGS_KCOV	= -fsanitize-coverage=trace-pc
-CLANG_OPT_FLAGS	= -g0 -mcpu=cortex-a53+crc+crypto+sve -march=armv8-a+crc+crypto+sve -mtune=cortex-a53 -funsafe-math-optimizations -funroll-loops -ffast-math -fvectorize -fslp-vectorize -meabi gnu
 
 
 # Use USERINCLUDE when you must reference the UAPI directories only.
@@ -387,7 +386,7 @@ LINUXINCLUDE    := \
 		-Iinclude \
 		$(USERINCLUDE)
 
-KBUILD_CPPFLAGS := -D__KERNEL__ $(CLANG_FLAGS)
+KBUILD_CPPFLAGS := -D__KERNEL__
 
 KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common -fshort-wchar \
@@ -607,13 +606,14 @@ endif
 ifneq ($(GCC_TOOLCHAIN),)
 CLANG_GCC_TC	:= -gcc-toolchain $(GCC_TOOLCHAIN)
 endif
-KBUILD_CPPFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC) $(CLANG_OPT_FLAGS)
+KBUILD_CPPFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC)
 KBUILD_CFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC)
-KBUILD_AFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC) $(CLANG_OPT_FLAGS)
+KBUILD_AFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC)
 KBUILD_CPPFLAGS += $(call cc-option,-Qunused-arguments,)
 KBUILD_CFLAGS += $(call cc-disable-warning, format-invalid-specifier)
 KBUILD_CFLAGS += $(call cc-disable-warning, gnu)
 KBUILD_CFLAGS += $(call cc-disable-warning, address-of-packed-member)
+KBUILD_CFLAGS += $(call cc-disable-warning, return-stack-address)
 KBUILD_CFLAGS += $(call cc-disable-warning, duplicate-decl-specifier)
 KBUILD_CFLAGS += $(call cc-disable-warning, pointer-bool-conversion)
 # Quiet clang warning: comparison of unsigned expression < 0 is always false
@@ -644,8 +644,8 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning, attribute-alias)
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= $(call cc-option,-Oz,-Os)
 else
-ifeq ($(cc-name), clang)
-KBUILD_CFLAGS	+= -O3 $(call cc-option,-fsanitize=local-init)
+ifeq ($(cc-name),clang)
+KBUILD_CFLAGS	+= -O3
 else
 KBUILD_CFLAGS	+= -O2
 endif
@@ -714,6 +714,20 @@ else
 endif
 endif
 KBUILD_CFLAGS += $(stackp-flag)
+
+ifdef CONFIG_LOCAL_INIT
+  ifeq ($(cc-name),clang)
+    local-init-flag := -fsanitize=local-init
+    ifeq ($(call cc-option, $(local-init-flag)),)
+      $(warning Cannot use CONFIG_LOCAL_INIT: \
+                $(local-init-flag) not supported by compiler)
+      local-init-flag :=
+    endif
+    KBUILD_CFLAGS += $(local-init-flag)
+  else
+    $(warning CONFIG_LOCAL_INIT is not supported by GCC)
+  endif
+endif
 
 ifdef CONFIG_KCOV
   ifeq ($(call cc-option, $(CFLAGS_KCOV)),)
