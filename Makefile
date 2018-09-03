@@ -300,8 +300,8 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 
 HOSTCC       = gcc
 HOSTCXX      = g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer -std=gnu89
-HOSTCXXFLAGS = -O2
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -std=gnu89
+HOSTCXXFLAGS = -O3
 
 # Decide whether to build built-in, modular, or both.
 # Normally, just do built-in.
@@ -645,15 +645,36 @@ ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= $(call cc-option,-Oz,-Os)
 else
 ifeq ($(cc-name),clang)
-KBUILD_CFLAGS	+= -O3
+KBUILD_CFLAGS	+= $(call cc-option, -O3,)
+LDFLAGS			+= $(call ld-option, -O3)
 else
-KBUILD_CFLAGS	+= -O2
+KBUILD_CFLAGS	+= $(call cc-option, -O2,)
+LDFLAGS			+= $(call ld-option, -O2)
 endif
 endif
 
 ifdef CONFIG_CC_WERROR
 KBUILD_CFLAGS	+= -Werror
 endif
+
+# Optimize based on our Arch (In this case, Cortex-A53)
+ifeq ($(cc-name),clang)
+KBUILD_CFLAGS	+= $(call cc-option, -g0,)
+KBUILD_CFLAGS	+= $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,)
+KBUILD_CFLAGS	+= $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,)
+KBUILD_CFLAGS	+= $(call cc-option, -mtune=cortex-a53,)
+else
+KBUILD_CFLAGS	+= $(call cc-option, -g0,)
+KBUILD_CFLAGS	+= $(call cc-option, -mneon-for-64bits,)
+KBUILD_CFLAGS	+= $(call cc-option, -mtune=cortex-a53,)
+KBUILD_CFLAGS	+= $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,)
+KBUILD_CFLAGS	+= $(call cc-option, -march=armv8-a+crc+crypto+sve+simd)
+endif
+
+# Optimize our linker too
+LDFLAGS			+= $(call ld-option, -z combreloc,)
+LDFLAGS			+= $(call ld-option, --strip-debug,)
+LDFLAGS_vmlinux	+= $(call ld-option, --relax)
 
 # Tell gcc to never replace conditional load with a non-conditional one
 KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
