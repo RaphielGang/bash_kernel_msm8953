@@ -67,3 +67,4 @@
 };
 
 #include "mido/msm8953-mido.dtsi"
+#include "blackrover/msm8953-blackrover.dtsi"

@@ -218,11 +218,6 @@
 		reg-names = "sn-base";
 	};
 
-        qcom,bcl {
-                /delete-property/ qcom,bcl-hotplug-list;
-                /delete-property/ qcom,bcl-soc-hotplug-list;
-        };
-
 	qcom_seecom: qseecom@84a00000 { /* renamed from caf qseecom@85b00000 */
                 compatible = "qcom,qseecom";
                 reg = <0x84a00000 0x1900000>; /* changed by xiaomi */
