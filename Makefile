@@ -638,9 +638,6 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning,maybe-uninitialized,)
 KBUILD_CFLAGS	+= $(call cc-disable-warning,frame-address,)
 KBUILD_CFLAGS	+= $(call cc-disable-warning, format-truncation)
 
-# Needed to unbreak GCC 7.x and above
-KBUILD_CFLAGS   += $(call cc-option,-fno-store-merging,)
-
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= $(call cc-option,-Oz,-Os) $(call cc-disable-warning,maybe-uninitialized,)
 else
@@ -663,6 +660,14 @@ KBUILD_CFLAGS	+= $(call cc-option, -g0,)
 KBUILD_CFLAGS	+= $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,)
 KBUILD_CFLAGS	+= $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,)
 KBUILD_CFLAGS	+= $(call cc-option, -mtune=cortex-a53,)
+# Use LLVM Polly coz why not
+KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly,)
+KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly-run-dce,)
+KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly-run-inliner,)
+KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly-opt-fusion=max,)
+KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly-ast-use-context,)
+KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly-vectorizer=stripmine,)
+KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly-detect-keep-going,)
 else
 KBUILD_CFLAGS	+= $(call cc-option, -g0,)
 KBUILD_CFLAGS	+= $(call cc-option, -mneon-for-64bits,)
