@@ -7,6 +7,10 @@
 &soc {
    msm_gpu: qcom,kgsl-3d0@1c00000 {
        /*
+        * Initial powerlevel for low peak use
+        */
+       qcom,initial-pwrlevel = <7>;
+       /*
         * Time in microseconds for
         * idle timeout.
         */
