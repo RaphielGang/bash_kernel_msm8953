@@ -1903,11 +1903,11 @@ static s8 gtp_request_irq(struct goodix_ts_data *ts)
 	GTP_DEBUG_FUNC();
 	GTP_DEBUG("INT trigger type:%x", ts->int_trigger_type);
 
-	ret  = request_irq(ts->client->irq,
-					   goodix_ts_irq_handler,
-					   irq_table[ts->int_trigger_type],
-					   ts->client->name,
-					   ts);
+	ret  = request_threaded_irq(ts->client->irq, NULL,
+									goodix_ts_irq_handler,
+									irq_table[ts->int_trigger_type],
+									ts->client->name,
+									ts);
 	if (ret) {
 		GTP_ERROR("Request IRQ failed!ERRNO:%d.", ret);
 		GTP_GPIO_AS_INPUT(gtp_int_gpio);
