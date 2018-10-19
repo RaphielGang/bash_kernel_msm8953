@@ -33,7 +33,7 @@
 
 static const char *goodix_ts_name = "goodix-ts";
 static const char *goodix_input_phys = "input/ts";
-static struct workqueue_struct *goodix_wq;
+struct workqueue_struct *goodix_wq;
 struct i2c_client *i2c_connect_client = NULL;
 int gtp_rst_gpio;
 int gtp_int_gpio;
@@ -134,10 +134,10 @@ extern u8 gup_init_update_proc(struct goodix_ts_data *);
 #endif
 
 #if GTP_ESD_PROTECT
-static struct delayed_work gtp_esd_check_work;
-static struct workqueue_struct *gtp_esd_check_workqueue;
 static void gtp_esd_check_func(struct work_struct *);
 static s32 gtp_init_ext_watchdog(struct i2c_client *client);
+struct delayed_work gtp_esd_check_work;
+struct workqueue_struct *gtp_esd_check_workqueue;
 void gtp_esd_switch(struct i2c_client *, s32);
 #endif
 
@@ -1043,7 +1043,7 @@ static enum hrtimer_restart goodix_ts_timer_handler(struct hrtimer *timer)
 
 	GTP_DEBUG_FUNC();
 
-	queue_work(goodix_wq, &ts->work);
+	schedule_work(&ts->work);
 	hrtimer_start(&ts->timer, ktime_set(0, (GTP_POLL_TIME+6)*1000000), HRTIMER_MODE_REL);
 	return HRTIMER_NORESTART;
 }
@@ -1065,7 +1065,7 @@ static irqreturn_t goodix_ts_irq_handler(int irq, void *dev_id)
 
 	gtp_irq_disable(ts);
 
-	queue_work(goodix_wq, &ts->work);
+	schedule_work(&ts->work);
 
 	return IRQ_HANDLED;
 }
@@ -3207,7 +3207,7 @@ void gtp_esd_switch(struct i2c_client *client, s32 on)
 			ts->esd_running = 1;
 			spin_unlock(&ts->esd_lock);
 			GTP_INFO("Esd started");
-			queue_delayed_work(gtp_esd_check_workqueue, &gtp_esd_check_work, ts->clk_tick_cnt);
+			schedule_delayed_work(&gtp_esd_check_work, ts->clk_tick_cnt);
 		} else {
 			spin_unlock(&ts->esd_lock);
 		}
@@ -3338,7 +3338,7 @@ static void gtp_esd_check_func(struct work_struct *work)
 	}
 
 	if (!ts->gtp_is_suspend) {
-		queue_delayed_work(gtp_esd_check_workqueue, &gtp_esd_check_work, ts->clk_tick_cnt);
+		schedule_delayed_work(&gtp_esd_check_work, ts->clk_tick_cnt);
 	} else {
 		GTP_INFO("Esd suspended!");
 	}
@@ -3388,14 +3388,16 @@ static int __init goodix_ts_init(void)
 
 	GTP_DEBUG_FUNC();
 	GTP_INFO("GTP driver installing...");
-	goodix_wq = create_singlethread_workqueue("goodix_wq");
+	goodix_wq = alloc_ordered_workqueue("goodix_wq",
+									WQ_HIGHPRI | WQ_MEM_RECLAIM | WQ_UNBOUND, 1);
 	if (!goodix_wq) {
 		GTP_ERROR("Creat workqueue failed.");
 		return -ENOMEM;
 	}
 #if GTP_ESD_PROTECT
 	INIT_DELAYED_WORK(&gtp_esd_check_work, gtp_esd_check_func);
-	gtp_esd_check_workqueue = create_workqueue("gtp_esd_check");
+	gtp_esd_check_workqueue = alloc_workqueue("gtp_esd_check",
+									WQ_HIGHPRI | WQ_MEM_RECLAIM | WQ_UNBOUND, 1);
 #endif
 	ret = i2c_add_driver(&goodix_ts_driver);
 	GTP_INFO("wmy i2c_add_driver, ret = %d", ret);
@@ -3416,7 +3418,7 @@ static void __exit goodix_ts_exit(void)
 	GTP_INFO("GTP driver exited.");
 	i2c_del_driver(&goodix_ts_driver);
 	if (goodix_wq) {
-		destroy_workqueue(goodix_wq);
+	destroy_workqueue(goodix_wq);
 	}
 }
 
