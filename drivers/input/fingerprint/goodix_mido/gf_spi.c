@@ -67,17 +67,17 @@
 
 
 struct gf_key_map key_map[] = {
-	{  "POWER",  KEY_POWER	 },
-	{  "HOME",   KEY_HOME	 },
-	{  "MENU",   KEY_MENU	 },
-	{  "BACK",   KEY_BACK	 },
-	{  "UP",     KEY_UP	 },
-	{  "DOWN",   KEY_DOWN	 },
-	{  "LEFT",   KEY_LEFT	 },
-	{  "RIGHT",  KEY_RIGHT	 },
-	{  "FORCE",  KEY_F9	 },
-	{  "CLICK",  KEY_F19	 },
-	{  "CAMERA", KEY_CAMERA	 },
+	{  "POWER",  KEY_POWER	     },
+	{  "HOME",   KEY_HOME	     },
+	{  "MENU",   KEY_MENU	     },
+	{  "BACK",   KEY_BACK	     },
+	{  "UP",     KEY_UP	     },
+	{  "DOWN",   KEY_DOWN	     },
+	{  "LEFT",   KEY_LEFT	     },
+	{  "RIGHT",  KEY_RIGHT	     },
+	{  "FORCE",  KEY_F9	     },
+	{  "CLICK",  KEY_F19	     },
+	{  "CAMERA", KEY_CAMERA	     },
 };
 
 /**************************debug******************************/
@@ -413,8 +413,7 @@ static irqreturn_t gf_irq(int irq, void *handle)
 	char temp = GF_NET_EVENT_IRQ;
 	gf_dbg("enter irq %s\n", __func__);
 
-	if (gf_dev->fb_black)
-		wake_lock_timeout(&gf_dev->ttw_wl, msecs_to_jiffies(15));
+	wake_lock_timeout(&gf_dev->ttw_wl, msecs_to_jiffies(15));
 
 	sendnlmsg(&temp);
 #elif defined (GF_FASYNC)
@@ -701,7 +700,8 @@ static int gf_probe(struct platform_device *pdev)
 		fb_register_client(&gf_dev->notifier);
 		gf_reg_key_kernel(gf_dev);
 
-		wake_lock_init(&gf_dev->ttw_wl, WAKE_LOCK_SUSPEND, "goodix_ttw_wl");
+		if (gf_dev->fb_black)
+			wake_lock_init(&gf_dev->ttw_wl, WAKE_LOCK_SUSPEND, "goodix_ttw_wl");
 	}
 
 	pr_warn("--------gf_probe end---OK.--------\n");
