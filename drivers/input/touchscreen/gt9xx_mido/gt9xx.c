@@ -1905,7 +1905,7 @@ static s8 gtp_request_irq(struct goodix_ts_data *ts)
 
 	ret  = request_threaded_irq(ts->client->irq, NULL,
 									goodix_ts_irq_handler,
-									irq_table[ts->int_trigger_type],
+									irq_table[ts->int_trigger_type] | IRQF_ONESHOT,
 									ts->client->name,
 									ts);
 	if (ret) {
@@ -2133,7 +2133,7 @@ static s32 gtp_bak_ref_proc(struct goodix_ts_data *ts, u8 mode)
 		GTP_INFO("/data mounted!!!(%d/%d)", ts->ref_chk_fs_times, GTP_CHK_FS_MNT_MAX);
 	}
 
-	p_bak_ref = (u8 *)kzalloc(ts->bak_ref_len, GFP_KERNEL);
+	p_bak_ref = kzalloc(ts->bak_ref_len, GFP_KERNEL);
 
 	if (NULL == p_bak_ref) {
 		GTP_ERROR("Allocate memory for p_bak_ref failed!");

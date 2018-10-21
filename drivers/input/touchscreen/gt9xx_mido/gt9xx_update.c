@@ -635,9 +635,9 @@ static s8 gup_update_config(struct i2c_client *client)
 		return -EPERM;
 	}
 
-	buf = (u8 *)kzalloc(file_len, GFP_KERNEL);
-	pre_buf = (u8 *)kzalloc(file_len, GFP_KERNEL);
-	file_config = (u8 *)kzalloc(chip_cfg_len + GTP_ADDR_LENGTH, GFP_KERNEL);
+	buf = kzalloc(file_len, GFP_KERNEL);
+	pre_buf = kzalloc(file_len, GFP_KERNEL);
+	file_config = kzalloc(chip_cfg_len + GTP_ADDR_LENGTH, GFP_KERNEL);
 	update_msg.cfg_file->f_op->llseek(update_msg.cfg_file, 0, SEEK_SET);
 
 	GTP_DEBUG("[update_cfg]Read config from file.");
@@ -1147,7 +1147,7 @@ static u8 gup_burn_dsp_isp(struct i2c_client *client)
 
 	GTP_DEBUG("[burn_dsp_isp]step1:alloc memory");
 	while (retry++ < 5) {
-		fw_dsp_isp = (u8 *)kzalloc(FW_DSP_ISP_LENGTH, GFP_KERNEL);
+		fw_dsp_isp = kzalloc(FW_DSP_ISP_LENGTH, GFP_KERNEL);
 		if (fw_dsp_isp == NULL) {
 			continue;
 		} else {
@@ -1264,7 +1264,7 @@ static u8 gup_burn_fw_ss51(struct i2c_client *client)
 
 	GTP_DEBUG("[burn_fw_ss51]step1:alloc memory");
 	while (retry++ < 5) {
-		fw_ss51 = (u8 *)kzalloc(FW_SECTION_LENGTH, GFP_KERNEL);
+		fw_ss51 = kzalloc(FW_SECTION_LENGTH, GFP_KERNEL);
 		if (fw_ss51 == NULL) {
 			continue;
 		} else {
@@ -1367,7 +1367,7 @@ static u8 gup_burn_fw_dsp(struct i2c_client *client)
 
 	GTP_DEBUG("[burn_fw_dsp]step1:alloc memory");
 	while (retry++ < 5) {
-		fw_dsp = (u8 *)kzalloc(FW_DSP_LENGTH, GFP_KERNEL);
+		fw_dsp = kzalloc(FW_DSP_LENGTH, GFP_KERNEL);
 		if (fw_dsp == NULL) {
 			continue;
 		} else {
@@ -1481,7 +1481,7 @@ static u8 gup_burn_fw_boot(struct i2c_client *client)
 
 	GTP_DEBUG("[burn_fw_boot]step1:Alloc memory");
 	while (retry++ < 5) {
-		fw_boot = (u8 *)kzalloc(FW_BOOT_LENGTH, GFP_KERNEL);
+		fw_boot = kzalloc(FW_BOOT_LENGTH, GFP_KERNEL);
 		if (fw_boot == NULL) {
 			continue;
 		} else {
@@ -1598,7 +1598,7 @@ static u8 gup_burn_fw_boot_isp(struct i2c_client *client)
 
 	GTP_DEBUG("[burn_fw_boot_isp]step1:Alloc memory");
 	while (retry++ < 5) {
-		fw_boot_isp = (u8 *)kzalloc(FW_BOOT_ISP_LENGTH, GFP_KERNEL);
+		fw_boot_isp = kzalloc(FW_BOOT_ISP_LENGTH, GFP_KERNEL);
 		if (fw_boot_isp == NULL) {
 			continue;
 		} else {
@@ -1718,7 +1718,7 @@ static u8 gup_burn_fw_link(struct i2c_client *client)
 
 	GTP_DEBUG("[burn_fw_link]step1:Alloc memory");
 	while (retry++ < 5) {
-		fw_link = (u8 *)kzalloc(FW_SECTION_LENGTH, GFP_KERNEL);
+		fw_link = kzalloc(FW_SECTION_LENGTH, GFP_KERNEL);
 		if (fw_link == NULL) {
 			continue;
 		} else {
@@ -1864,7 +1864,7 @@ static u8 gup_burn_fw_gwake(struct i2c_client *client)
 
 	GTP_DEBUG("[burn_fw_gwake]step1:alloc memory");
 	while (retry++ < 5) {
-		fw_gwake = (u8 *)kzalloc(FW_SECTION_LENGTH, GFP_KERNEL);
+		fw_gwake = kzalloc(FW_SECTION_LENGTH, GFP_KERNEL);
 		if (fw_gwake == NULL) {
 			continue;
 		} else {
@@ -1967,7 +1967,7 @@ static u8 gup_burn_fw_finish(struct i2c_client *client)
 
 	GTP_DEBUG("[burn_fw_finish]step1:alloc memory");
 	while (retry++ < 5) {
-		fw_ss51 = (u8 *)kzalloc(FW_SECTION_LENGTH, GFP_KERNEL);
+		fw_ss51 = kzalloc(FW_SECTION_LENGTH, GFP_KERNEL);
 		if (fw_ss51 == NULL) {
 			continue;
 		} else {
