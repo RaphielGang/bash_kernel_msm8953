@@ -521,7 +521,6 @@ static int gf_fasync(int fd, struct file *filp, int mode)
 static int gf_release(struct inode *inode, struct file *filp)
 {
 	struct gf_dev *gf_dev;
-	int status = 0;
 
 	FUNC_ENTRY();
 	rt_mutex_lock(&device_list_lock);
@@ -542,7 +541,7 @@ static int gf_release(struct inode *inode, struct file *filp)
 	rt_mutex_unlock(&device_list_lock);
 	FUNC_EXIT();
 
-	return status;
+	return 0;
 }
 
 static const struct file_operations gf_fops = {
@@ -661,7 +660,7 @@ static int gf_probe(struct platform_device *pdev)
 		gf_dev->devt = MKDEV(SPIDEV_MAJOR, minor);
 		dev = device_create(gf_class, &gf_dev->spi->dev, gf_dev->devt,
 				    gf_dev, GF_DEV_NAME);
-		status = IS_ERR(dev) ? PTR_ERR(dev) : 0;
+		status = PTR_ERR_OR_ZERO(dev);
 	} else {
 		dev_dbg(&gf_dev->spi->dev, "no minor number available!\n");
 		status = -ENODEV;

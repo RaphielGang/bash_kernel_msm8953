@@ -142,20 +142,16 @@ void gf_cleanup(struct gf_dev   *gf_dev)
 /*power management*/
 int gf_power_on(struct gf_dev *gf_dev)
 {
-	int rc = 0;
-
 	msleep(10);
 	pr_info("---- power on ok ----\n");
 
-	return rc;
+	return 0;
 }
 
 int gf_power_off(struct gf_dev *gf_dev)
 {
-	int rc = 0;
-
 	pr_info("---- power off ----\n");
-	return rc;
+	return 0;
 }
 
 static int hw_reset(struct  gf_dev *gf_dev)
