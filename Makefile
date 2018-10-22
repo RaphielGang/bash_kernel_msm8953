@@ -754,8 +754,6 @@ ifdef CONFIG_LOCAL_INIT
   endif
 endif
 
-endif
-
 ifdef CONFIG_FRAME_POINTER
 KBUILD_CFLAGS	+= -fno-omit-frame-pointer -fno-optimize-sibling-calls
 else
