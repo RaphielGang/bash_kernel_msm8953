@@ -642,10 +642,10 @@ KBUILD_CFLAGS	+= $(call cc-option,-Oz,-Os) $(call cc-disable-warning,maybe-unini
 else
 ifeq ($(cc-name),clang)
 KBUILD_CFLAGS	+= $(call cc-option, -O3,)
-LDFLAGS			+= $(call ld-option, -O3)
+KBUILD_LDFLAGS	+= $(call ld-option, -O3)
 else
 KBUILD_CFLAGS	+= $(call cc-option, -O2,)
-LDFLAGS			+= $(call ld-option, -O2)
+KBUILD_LDFLAGS	+= $(call ld-option, -O2)
 endif
 endif
 
@@ -654,31 +654,29 @@ KBUILD_CFLAGS	+= -Werror
 endif
 
 # Optimize based on our Arch (In this case, Cortex-A53)
-ifeq ($(cc-name),clang)
-KBUILD_CFLAGS	+= $(call cc-option, -g0,)
-KBUILD_CFLAGS	+= $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,)
-KBUILD_CFLAGS	+= $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,)
-KBUILD_CFLAGS	+= $(call cc-option, -mtune=cortex-a53,)
+KBUILD_CFLAGS	+= $(call cc-option, -g0,) \
+                   $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,) \
+                   $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,) \
+                   $(call cc-option, -mtune=cortex-a53,)
+KBUILD_AFLAGS	+= $(call cc-option, -g0,) \
+                   $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,) \
+                   $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,) \
+                   $(call cc-option, -mtune=cortex-a53,)
+
 # Use LLVM Polly coz why not
-KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly,)
-KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly-run-dce,)
-KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly-run-inliner,)
-KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly-opt-fusion=max,)
-KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly-ast-use-context,)
-KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly-vectorizer=stripmine,)
-KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly-detect-keep-going,)
-else
-KBUILD_CFLAGS	+= $(call cc-option, -g0,)
-KBUILD_CFLAGS	+= $(call cc-option, -mneon-for-64bits,)
-KBUILD_CFLAGS	+= $(call cc-option, -mtune=cortex-a53,)
-KBUILD_CFLAGS	+= $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,)
-KBUILD_CFLAGS	+= $(call cc-option, -march=armv8-a+crc+crypto+sve+simd)
-endif
+KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly,) \
+                   $(call cc-option, -mllvm -polly-run-dce,) \
+                   $(call cc-option, -mllvm -polly-run-inliner,) \
+                   $(call cc-option, -mllvm -polly-opt-fusion=max,) \
+                   $(call cc-option, -mllvm -polly-ast-use-context,) \
+                   $(call cc-option, -mllvm -polly-vectorizer=stripmine,) \
+                   $(call cc-option, -mllvm -polly-detect-keep-going,)
 
 # Optimize our linker too
-LDFLAGS			+= $(call ld-option, -z combreloc,)
-LDFLAGS			+= $(call ld-option, --strip-debug,)
-LDFLAGS_vmlinux	+= $(call ld-option, --relax)
+KBUILD_LDFLAGS	+= $(call ld-option, -z combreloc,) \
+                   $(call ld-option, --reduce-memory-overheads)
+LDFLAGS_vmlinux	+= $(call ld-option, --relax) \
+                   $(call ld-option, --reduce-memory-overheads)
 
 # Tell gcc to never replace conditional load with a non-conditional one
 KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
