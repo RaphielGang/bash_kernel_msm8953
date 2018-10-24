@@ -659,23 +659,20 @@ KBUILD_CFLAGS	+= -Werror
 endif
 
 # Optimize based on our Arch (In this case, Cortex-A53)
-ifeq ($(cc-name),clang)
-KBUILD_CFLAGS	+= $(call cc-option, -g0,)
-KBUILD_CFLAGS	+= $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,)
-KBUILD_CFLAGS	+= $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,)
-KBUILD_CFLAGS	+= $(call cc-option, -mtune=cortex-a53,)
-else
-KBUILD_CFLAGS	+= $(call cc-option, -g0,)
-KBUILD_CFLAGS	+= $(call cc-option, -mneon-for-64bits,)
-KBUILD_CFLAGS	+= $(call cc-option, -mtune=cortex-a53,)
-KBUILD_CFLAGS	+= $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,)
-KBUILD_CFLAGS	+= $(call cc-option, -march=armv8-a+crc+crypto+sve+simd)
-endif
+KBUILD_CFLAGS	+= $(call cc-option, -g0,) \
+                   $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,) \
+                   $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,) \
+                   $(call cc-option, -mtune=cortex-a53,)
+KBUILD_AFLAGS	+= $(call cc-option, -g0,) \
+                   $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,) \
+                   $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,) \
+                   $(call cc-option, -mtune=cortex-a53,)
 
 # Optimize our linker too
-LDFLAGS			+= $(call ld-option, -z combreloc,)
-LDFLAGS			+= $(call ld-option, --strip-debug,)
-LDFLAGS_vmlinux	+= $(call ld-option, --relax)
+KBUILD_LDFLAGS	+= $(call ld-option, -z combreloc,) \
+                   $(call ld-option, --reduce-memory-overheads)
+LDFLAGS_vmlinux	+= $(call ld-option, --relax) \
+                   $(call ld-option, --reduce-memory-overheads)
 
 # Tell gcc to never replace conditional load with a non-conditional one
 KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
