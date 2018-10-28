@@ -12,8 +12,8 @@
          * Put more saner vbat and ibat pooling delays
          * we don't need 100ms delay for vbat and ibat
          */
-        qcom,vbat-polling-delay-ms = <150>;
-        qcom,ibat-polling-delay-ms = <150>;
+        qcom,vbat-polling-delay-ms = <500>;
+        qcom,ibat-polling-delay-ms = <500>;
     };
  };
 
@@ -21,9 +21,5 @@
      apc_cpr: cpr4-ctrl@b018000 {
         qcom,cpr-count-mode = <2>;		/* Staggered */
         qcom,cpr-voltage-settling-time = <1600>;
-     };
-
-     gfx_vreg_corner: ldo@0185f000 {
-        qcom,ldo-voltage-ceiling = <520000 580000 650000>;
      };
  };
