@@ -663,15 +663,6 @@ KBUILD_AFLAGS	+= $(call cc-option, -g0,) \
                    $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,) \
                    $(call cc-option, -mtune=cortex-a53,)
 
-# Use LLVM Polly coz why not
-KBUILD_CFLAGS	+= $(call cc-option, -mllvm -polly,) \
-                   $(call cc-option, -mllvm -polly-run-dce,) \
-                   $(call cc-option, -mllvm -polly-run-inliner,) \
-                   $(call cc-option, -mllvm -polly-opt-fusion=max,) \
-                   $(call cc-option, -mllvm -polly-ast-use-context,) \
-                   $(call cc-option, -mllvm -polly-vectorizer=stripmine,) \
-                   $(call cc-option, -mllvm -polly-detect-keep-going,)
-
 # Optimize our linker too
 KBUILD_LDFLAGS	+= $(call ld-option, -z combreloc,) \
                    $(call ld-option, --reduce-memory-overheads)
