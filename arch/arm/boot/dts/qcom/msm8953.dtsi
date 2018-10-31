@@ -23,7 +23,7 @@
 	interrupt-parent = <&intc>;
 
 	chosen {
-		bootargs = "quiet sched_enable_hmp=1 sched_enable_power_aware=1 threadirqs";
+		bootargs = "quiet threadirqs";
 	};
 
 	firmware: firmware {
