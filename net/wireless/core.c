@@ -1064,7 +1064,7 @@ static int cfg80211_netdev_notifier_call(struct notifier_block *nb,
 		}
 
 		rdev->opencount--;
-		wake_up_interruptible(&rdev->dev_wait);
+		wake_up(&rdev->dev_wait);
 		break;
 	case NETDEV_UP:
 		cfg80211_update_iface_num(rdev, wdev->iftype, 1);

@@ -430,7 +430,7 @@ void netlink_table_ungrab(void)
 	__releases(nl_table_lock)
 {
 	write_unlock_irq(&nl_table_lock);
-	wake_up_interruptible(&nl_table_wait);
+	wake_up(&nl_table_wait);
 }
 
 static inline void
@@ -447,7 +447,7 @@ static inline void
 netlink_unlock_table(void)
 {
 	if (atomic_dec_and_test(&nl_table_users))
-		wake_up_interruptible(&nl_table_wait);
+		wake_up(&nl_table_wait);
 }
 
 struct netlink_compare_arg
