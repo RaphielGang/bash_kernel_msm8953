@@ -48,11 +48,11 @@
  */
 
 /*
- * ANDROID CHANGES
- * 10ms * 1, units: nanoseconds
+ * BLACKROVER CHANGES
+ * 3ms * 1, units: nanoseconds
  */
-unsigned int sysctl_sched_latency = 10000000ULL;
-unsigned int normalized_sysctl_sched_latency = 10000000ULL;
+unsigned int sysctl_sched_latency = 3000000ULL;
+unsigned int normalized_sysctl_sched_latency = 3000000ULL;
 
 /*
  * The initial- and re-scaling of tunables is configurable
@@ -76,15 +76,15 @@ enum sched_tunable_scaling sysctl_sched_tunable_scaling
 
 /*
  * Minimal preemption granularity for CPU-bound tasks:
- * (default: 0.75 msec * (1 + ilog(ncpus)), units: nanoseconds)
+ * (default: 0.30 msec * (1 + ilog(ncpus)), units: nanoseconds)
  */
-unsigned int sysctl_sched_min_granularity = 750000ULL;
-unsigned int normalized_sysctl_sched_min_granularity = 750000ULL;
+unsigned int sysctl_sched_min_granularity = 300000ULL;
+unsigned int normalized_sysctl_sched_min_granularity = 300000ULL;
 
 /*
  * is kept at sysctl_sched_latency / sysctl_sched_min_granularity
  */
-static unsigned int sched_nr_latency = 8;
+static unsigned int sched_nr_latency = 10;
 
 /*
  * After fork, child runs first. If set to 0 (default) then
@@ -111,12 +111,12 @@ unsigned int __read_mostly sysctl_sched_wake_to_idle;
 
 /*
  * ANDROID CHANGES
- * 2 msec * 1, units: nanoseconds
+ * 0.50 msec * 1, units: nanoseconds
  */
-unsigned int sysctl_sched_wakeup_granularity = 2000000UL;
-unsigned int normalized_sysctl_sched_wakeup_granularity = 2000000UL;
+unsigned int sysctl_sched_wakeup_granularity = 500000UL;
+unsigned int normalized_sysctl_sched_wakeup_granularity = 500000UL;
 
-const_debug unsigned int sysctl_sched_migration_cost = 500000UL;
+const_debug unsigned int sysctl_sched_migration_cost = 250000UL;
 
 /*
  * The exponential sliding  window over which load is averaged for shares
@@ -134,9 +134,9 @@ unsigned int __read_mostly sysctl_sched_shares_window = 10000000UL;
  * to consumption or the quota being specified to be smaller than the slice)
  * we will always only issue the remaining available time.
  *
- * default: 5 msec, units: microseconds
+ * default: 3 msec, units: microseconds
   */
-unsigned int sysctl_sched_cfs_bandwidth_slice = 5000UL;
+unsigned int sysctl_sched_cfs_bandwidth_slice = 3000UL;
 #endif
 
 static inline void update_load_add(struct load_weight *lw, unsigned long inc)
