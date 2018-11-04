@@ -1,0 +1,8 @@
+/* Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2018, Raphielscape LLC.
+ *
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
+
+ #include "blackrover-gpu.dtsi"
+ #include "blackrover-general.dtsi"
