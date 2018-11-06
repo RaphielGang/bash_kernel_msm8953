@@ -49,6 +49,22 @@ endif
 # Default value
 head-y		:= arch/arm64/kernel/head.o
 
+# Optimize based on our Arch (In this case, Cortex-A53)
+KBUILD_CFLAGS	+= $(call cc-option, -g0,) \
+                   $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,) \
+                   $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,) \
+                   $(call cc-option, -mtune=cortex-a53,)
+KBUILD_AFLAGS	+= $(call cc-option, -g0,) \
+                   $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,) \
+                   $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,) \
+                   $(call cc-option, -mtune=cortex-a53,)
+
+# Optimize our linker too
+KBUILD_LDFLAGS	+= $(call ld-option, -z combreloc,) \
+                   $(call ld-option, --reduce-memory-overheads)
+LDFLAGS_vmlinux	+= $(call ld-option, --relax) \
+                   $(call ld-option, --reduce-memory-overheads)
+
 # The byte offset of the kernel image in RAM from the start of RAM.
 ifeq ($(CONFIG_ARM64_RANDOMIZE_TEXT_OFFSET), y)
 TEXT_OFFSET := $(shell awk 'BEGIN {srand(); printf "0x%03x000\n", int(512 * rand())}')

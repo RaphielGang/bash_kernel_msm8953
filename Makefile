@@ -637,9 +637,6 @@ KBUILD_CFLAGS	+= $(call cc-disable-warning,maybe-uninitialized,)
 KBUILD_CFLAGS	+= $(call cc-disable-warning,frame-address,)
 KBUILD_CFLAGS	+= $(call cc-disable-warning, format-truncation)
 
-# Needed to unbreak GCC 7.x and above
-KBUILD_CFLAGS   += $(call cc-option,-fno-store-merging,)
-
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= $(call cc-option,-Oz,-Os) $(call cc-disable-warning,maybe-uninitialized,)
 else
@@ -655,22 +652,6 @@ endif
 ifdef CONFIG_CC_WERROR
 KBUILD_CFLAGS	+= -Werror
 endif
-
-# Optimize based on our Arch (In this case, Cortex-A53)
-KBUILD_CFLAGS	+= $(call cc-option, -g0,) \
-                   $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,) \
-                   $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,) \
-                   $(call cc-option, -mtune=cortex-a53,)
-KBUILD_AFLAGS	+= $(call cc-option, -g0,) \
-                   $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,) \
-                   $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,) \
-                   $(call cc-option, -mtune=cortex-a53,)
-
-# Optimize our linker too
-KBUILD_LDFLAGS	+= $(call ld-option, -z combreloc,) \
-                   $(call ld-option, --reduce-memory-overheads)
-LDFLAGS_vmlinux	+= $(call ld-option, --relax) \
-                   $(call ld-option, --reduce-memory-overheads)
 
 # Tell gcc to never replace conditional load with a non-conditional one
 KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
