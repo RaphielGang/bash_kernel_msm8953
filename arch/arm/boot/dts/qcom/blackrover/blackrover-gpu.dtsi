@@ -7,6 +7,10 @@
 &soc {
    msm_gpu: qcom,kgsl-3d0@1c00000 {
        /*
+        * Initial powerlevel used
+        */
+       qcom,initial-pwrlevel = <7>;
+       /*
         * Time in microseconds for
         * idle timeout.
         */
@@ -16,5 +20,9 @@
         * from NAP.
         */
        qcom,deep-nap-timeout = <20>;
+       /*
+        * Context aware jump target power level
+        */
+		qcom,ca-target-pwrlevel = <1>;
    };
 }; 
