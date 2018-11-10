@@ -19,26 +19,26 @@
 #ifndef __LINUX_FT5435_TS_H__
 #define __LINUX_FT5435_TS_H__
 
-#define FT5435_ID		0x55
-#define FT5X16_ID		0x0A
-#define FT5X36_ID		0x14
-#define FT6X06_ID		0x06
-#define FT6X36_ID       0x36
+#define FT5435_ID 0x55
+#define FT5X16_ID 0x0A
+#define FT5X36_ID 0x14
+#define FT6X06_ID 0x06
+#define FT6X36_ID 0x36
 /* [PLATFORM]-Mod-BEGIN by TCTNB.YQJ, FR797197, 2014/11/28 add for tp gesture  */
 
 #define SET_COVER_MODE
 #ifdef CONFIG_MACH_XIAOMI_TISSOT
-#define FOCALTECH_AUTO_UPGRADE          0
+#define FOCALTECH_AUTO_UPGRADE 0
 #else
-#define FOCALTECH_AUTO_UPGRADE		1
+#define FOCALTECH_AUTO_UPGRADE 1
 #endif
-#define FOCALTECH_LOCK_DOWN_INFO	1
+#define FOCALTECH_LOCK_DOWN_INFO 1
 #define FOCALTECH_TP_GESTURE
 #define FOCALTECH_FAE_MOD
 #define FOCALTECH_TP_GLOVE
 
 #define USB_CHARGE_DETECT
-#define FOCALTECH_ITO_TEST			1
+#define FOCALTECH_ITO_TEST 1
 #define FOCALTECH_MAX_VKEY_NUM 3
 
 struct fw_upgrade_info {
@@ -50,7 +50,7 @@ struct fw_upgrade_info {
 	u16 delay_readid;
 	u16 delay_erase_flash;
 };
-struct virkey{
+struct virkey {
 	int keycode;
 	int x;
 	int y;
@@ -82,8 +82,8 @@ struct ft5435_ts_platform_data {
 	bool i2c_pull_up;
 	bool ignore_id_check;
 	bool resume_in_workqueue;
-	int (*power_init) (bool);
-	int (*power_on) (bool);
+	int (*power_init)(bool);
+	int (*power_on)(bool);
 	int num_virkey;
 	struct virkey vkeys[FOCALTECH_MAX_VKEY_NUM];
 };
