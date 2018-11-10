@@ -8,12 +8,7 @@
 
 #include "gf_spi.h"
 
-#if defined(USE_SPI_BUS)
-#include <linux/spi/spi.h>
-#include <linux/spi/spidev.h>
-#elif defined(USE_PLATFORM_BUS)
 #include <linux/platform_device.h>
-#endif
 
 #define gf_dbg(fmt, args...)                                                   \
 	do {                                                                   \

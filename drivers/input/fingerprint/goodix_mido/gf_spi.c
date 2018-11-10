@@ -45,15 +45,9 @@
 #include <linux/fb.h>
 #include <linux/pm_qos.h>
 #include <linux/cpufreq.h>
-
 #include "gf_spi.h"
 
-#if defined(USE_SPI_BUS)
-#include <linux/spi/spi.h>
-#include <linux/spi/spidev.h>
-#elif defined(USE_PLATFORM_BUS)
 #include <linux/platform_device.h>
-#endif
 
 #define GF_SPIDEV_NAME "goodix,fingerprint"
 /*device name after register in charater*/
@@ -96,6 +90,7 @@ static LIST_HEAD(device_list);
 static DEFINE_MUTEX(device_list_lock);
 static struct gf_dev gf;
 static struct class *gf_class;
+static struct wakeup_source ttw_wl;
 static int driver_init_partial(struct gf_dev *gf_dev);
 
 static void gf_enable_irq(struct gf_dev *gf_dev)
@@ -103,7 +98,7 @@ static void gf_enable_irq(struct gf_dev *gf_dev)
 	if (gf_dev->irq_enabled)
 		pr_warn("IRQ has been enabled.\n");
 	else {
-		enable_irq(gf_dev->irq);
+		enable_irq_wake(gf_dev->irq);
 		gf_dev->irq_enabled = 1;
 	}
 }
@@ -112,7 +107,7 @@ static void gf_disable_irq(struct gf_dev *gf_dev)
 {
 	if (gf_dev->irq_enabled) {
 		gf_dev->irq_enabled = 0;
-		disable_irq(gf_dev->irq);
+		disable_irq_wake(gf_dev->irq);
 	} else
 		pr_warn("IRQ has been disabled.\n");
 }
@@ -405,23 +400,14 @@ static long gf_compat_ioctl(struct file *filp, unsigned int cmd,
 
 static irqreturn_t gf_irq(int irq, void *handle)
 {
-#if defined(GF_NETLINK_ENABLE)
-
 	struct gf_dev *gf_dev = &gf;
 	char temp = GF_NET_EVENT_IRQ;
 	gf_dbg("enter irq %s\n", __func__);
 
 	if (gf_dev->fb_black)
-		wake_lock_timeout(&gf_dev->ttw_wl, msecs_to_jiffies(1000));
+		__pm_wakeup_event(&ttw_wl, msecs_to_jiffies(2000));
 
 	sendnlmsg(&temp);
-#elif defined(GF_FASYNC)
-
-	struct gf_dev *gf_dev = &gf;
-	if (gf_dev->async)
-		kill_fasync(&gf_dev->async, SIGIO, POLL_IN);
-#endif
-
 	return IRQ_HANDLED;
 }
 
@@ -500,20 +486,6 @@ static int gf_open(struct inode *inode, struct file *filp)
 	return status;
 }
 
-#ifdef GF_FASYNC
-static int gf_fasync(int fd, struct file *filp, int mode)
-{
-	struct gf_dev *gf_dev = filp->private_data;
-	int ret;
-
-	FUNC_ENTRY();
-	ret = fasync_helper(fd, filp, mode, &gf_dev->async);
-	FUNC_EXIT();
-	gf_dbg("ret = %d\n", ret);
-	return ret;
-}
-#endif
-
 static int gf_release(struct inode *inode, struct file *filp)
 {
 	struct gf_dev *gf_dev;
@@ -551,9 +523,6 @@ static const struct file_operations gf_fops = {
 #endif /*CONFIG_COMPAT*/
 	.open = gf_open,
 	.release = gf_release,
-#ifdef GF_FASYNC
-	.fasync = gf_fasync,
-#endif
 };
 
 static void fb_state_worker(struct work_struct *work)
@@ -562,16 +531,11 @@ static void fb_state_worker(struct work_struct *work)
 
 	if (!gf_dev->device_available)
 		return;
-#if defined(GF_NETLINK_ENABLE)
 	{
 		char temp = gf_dev->fb_black ? GF_NET_EVENT_FB_BLACK :
 					       GF_NET_EVENT_FB_UNBLACK;
 		sendnlmsg(&temp);
 	}
-#elif defined(GF_FASYNC)
-	if (gf_dev->async)
-		kill_fasync(&gf_dev->async, SIGIO, POLL_IN);
-#endif
 }
 
 static int goodix_fb_state_chg_callback(struct notifier_block *nb,
@@ -613,11 +577,7 @@ static void gf_reg_key_kernel(struct gf_dev *gf_dev)
 		pr_warn("Failed to register GF as input device.\n");
 }
 
-#if defined(USE_SPI_BUS)
-static int gf_probe(struct spi_device *spi)
-#elif defined(USE_PLATFORM_BUS)
 static int gf_probe(struct platform_device *pdev)
-#endif
 {
 	struct gf_dev *gf_dev = &gf;
 	int status = -EINVAL;
@@ -629,11 +589,7 @@ static int gf_probe(struct platform_device *pdev)
 	/* Initialize the driver data */
 	INIT_LIST_HEAD(&gf_dev->device_entry);
 
-#if defined(USE_SPI_BUS)
-	gf_dev->spi = spi;
-#elif defined(USE_PLATFORM_BUS)
 	gf_dev->spi = pdev;
-#endif
 
 	gf_dev->irq_gpio = -EINVAL;
 	gf_dev->reset_gpio = -EINVAL;
@@ -693,8 +649,7 @@ static int gf_probe(struct platform_device *pdev)
 		fb_register_client(&gf_dev->notifier);
 		gf_reg_key_kernel(gf_dev);
 
-		wake_lock_init(&gf_dev->ttw_wl, WAKE_LOCK_SUSPEND,
-			       "goodix_ttw_wl");
+		wakeup_source_init(&ttw_wl, "goodix_ttw_wl");
 	}
 
 	pr_warn("--------gf_probe end---OK.--------\n");
@@ -724,11 +679,7 @@ error:
 	return status;
 }
 
-#if defined(USE_SPI_BUS)
-static int gf_remove(struct spi_device *spi)
-#elif defined(USE_PLATFORM_BUS)
 static int gf_remove(struct platform_device *pdev)
-#endif
 {
 	struct gf_dev *gf_dev = &gf;
 
@@ -754,27 +705,19 @@ static int gf_remove(struct platform_device *pdev)
 
 	mutex_unlock(&device_list_lock);
 
-	wake_lock_destroy(&gf_dev->ttw_wl);
+	wakeup_source_trash(&ttw_wl);
 
 	FUNC_EXIT();
 	return 0;
 }
 
-#if defined(USE_SPI_BUS)
-static int gf_suspend(struct spi_device *spi, pm_message_t mesg)
-#elif defined(USE_PLATFORM_BUS)
 static int gf_suspend(struct platform_device *pdev, pm_message_t state)
-#endif
 {
 	gf_dbg("gf_suspend_test.\n");
 	return 0;
 }
 
-#if defined(USE_SPI_BUS)
-static int gf_resume(struct spi_device *spi)
-#elif defined(USE_PLATFORM_BUS)
 static int gf_resume(struct platform_device *pdev)
-#endif
 {
 	gf_dbg("gf_resume_test.\n");
 	return 0;
@@ -787,11 +730,7 @@ static struct of_device_id gx_match_table[] = {
 	{},
 };
 
-#if defined(USE_SPI_BUS)
-static struct spi_driver gf_driver = {
-#elif defined(USE_PLATFORM_BUS)
 static struct platform_driver gf_driver = {
-#endif
 	.driver			= {
 		.name		= GF_DEV_NAME,
 		.owner		= THIS_MODULE,
@@ -829,11 +768,7 @@ static int __init gf_init(void)
 		FUNC_EXIT();
 		return PTR_ERR(gf_class);
 	}
-#if defined(USE_PLATFORM_BUS)
 	status = platform_driver_register(&gf_driver);
-#elif defined(USE_SPI_BUS)
-	status = spi_register_driver(&gf_driver);
-#endif
 	if (status < 0) {
 		class_destroy(gf_class);
 		unregister_chrdev(SPIDEV_MAJOR, gf_driver.driver.name);
@@ -858,11 +793,7 @@ static void __exit gf_exit(void)
 #ifdef GF_NETLINK_ENABLE
 	netlink_exit();
 #endif
-#if defined(USE_PLATFORM_BUS)
 	platform_driver_unregister(&gf_driver);
-#elif defined(USE_SPI_BUS)
-	spi_unregister_driver(&gf_driver);
-#endif
 	class_destroy(gf_class);
 	unregister_chrdev(SPIDEV_MAJOR, gf_driver.driver.name);
 	FUNC_EXIT();
