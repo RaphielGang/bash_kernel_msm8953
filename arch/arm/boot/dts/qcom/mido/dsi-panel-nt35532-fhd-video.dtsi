@@ -1,5 +1,5 @@
 /* Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
- * Copyright (C) 2017 XiaoMi, Inc.
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -34,27 +34,28 @@
 		qcom,mdss-dsi-bpp = <24>;
 		qcom,mdss-dsi-underflow-color = <0xff>;
 		qcom,mdss-dsi-border-color = <0>;
-		qcom,mdss-dsi-on-command = [29 01 00 00 01 00 02 ff 04
-				29 01 00 00 00 00 02 fb 01
-				29 01 00 00 00 00 02 08 05
-				29 01 00 00 01 00 02 ff 05
-				29 01 00 00 00 00 02 fb 01
-				29 01 00 00 00 00 02 d6 22
-				29 01 00 00 00 00 02 ff 00
-				29 01 00 00 00 00 02 fb 01
-				29 01 00 00 00 00 02 35 00
-				29 01 00 00 00 00 02 51 ff
-				29 01 00 00 00 00 02 53 2c
-				29 01 00 00 00 00 02 55 00
-				29 01 00 00 00 00 02 d3 0E
-				29 01 00 00 00 00 02 d4 07
-				29 01 00 00 78 00 02 11 00
-				29 01 00 00 14 00 02 29 00];
+		qcom,mdss-dsi-on-command = [29 01 00 00 01 00 02 ff 05
+						29 01 00 00 00 00 02 fb 01
+						29 01 00 00 00 00 02 6b 24
+						29 01 00 00 00 00 02 7c 40
+						29 01 00 00 00 00 02 7d 0d
+						29 01 00 00 00 00 02 84 70
+						29 01 00 00 00 00 02 d6 22
+						29 01 00 00 00 00 02 ff 00
+						29 01 00 00 00 00 02 fb 01
+						29 01 00 00 00 00 02 35 00
+						29 01 00 00 00 00 02 51 ff
+						29 01 00 00 00 00 02 53 2c
+						29 01 00 00 00 00 02 55 00
+						29 01 00 00 00 00 02 d3 0E
+						29 01 00 00 00 00 02 d4 07
+						29 01 00 00 78 00 02 11 00
+						29 01 00 00 14 00 02 29 00];
 		qcom,mdss-dsi-off-command = [29 01 00 00 00 00 02 ff 00
-				05 01 00 00 14 00 02 28 00
-				05 01 00 00 3C 00 02 10 00
-				29 01 00 00 00 00 02 ff 00
-				29 01 00 00 14 00 02 4F 01];
+						05 01 00 00 14 00 02 28 00
+						05 01 00 00 3C 00 02 10 00
+						29 01 00 00 00 00 02 ff 00
+						29 01 00 00 14 00 02 4F 01];
 
 		qcom,mdss-dsi-on-command-state = "dsi_lp_mode";
 		qcom,mdss-dsi-off-command-state = "dsi_hs_mode";
@@ -68,7 +69,7 @@
 		qcom,mdss-dsi-lane-2-state;
 		qcom,mdss-dsi-lane-3-state;
 		qcom,mdss-dsi-panel-timings = [7d 25 1d 00 37 33
-				22 27 1e 03 04 00];
+						22 27 1e 03 04 00];
 		qcom,mdss-dsi-t-clk-post = <0x0d>;
 		qcom,mdss-dsi-t-clk-pre = <0x30>;
 		qcom,mdss-dsi-bl-min-level = <1>;
