@@ -1149,16 +1149,6 @@ config TOUCHSCREEN_GT9XX
 
           If unsure, say N.
 
-config TOUCHSCREEN_GT9XX_MIDO
-        bool "Goodix touchpanel GT9xx series"
-        depends on I2C
-        help
-          Say Y here if you have a Goodix GT9xx mido touchscreen.
-          Gt9xx controllers are multi touch controllers which can
-          report 5 touches at a time.
-
-          If unsure, say N.
-
 config TOUCHSCREEN_MAXIM_STI
 	tristate "Maxim based STI touchscreens"
 	depends on SPI_MASTER
@@ -1184,7 +1174,12 @@ config TOUCHSCREEN_TD4310
 	  To compile this driver as a module, choose M here: the
 	  module will be called td4310_ts.
 
+if !MACH_XIAOMI_TISSOT
 source "drivers/input/touchscreen/gt9xx/Kconfig"
+endif
+if MACH_XIAOMI_MIDO
+source "drivers/input/touchscreen/gt9xx_mido/Kconfig"
+endif
 
 if MACH_XIAOMI_TISSOT
 source "drivers/input/touchscreen/ft8716/Kconfig"

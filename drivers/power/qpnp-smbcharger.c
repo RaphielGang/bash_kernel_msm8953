@@ -4907,7 +4907,12 @@ static int smbchg_restricted_charging(struct smbchg_chip *chip, bool enable)
 #ifdef CONFIG_MACH_XIAOMI_MIDO
 extern void ist30xx_set_ta_mode(bool mode);
 extern void tpd_usb_plugin(bool mode);
-extern void gtp_usb_plugin(bool mode);
+static bool tp_usb_plugin = 0;
+
+bool *check_charge_mode(void){
+	return &tp_usb_plugin;
+}
+
 int set_usb_charge_mode_par = 0;
 #endif
 
@@ -4922,7 +4927,7 @@ static void handle_usb_removal(struct smbchg_chip *chip)
 	} else if (set_usb_charge_mode_par == 2) {
 		tpd_usb_plugin(0);
 	} else if (set_usb_charge_mode_par == 3) {
-		gtp_usb_plugin(0);
+		tp_usb_plugin = 0;
 	}
 #endif
 
@@ -5011,7 +5016,7 @@ static void handle_usb_insertion(struct smbchg_chip *chip)
 	} else if (set_usb_charge_mode_par == 2) {
 		tpd_usb_plugin(1);
 	} else if (set_usb_charge_mode_par == 3) {
-		gtp_usb_plugin(1);
+		tp_usb_plugin = 1;
 	}
 #endif
 
