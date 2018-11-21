@@ -264,19 +264,19 @@ u32 fts_getsize(u8 fw_type)
 		fw_len = sizeof(aucFW_PRAM_BOOT);
 #endif
 #if (FTS_GET_VENDOR_ID_NUM >= 1)
-	else if (fw_type == FW_SIZE)
+	if (fw_type == FW_SIZE)
 		fw_len = sizeof(CTPM_FW);
 #endif
 #if (FTS_GET_VENDOR_ID_NUM >= 2)
-	else if (fw_type == FW2_SIZE)
+	if (fw_type == FW2_SIZE)
 		fw_len = sizeof(CTPM_FW2);
 #endif
 #if (FTS_GET_VENDOR_ID_NUM >= 3)
-	else if (fw_type == FW3_SIZE)
+	if (fw_type == FW3_SIZE)
 		fw_len = sizeof(CTPM_FW3);
 #endif
 #if (FTS_CHIP_TYPE == _FT8006)
-	else if (fw_type == LCD_CFG_SIZE)
+	if (fw_type == LCD_CFG_SIZE)
 		fw_len = sizeof(CTPM_LCD_CFG);
 #endif
 
@@ -431,11 +431,11 @@ static int fts_ctpm_check_fw_status(struct i2c_client *client)
 			continue;
 		}
 
-		if ((chip_id1 == chip_types.chip_idh)
+		if (chip_id1 == chip_types.chip_idh)
 #if FTS_CHIP_IDC
 			&& (chip_id2 == chip_types.chip_idl)
 #endif
-		   ) {
+		{
 			fw_status = FTS_RUN_IN_APP;
 			break;
 		}
