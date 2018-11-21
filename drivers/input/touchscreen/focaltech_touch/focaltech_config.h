@@ -85,7 +85,7 @@
 /*
  * choose your ic chip type of focaltech
  */
-#define FTS_CHIP_TYPE   _FT3267
+#define FTS_CHIP_TYPE   _FT5435
 
 /******************* Enables *********************/
 /*********** 1 to enable, 0 to disable ***********/
@@ -194,7 +194,7 @@
  * 0:No check vendor_id (default)
  * 1/2/3: Check vendor_id for vendor compatibility
  */
-#define FTS_GET_VENDOR_ID_NUM                   0
+#define FTS_GET_VENDOR_ID_NUM                   2
 
 /*
  * vendor_id(s) for vendor(s) to be compatible with.
@@ -204,8 +204,8 @@
  * FTS_GET_VENDOR_ID_NUM >= 2, compatible with FTS_VENDOR_2_ID
  * FTS_GET_VENDOR_ID_NUM == 3, compatible with FTS_VENDOR_3_ID
  */
-#define FTS_VENDOR_1_ID                         0x00
-#define FTS_VENDOR_2_ID                         0x00
+#define FTS_VENDOR_1_ID                         0x3b
+#define FTS_VENDOR_2_ID                         0x51
 #define FTS_VENDOR_3_ID                         0x00
 
 /*
@@ -214,13 +214,13 @@
  * NOTE: if FTS_GET_VENDOR_ID_NUM >= 1,
  *       it's the fw corresponding with FTS_VENDOR_1_ID
  */
-#define FTS_UPGRADE_FW_APP		"include/firmware/FT8716_app_sample.i"
+#define FTS_UPGRADE_FW_APP		"include/firmware/HQ_AL1512_C6_FT5435_Biel0x3b_Ver0a_20170119_app.i"
 
 /*
  * if FTS_GET_VENDOR_ID_NUM >= 2, fw corrsponding with FTS_VENDOR_2_ID
  * define your own fw_app, the sample one is invalid
  */
-#define FTS_UPGRADE_FW2_APP		"include/firmware/FT8716_app_sample.i"
+#define FTS_UPGRADE_FW2_APP		"include/firmware/HQ_AL1512_C6_FT5435_Ofilm0x51_Ver0a_20170119_app.i"
 
 /*
  * if FTS_GET_VENDOR_ID_NUM == 3, fw corrsponding with FTS_VENDOR_3_ID
