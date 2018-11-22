@@ -15,18 +15,18 @@
  *
  */
 /************************************************************************
-*
-* File Name: focaltech_config.h
-*
-*    Author: Focaltech Driver Team
-*
-*   Created: 2016-08-08
-*
-*  Abstract: global configurations
-*
-*   Version: v1.0
-*
-************************************************************************/
+ *
+ * File Name: focaltech_config.h
+ *
+ *    Author: Focaltech Driver Team
+ *
+ *   Created: 2016-08-08
+ *
+ *  Abstract: global configurations
+ *
+ *   Version: v1.0
+ *
+ ************************************************************************/
 #ifndef _LINUX_FOCLATECH_CONFIG_H_
 #define _LINUX_FOCLATECH_CONFIG_H_
 
@@ -106,7 +106,7 @@
 /*
  * Report Pressure in multitouch
  * 1:enable(default),0:disable
-*/
+ */
 #define FTS_REPORT_PRESSURE_EN                  1
 
 /*
@@ -115,7 +115,7 @@
  * 1: true pressure for force touch
  * 0: constant pressure(default)
  */
-#define FTS_FORCE_TOUCH_EN                      0
+#define FTS_FORCE_TOUCH_EN                      1
 
 /*
  * Gesture function enable
@@ -127,7 +127,7 @@
  * ESD check & protection
  * default: disable
  */
-#define FTS_ESDCHECK_EN                         0
+#define FTS_ESDCHECK_EN                         1
 
 /*
  * Production test enable
@@ -144,7 +144,7 @@
  * cover enable
  * 1: enable, 0:disable(default)
  */
-#define FTS_COVER_EN                            0
+#define FTS_COVER_EN                            1
 /*
  * Charger enable
  * 1: enable, 0:disable(default)
