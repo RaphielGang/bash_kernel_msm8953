@@ -45,7 +45,11 @@
 /*****************************************************************************
  * Private constant and macro definitions using #define
  *****************************************************************************/
+#ifdef CONFIG_MACH_XIAOMI_MIDO
+#define FTS_DRIVER_NAME		"ft5435_ts"
+#else
 #define FTS_DRIVER_NAME		"fts_ts"
+#endif
 #define INTERVAL_READ_REG	20  /* interval time per read reg unit:ms */
 #define TIMEOUT_READ_REG	300 /* timeout of read reg unit:ms */
 #if FTS_POWER_SOURCE_CUST_EN
