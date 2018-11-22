@@ -284,7 +284,7 @@ static void fts_gesture_report(struct input_dev *input_dev, int gesture_id)
 		gesture = KEY_GESTURE_DOWN;
 		break;
 	case GESTURE_DOUBLECLICK:
-		gesture = KEY_POWER;
+		gesture = KEY_WAKEUP;
 		break;
 	case GESTURE_O:
 		gesture = KEY_GESTURE_O;
@@ -432,9 +432,9 @@ int fts_gesture_readdata(struct i2c_client *client)
 
 	if (gestrue_id == GESTURE_SMALL_AREA) {
 		FTS_INFO("[GESTURE] Wakeup gesture.");
-		input_report_key(fts_input_dev, KEY_POWER, 1);
+		input_report_key(fts_input_dev, KEY_WAKEUP, 1);
 		input_sync(fts_input_dev);
-		input_report_key(fts_input_dev, KEY_POWER, 0);
+		input_report_key(fts_input_dev, KEY_WAKEUP, 0);
 		input_sync(fts_input_dev);
 
 	} else if (gestrue_id == GESTURE_LARGE_AREA) {
@@ -593,7 +593,7 @@ int fts_gesture_resume(struct i2c_client *client)
 int fts_gesture_init(struct input_dev *input_dev, struct i2c_client *client)
 {
 	FTS_FUNC_ENTER();
-	input_set_capability(input_dev, EV_KEY, KEY_POWER);
+	input_set_capability(input_dev, EV_KEY, KEY_WAKEUP);
 	input_set_capability(input_dev, EV_KEY, KEY_GESTURE_U);
 	input_set_capability(input_dev, EV_KEY, KEY_GESTURE_UP);
 	input_set_capability(input_dev, EV_KEY, KEY_GESTURE_DOWN);
