@@ -15,6 +15,14 @@
     reg = <0x0 0x84A00000 0x0 0x1E00000>;
 };
 
+&adsp_fw_mem {
+	reg = <0x0 0x8d600000 0x0 0x1200000>;
+};
+
+&wcnss_fw_mem {
+	reg = <0x0 0x8e800000 0x0 0x700000>;
+};
+
 / {
 	reserved-memory {
 		pstore_reserve_mem: pstore_reserve_mem_region@0 {
