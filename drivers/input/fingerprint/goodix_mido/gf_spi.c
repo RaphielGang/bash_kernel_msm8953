@@ -66,23 +66,6 @@ struct gf_key_map key_map[] = {
 	{ "CLICK", KEY_F19 },   { "CAMERA", KEY_CAMERA },
 };
 
-/**************************debug******************************/
-/*#define GF_DEBUG*/
-#undef GF_DEBUG
-
-#ifdef GF_DEBUG
-#define gf_dbg(fmt, args...)                                                   \
-	do {                                                                   \
-		pr_warn("gf:" fmt, ##args);                                    \
-	} while (0)
-#define FUNC_ENTRY() pr_warn("gf:%s, entry\n", __func__)
-#define FUNC_EXIT() pr_warn("gf:%s, exit\n", __func__)
-#else
-#define gf_dbg(fmt, args...)
-#define FUNC_ENTRY()
-#define FUNC_EXIT()
-#endif
-
 /*Global variables*/
 /*static MODE g_mode = GF_IMAGE_MODE;*/
 static DECLARE_BITMAP(minors, N_SPI_MINORS);
@@ -119,14 +102,13 @@ static long gf_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 	int retval = 0;
 	int i;
 
-	FUNC_ENTRY();
 	if (_IOC_TYPE(cmd) != GF_IOC_MAGIC)
 		return -ENODEV;
 
 	if (_IOC_DIR(cmd) & _IOC_READ)
 		retval = !access_ok(VERIFY_WRITE, (void __user *)arg,
 				    _IOC_SIZE(cmd));
-	if ((retval == 0) && (_IOC_DIR(cmd) & _IOC_WRITE))
+	else if (_IOC_DIR(cmd) & _IOC_WRITE)
 		retval = !access_ok(VERIFY_READ, (void __user *)arg,
 				    _IOC_SIZE(cmd));
 	if (retval)
@@ -135,9 +117,9 @@ static long gf_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 	if (gf_dev->device_available == 0) {
 		if ((cmd == GF_IOC_POWER_ON) || (cmd == GF_IOC_POWER_OFF) ||
 		    (cmd == GF_IOC_ENABLE_GPIO))
-			pr_info("power cmd\n");
+			pr_debug("power cmd\n");
 		else {
-			pr_info("Sensor is power off currently. \n");
+			pr_debug("Sensor is power off currently. \n");
 			return -ENODEV;
 		}
 	}
@@ -168,7 +150,7 @@ static long gf_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 	case GF_IOC_SENDKEY:
 		if (copy_from_user(&gf_key, (struct gf_key *)arg,
 				   sizeof(struct gf_key))) {
-			pr_warn("Failed to copy data from user space.\n");
+			pr_debug("Failed to copy data from user space.\n");
 			retval = -EFAULT;
 			break;
 		}
@@ -205,24 +187,23 @@ static long gf_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 		break;
 	case GF_IOC_POWER_ON:
 		if (gf_dev->device_available == 1)
-			pr_info("Sensor has already powered-on.\n");
+			pr_debug("Sensor has already powered-on.\n");
 		else
 			gf_power_on(gf_dev);
 		gf_dev->device_available = 1;
 		break;
 	case GF_IOC_POWER_OFF:
 		if (gf_dev->device_available == 0)
-			pr_info("Sensor has already powered-off.\n");
+			pr_debug("Sensor has already powered-off.\n");
 		else
 			gf_power_off(gf_dev);
 		gf_dev->device_available = 0;
 		break;
 	default:
-		gf_dbg("Unsupport cmd:0x%x\n", cmd);
+		pr_debug("unsupport cmd:0x%x\n", cmd);
 		break;
 	}
 
-	FUNC_EXIT();
 	return retval;
 }
 
@@ -238,7 +219,6 @@ static irqreturn_t gf_irq(int irq, void *handle)
 {
 	struct gf_dev *gf_dev = &gf;
 	char temp = GF_NET_EVENT_IRQ;
-	gf_dbg("enter irq %s\n", __func__);
 
 	if (gf_dev->fb_black)
 		__pm_wakeup_event(&ttw_wl, msecs_to_jiffies(2000));
@@ -251,7 +231,6 @@ static int driver_init_partial(struct gf_dev *gf_dev)
 {
 	int ret = 0;
 
-	FUNC_ENTRY();
 	pr_warn("--------driver_init_partial start.--------\n");
 
 	gf_dev->device_available = 1;
@@ -260,13 +239,11 @@ static int driver_init_partial(struct gf_dev *gf_dev)
 		goto error;
 
 	gf_dev->irq = gf_irq_num(gf_dev);
-	irq_set_status_flags(gf_dev->irq, IRQ_DISABLE_UNLAZY);
-	ret = request_threaded_irq(gf_dev->irq, NULL,
-					gf_irq,
-					IRQF_TRIGGER_RISING | IRQF_ONESHOT | IRQF_TH_SCHED_FIFO_HI,
-					"gf", gf_dev);
+	ret = request_threaded_irq(gf_dev->irq, NULL, gf_irq,
+				   IRQF_TRIGGER_RISING | IRQF_ONESHOT |
+					   IRQF_TH_SCHED_FIFO_HI,
+				   "gf", gf_dev);
 	if (ret) {
-		irq_clear_status_flags(gf_dev->irq, IRQ_DISABLE_UNLAZY);
 		pr_err("Could not request irq %d\n",
 		       gpio_to_irq(gf_dev->irq_gpio));
 		goto error;
@@ -278,7 +255,6 @@ static int driver_init_partial(struct gf_dev *gf_dev)
 	}
 	gf_hw_reset(gf_dev, 360);
 
-	FUNC_EXIT();
 	return 0;
 
 error:
@@ -294,12 +270,11 @@ static int gf_open(struct inode *inode, struct file *filp)
 	struct gf_dev *gf_dev;
 	int status = -ENXIO;
 
-	FUNC_ENTRY();
 	mutex_lock(&device_list_lock);
 
 	list_for_each_entry (gf_dev, &device_list, device_entry) {
 		if (gf_dev->devt == inode->i_rdev) {
-			gf_dbg("Found\n");
+			pr_debug("Found\n");
 			status = 0;
 			break;
 		}
@@ -310,15 +285,14 @@ static int gf_open(struct inode *inode, struct file *filp)
 			gf_dev->users++;
 			filp->private_data = gf_dev;
 			nonseekable_open(inode, filp);
-			gf_dbg("Succeed to open device. irq = %d\n",
-			       gf_dev->irq);
+			pr_debug("Succeed to open device. irq = %d\n",
+				 gf_dev->irq);
 			/*power the sensor*/
 			gf_dev->device_available = 1;
 		}
 	} else
-		gf_dbg("No device for minor %d\n", iminor(inode));
+		pr_debug("No device for minor %d\n", iminor(inode));
 	mutex_unlock(&device_list_lock);
-	FUNC_EXIT();
 	return status;
 }
 
@@ -326,23 +300,22 @@ static int gf_release(struct inode *inode, struct file *filp)
 {
 	struct gf_dev *gf_dev;
 
-	FUNC_ENTRY();
 	mutex_lock(&device_list_lock);
 	gf_dev = filp->private_data;
 	filp->private_data = NULL;
 
 	gf_dev->users--;
 	if (!gf_dev->users) {
-		gf_dbg("disble_irq. irq = %d\n", gf_dev->irq);
+		pr_debug("disble_irq. irq = %d\n", gf_dev->irq);
 		gf_disable_irq(gf_dev);
-		free_irq(gf_dev->irq, gf_dev);
-
 		/*power off the sensor*/
 		gf_dev->device_available = 0;
+		free_irq(gf_dev->irq, gf_dev);
+		gpio_free(gf_dev->irq_gpio);
+		gpio_free(gf_dev->reset_gpio);
 		gf_power_off(gf_dev);
 	}
 	mutex_unlock(&device_list_lock);
-	FUNC_EXIT();
 
 	return 0;
 }
@@ -410,7 +383,7 @@ static void gf_reg_key_kernel(struct gf_dev *gf_dev)
 	set_bit(KEY_SELECT, gf_dev->input->keybit);
 	gf_dev->input->name = GF_INPUT_NAME;
 	if (input_register_device(gf_dev->input))
-		pr_warn("Failed to register GF as input device.\n");
+		pr_debug("Failed to register GF as input device.\n");
 }
 
 static int gf_probe(struct platform_device *pdev)
@@ -419,9 +392,7 @@ static int gf_probe(struct platform_device *pdev)
 	int status = -EINVAL;
 	unsigned long minor;
 
-	FUNC_ENTRY();
-
-	pr_warn("--------gf_probe start.--------\n");
+	pr_debug("--------gf_probe start.--------\n");
 	/* Initialize the driver data */
 	INIT_LIST_HEAD(&gf_dev->device_entry);
 
@@ -446,7 +417,7 @@ static int gf_probe(struct platform_device *pdev)
 		gf_dev->devt = MKDEV(SPIDEV_MAJOR, minor);
 		dev = device_create(gf_class, &gf_dev->spi->dev, gf_dev->devt,
 				    gf_dev, GF_DEV_NAME);
-		status = PTR_ERR_OR_ZERO(dev);
+		status = IS_ERR(dev) ? PTR_ERR(dev) : 0;
 	} else {
 		dev_dbg(&gf_dev->spi->dev, "no minor number available!\n");
 		status = -ENODEV;
@@ -463,8 +434,8 @@ static int gf_probe(struct platform_device *pdev)
 		/*input device subsystem */
 		gf_dev->input = input_allocate_device();
 		if (gf_dev->input == NULL) {
-			dev_dbg(&gf_dev->input->dev,
-				"Faile to allocate input device.\n");
+			pr_debug("%s, failed to allocate input device\n",
+				 __func__);
 			status = -ENOMEM;
 			goto error;
 		}
@@ -477,14 +448,14 @@ static int gf_probe(struct platform_device *pdev)
 		wakeup_source_init(&ttw_wl, "goodix_ttw_wl");
 	}
 
-	pr_warn("--------gf_probe end---OK.--------\n");
+	pr_debug("--------gf_probe end---OK.--------\n");
 	return status;
 
 error:
 	gf_cleanup(gf_dev);
 	gf_dev->device_available = 0;
 	if (gf_dev->devt != 0) {
-		pr_info("Err: status = %d\n", status);
+		pr_debug("Err: status = %d\n", status);
 		mutex_lock(&device_list_lock);
 		list_del(&gf_dev->device_entry);
 		device_destroy(gf_class, gf_dev->devt);
@@ -495,7 +466,6 @@ error:
 			input_unregister_device(gf_dev->input);
 	}
 
-	FUNC_EXIT();
 	return status;
 }
 
@@ -503,11 +473,8 @@ static int gf_remove(struct platform_device *pdev)
 {
 	struct gf_dev *gf_dev = &gf;
 
-	FUNC_ENTRY();
-
 	/* make sure ops on existing fds can abort cleanly */
 	if (gf_dev->irq)
-		irq_clear_status_flags(gf_dev->irq, IRQ_DISABLE_UNLAZY);
 		free_irq(gf_dev->irq, gf_dev);
 
 	if (gf_dev->input != NULL) {
@@ -527,19 +494,16 @@ static int gf_remove(struct platform_device *pdev)
 
 	wakeup_source_trash(&ttw_wl);
 
-	FUNC_EXIT();
 	return 0;
 }
 
 static int gf_suspend(struct platform_device *pdev, pm_message_t state)
 {
-	gf_dbg("gf_suspend_test.\n");
 	return 0;
 }
 
 static int gf_resume(struct platform_device *pdev)
 {
-	gf_dbg("gf_resume_test.\n");
 	return 0;
 }
 
@@ -566,9 +530,7 @@ static int __init gf_init(void)
 {
 	int status;
 
-	FUNC_ENTRY();
-
-	pr_warn("--------gf_init start.--------\n");
+	pr_debug("--------gf_init start.--------\n");
 	/* Claim our 256 reserved device numbers.  Then register a class
 	 * that will key udev/mdev to add/remove /dev nodes.  Last, register
 	 * the driver which manages those device numbers.
@@ -578,14 +540,12 @@ static int __init gf_init(void)
 	status = register_chrdev(SPIDEV_MAJOR, CHRD_DRIVER_NAME, &gf_fops);
 	if (status < 0) {
 		pr_warn("Failed to register char device!\n");
-		FUNC_EXIT();
 		return status;
 	}
 	gf_class = class_create(THIS_MODULE, CLASS_NAME);
 	if (IS_ERR(gf_class)) {
 		unregister_chrdev(SPIDEV_MAJOR, gf_driver.driver.name);
 		pr_warn("Failed to create class.\n");
-		FUNC_EXIT();
 		return PTR_ERR(gf_class);
 	}
 	status = platform_driver_register(&gf_driver);
@@ -598,27 +558,22 @@ static int __init gf_init(void)
 #ifdef GF_NETLINK_ENABLE
 	netlink_init();
 #endif
-	pr_info(" status = 0x%x\n", status);
-	FUNC_EXIT();
+	pr_debug(" status = 0x%x\n", status);
 
-	pr_warn("--------gf_init end---OK.--------\n");
+	pr_debug("--------gf_init end---OK.--------\n");
 	return 0;
 }
-
 module_init(gf_init);
 
 static void __exit gf_exit(void)
 {
-	FUNC_ENTRY();
 #ifdef GF_NETLINK_ENABLE
 	netlink_exit();
 #endif
 	platform_driver_unregister(&gf_driver);
 	class_destroy(gf_class);
 	unregister_chrdev(SPIDEV_MAJOR, gf_driver.driver.name);
-	FUNC_EXIT();
 }
-
 module_exit(gf_exit);
 
 MODULE_AUTHOR("Jiangtao Yi, <yijiangtao@goodix.com>");

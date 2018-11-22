@@ -10,11 +10,6 @@
 
 #include <linux/platform_device.h>
 
-#define gf_dbg(fmt, args...)                                                   \
-	do {                                                                   \
-		pr_warn("gf:" fmt, ##args);                                    \
-	} while (0)
-
 static int gf3208_request_named_gpio(struct gf_dev *gf_dev, const char *label,
 				     int *gpio)
 {
@@ -44,7 +39,7 @@ static int select_pin_ctl(struct gf_dev *gf_dev, const char *name)
 		if (!strncmp(n, name, strlen(n))) {
 			rc = pinctrl_select_state(gf_dev->fingerprint_pinctrl,
 						  gf_dev->pinctrl_state[i]);
-		goto exit;
+			goto exit;
 		}
 	}
 	rc = -EINVAL;
@@ -64,7 +59,7 @@ int gf_parse_dts(struct gf_dev *gf_dev)
 	rc = gf3208_request_named_gpio(gf_dev, "goodix,gpio_reset",
 				       &gf_dev->reset_gpio);
 	if (rc) {
-		gf_dbg("Failed to request RESET GPIO. rc = %d\n", rc);
+		pr_debug("Failed to request RESET GPIO. rc = %d\n", rc);
 		return -EPERM;
 	}
 
@@ -72,7 +67,7 @@ int gf_parse_dts(struct gf_dev *gf_dev)
 	rc = gf3208_request_named_gpio(gf_dev, "goodix,gpio_irq",
 				       &gf_dev->irq_gpio);
 	if (rc) {
-		gf_dbg("Failed to request IRQ GPIO. rc = %d\n", rc);
+		pr_debug("Failed to request IRQ GPIO. rc = %d\n", rc);
 		return -EPERM;
 	}
 
@@ -104,23 +99,23 @@ exit:
 
 void gf_cleanup(struct gf_dev *gf_dev)
 {
-	gf_dbg("[info]  enter%s\n", __func__);
+	pr_debug("[info]  enter%s\n", __func__);
 
 	if (gpio_is_valid(gf_dev->irq_gpio)) {
 		devm_gpio_free(&gf_dev->spi->dev, gf_dev->irq_gpio);
-		gf_dbg("remove irq_gpio success\n");
+		pr_debug("remove irq_gpio success\n");
 	}
 
 	if (gpio_is_valid(gf_dev->reset_gpio)) {
 		devm_gpio_free(&gf_dev->spi->dev, gf_dev->reset_gpio);
-		gf_dbg("remove reset_gpio success\n");
+		pr_debug("remove reset_gpio success\n");
 	}
 
 	if (gf_dev->fingerprint_pinctrl != NULL) {
 		devm_pinctrl_put(gf_dev->fingerprint_pinctrl);
 		gf_dev->fingerprint_pinctrl = NULL;
 
-		gf_dbg("gx  fingerprint_pinctrl  release success\n");
+		pr_debug("gx  fingerprint_pinctrl  release success\n");
 	}
 }
 
