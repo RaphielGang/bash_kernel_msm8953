@@ -107,7 +107,7 @@
  * Report Pressure in multitouch
  * 1:enable(default),0:disable
  */
-#define FTS_REPORT_PRESSURE_EN                  1
+#define FTS_REPORT_PRESSURE_EN                  0
 
 /*
  * Force touch support
@@ -115,7 +115,7 @@
  * 1: true pressure for force touch
  * 0: constant pressure(default)
  */
-#define FTS_FORCE_TOUCH_EN                      1
+#define FTS_FORCE_TOUCH_EN                      0
 
 /*
  * Gesture function enable
@@ -168,7 +168,7 @@
  * enable it when customer need control TP power
  * default: disable
  */
-#define FTS_POWER_SOURCE_CUST_EN                1
+#define FTS_POWER_SOURCE_CUST_EN                0
 
 /****************************************************/
 
