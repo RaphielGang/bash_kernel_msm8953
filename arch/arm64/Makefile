@@ -49,15 +49,29 @@ endif
 # Default value
 head-y		:= arch/arm64/kernel/head.o
 
+EXTENSIONS=crc+crypto+sve+simd+neon+specctrl+specrestrict+fullfp16
+GCCEXTENSIONS=crc+crypto+sve+simd
+
 # Optimize based on our Arch (In this case, Cortex-A53)
+ifeq ($(cc-name),clang)
 KBUILD_CFLAGS	+= $(call cc-option, -g0,) \
-                   $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,) \
-                   $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,) \
-                   $(call cc-option, -mtune=cortex-a53,)
+                   $(call cc-option, -mcpu=cortex-a53+$EXTENSIONS,) \
+                   $(call cc-option, -march=armv8-a+$EXTENSIONS,) \
+                   $(call cc-option, -mtune=cortex-a53+$EXTENSIONS,)
 KBUILD_AFLAGS	+= $(call cc-option, -g0,) \
-                   $(call cc-option, -mcpu=cortex-a53+crc+crypto+sve+simd,) \
-                   $(call cc-option, -march=armv8-a+crc+crypto+sve+simd,) \
-                   $(call cc-option, -mtune=cortex-a53,)
+                   $(call cc-option, -mcpu=cortex-a53+$EXTENSIONS,) \
+                   $(call cc-option, -march=armv8-a+$EXTENSIONS,) \
+                   $(call cc-option, -mtune=cortex-a53+$EXTENSIONS,)
+else
+KBUILD_CFLAGS	+= $(call cc-option, -g0,) \
+                   $(call cc-option, -mcpu=cortex-a53+$GCCEXTENSIONS,) \
+                   $(call cc-option, -march=armv8-a+$GCCEXTENSIONS,) \
+                   $(call cc-option, -mtune=cortex-a53+$GCCEXTENSIONS,)
+KBUILD_AFLAGS	+= $(call cc-option, -g0,) \
+                   $(call cc-option, -mcpu=cortex-a53+$GCCEXTENSIONS,) \
+                   $(call cc-option, -march=armv8-a+$GCCEXTENSIONS,) \
+                   $(call cc-option, -mtune=cortex-a53+$GCCEXTENSIONS,)
+endif
 
 # Optimize our linker too
 KBUILD_LDFLAGS	+= $(call ld-option, -z combreloc,) \
