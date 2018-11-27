@@ -135,8 +135,6 @@ void fts_tp_state_recovery(struct i2c_client *client)
 #if FTS_GESTURE_EN
 	fts_gesture_recovery(client);
 #endif
-
-	fts_release_all_finger();
 }
 
 
