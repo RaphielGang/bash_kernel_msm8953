@@ -324,6 +324,18 @@ config ARCH_MSM8953
 	  This enables support for the MSM8953 chipset. If you don't
 	  know what to do here, say N
 
+config ARCH_MSM8953_BOOT_ORDERING
+	bool "Enable support for MSM8953 device boot ordering"
+	depends on ARCH_MSM8953
+	default n
+	help
+	  Populate devices from devicetree at late_init, after
+	  drivers for all platform devices have been registered.
+	  This causes devices to be probed in the order they are
+	  listed in devicetree. Thus it is possible to have
+	  greater control over the probe ordering such that
+	  overall boot time can be reduced.
+
 config ARCH_SDM450
 	bool "Enable Support for Qualcomm Technologies Inc SDM450"
 	depends on ARCH_MSM
