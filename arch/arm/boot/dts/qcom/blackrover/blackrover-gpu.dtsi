@@ -9,7 +9,7 @@
        /*
         * Initial powerlevel used
         */
-       qcom,initial-pwrlevel = <7>;
+       qcom,initial-pwrlevel = <3>;
        /*
         * Time in microseconds for
         * idle timeout.
@@ -23,6 +23,6 @@
        /*
         * Context aware jump target power level
         */
-		qcom,ca-target-pwrlevel = <1>;
+		qcom,ca-target-pwrlevel = <4>;
    };
 }; 

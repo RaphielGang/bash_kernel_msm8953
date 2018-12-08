@@ -313,12 +313,12 @@
 			reg = <0x2000 0x100>;
 			regulator-name = "pm8953_s5";
 			regulator-min-microvolt = <400000>;
-			regulator-max-microvolt = <1140000>;
+			regulator-max-microvolt = <1065000>;
 
 			pm8953_s5_limit: avs-limit-regulator {
 				regulator-name = "pm8953_s5_avs_limit";
 				regulator-min-microvolt = <400000>;
-				regulator-max-microvolt = <1140000>;
+				regulator-max-microvolt = <1065000>;
 			};
 		};
 	};
@@ -391,7 +391,7 @@
 			apc_vreg: regulator {
 				regulator-name = "apc_corner";
 				regulator-min-microvolt = <1>;
-				regulator-max-microvolt = <13>;
+				regulator-max-microvolt = <8>;
 
 				qcom,cpr-fuse-corners = <4>;
 				qcom,cpr-fuse-combos = <64>;
