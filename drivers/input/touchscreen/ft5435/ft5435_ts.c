@@ -1577,41 +1577,52 @@ static int ft_tp_suspend(struct ft5435_ts_data *data)
 	int i = 0;
 	u8 state = 0;
 
-	printk("[FTS] FTS_GESTRUE suspend\n");
-	ft5x0x_write_reg(data->client, 0xd0, 0x01);
-	ft5x0x_write_reg(data->client, 0xd1, 0xff);
-	ft5x0x_write_reg(data->client, 0xd2, 0xff);
-	ft5x0x_write_reg(data->client, 0xd5, 0xff);
-	ft5x0x_write_reg(data->client, 0xd6, 0xff);
-	ft5x0x_write_reg(data->client, 0xd7, 0xff);
-	ft5x0x_write_reg(data->client, 0xd8, 0xff);
-	msleep(10);
+	printk("[FTS] FTS_GESTURE suspend\n");
 
 	for (i = 0; i < 10; i++) {
-		printk("[FTS]tpd_suspend4 %d\t", i);
+		ft5x0x_write_reg(data->client, 0xd0, 0x01);
+		ft5x0x_write_reg(data->client, 0xd1, 0xff);
+		ft5x0x_write_reg(data->client, 0xd2, 0xff);
+		ft5x0x_write_reg(data->client, 0xd5, 0xff);
+		ft5x0x_write_reg(data->client, 0xd6, 0xff);
+		ft5x0x_write_reg(data->client, 0xd7, 0xff);
+		ft5x0x_write_reg(data->client, 0xd8, 0xff);
+		msleep(10);
 		ft5x0x_read_reg(data->client, 0xd0, &state);
-
-		if (state == 1) {
-			printk("[FTS]TPD gesture write 0x01 OK\n");
+		if (state == 1)
 			break;
-		} else {
-			ft5x0x_write_reg(data->client, 0xd0, 0x01);
-			ft5x0x_write_reg(data->client, 0xd1, 0xff);
-			ft5x0x_write_reg(data->client, 0xd2, 0xff);
-			ft5x0x_write_reg(data->client, 0xd5, 0xff);
-			ft5x0x_write_reg(data->client, 0xd6, 0xff);
-			ft5x0x_write_reg(data->client, 0xd7, 0xff);
-			ft5x0x_write_reg(data->client, 0xd8, 0xff);
-			msleep(10);
-		}
 	}
 
-	if (i >= 9) {
+	if (i >= 10)
+	{
 		printk("[FTS]TPD gesture write 0x01 to d0 fail \n");
 	}
 
-	data->suspended = true;
-	printk("[FTS] FTS_GESTRUE suspend end\n");
+	printk("[FTS] FTS_GESTURE suspend end\n");
+	return 0;
+}
+
+static int ft_tp_resume(struct ft5435_ts_data *data)
+{
+	int i = 0;
+	u8 state = 0;
+
+	printk("[FTS] FTS_GESTURE resume\n");
+
+	for (i = 0; i < 10; i++) {
+		ft5x0x_write_reg(data->client, 0xd0, 0x00);
+		msleep(10);
+		ft5x0x_read_reg(data->client, 0xd0, &state);
+		if (state == 0)
+			break;
+	}
+
+	if (i >= 10)
+	{
+		printk("[FTS]TPD resume write 0x00 to d0 fail \n");
+	}
+
+	printk("[FTS] FTS_GESTURE resume end\n");
 	return 0;
 }
 #endif
@@ -1639,17 +1650,17 @@ static int ft5435_ts_suspend(struct device *dev)
 		return 0;
 	}
 
-	disable_irq_wake(data->client->irq);
 
 #if defined(FOCALTECH_TP_GESTURE)
-{
 	if (gesture_func_on) {
-		enable_irq_wake(data->client->irq);
 		ft_tp_suspend(data);
+		enable_irq_wake(data->client->irq);
+		data->suspended = true;
 		return 0;
 	}
-}
 #endif
+
+	disable_irq(data->client->irq);
 
 reg_addr = FT_REG_ID;
 ft5435_i2c_read(data->client, &reg_addr, 1, &reg_value, 1);
@@ -1701,6 +1712,15 @@ static int ft5435_ts_resume(struct device *dev)
 	input_mt_report_pointer_emulation(data->input_dev, false);
 	input_sync(data->input_dev);
 	mutex_unlock(&data->report_mutex);
+
+#if defined(FOCALTECH_TP_GESTURE)
+	if (gesture_func_on) {
+		ft_tp_resume(data);
+		disable_irq_wake(data->client->irq);
+		data->suspended = false;
+		return 0;
+	}
+#endif
 
 #if 1
 	if (gpio_is_valid(data->pdata->reset_gpio)) {
