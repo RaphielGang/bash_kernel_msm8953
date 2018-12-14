@@ -17,6 +17,8 @@
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/msm/msm-bus-ids.h>
 
+#define MHZ_TO_MBPS(mhz, w) ((mhz * 1000000 * w) / (1024 * 1024))
+
 / {
 	model = "Qualcomm Technologies, Inc. MSM 8953";
 	compatible = "qcom,msm8953";
@@ -1054,21 +1056,16 @@
 
 	cpubw: qcom,cpubw {
 		compatible = "qcom,devbw";
-		governor = "cpufreq";
+		governor = "bw_hwmon";
 		qcom,src-dst-ports = <1 512>;
 		qcom,active-only;
 		qcom,bw-tbl =
-			<   769 /*  100.8 MHz */ >,
-			<  1611 /*  211.2 MHz */ >,     /*Low SVS*/
-			<  2124 /*  278.4 MHz */ >,
-			<  2929 /*  384   MHz */ >,
-			<  3221 /*  422.4 MHz */ >,	/* SVS */
-			<  4248 /*  556.8 MHz */ >,
-			<  5126 /*  672   MHz */ >,
-			<  5859 /*  768   MHz */ >,     /* SVS+  */
-			<  6152 /*  806.4 MHz */ >,
-			<  6445 /*  844.8 MHz */ >,     /* NOM   */
-			<  7104 /*  931.2 MHz */ >;     /* TURBO */
+			< MHZ_TO_MBPS(150, 16) >, /*  2288 MB/s */
+			< MHZ_TO_MBPS(300, 16) >, /*  4577 MB/s */
+			< MHZ_TO_MBPS(426, 16) >, /*  6500 MB/s */
+			< MHZ_TO_MBPS(533, 16) >, /*  8132 MB/s */
+			< MHZ_TO_MBPS(600, 16) >, /*  9155 MB/s */
+			< MHZ_TO_MBPS(700, 16) >; /* 10681 MB/s */
 	};
 
 	qcom,cpu-bwmon {
@@ -1084,12 +1081,8 @@
 		cpubw-cpufreq {
 		target-dev = <&cpubw>;
 		cpu-to-dev-map =
-			 <  652800  1611>,
-			 < 1036800  3221>,
-			 < 1401600  5859>,
-			 < 1689600  6445>,
-			 < 2016000  7104>,
-			 < 2208000  7104>;
+			 < 1689600 MHZ_TO_MBPS(200, 4) >,
+			 < 2208000 MHZ_TO_MBPS(681, 4) >;
 		};
 	};
 
